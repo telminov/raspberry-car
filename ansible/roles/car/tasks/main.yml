@@ -9,7 +9,7 @@
   file: path={{ app_path }} state=directory mode=755 owner=car
 
 - name: checkout code
-  git: repo={{ git_path }} dest={{ app_path }}
+  git: repo={{ git_path }} dest={{ app_path }} force=yes
 
 - name: initiate virtualenv requirements
   pip: virtualenv={{ virt_env_path }}
