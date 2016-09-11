@@ -27,6 +27,7 @@
         - ntp
         - python-pip
         - python-dev
+        - libav-tools
 #        - build-essential
 
     - name: install python utils
