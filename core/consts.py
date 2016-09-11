@@ -1,11 +1,29 @@
 # coding: utf-8
 
-COMMAND_CHOICES = (
-    ('forward', 'forward'),
-    ('reverse', 'reverse'),
-    ('stop', 'stop'),
-    ('left', 'left'),
-    ('right', 'right'),
-    ('center', 'center'),
-    ('free', 'free'),
+FORWARD = 'forward'
+REVERSE = 'reverse'
+STOP = 'stop'
+
+LEFT = 'left'
+RIGHT = 'right'
+CENTER = 'center'
+FREE = 'free'
+
+
+MOVE_COMMANDS = [FORWARD, REVERSE, STOP]
+ACTION_COMMANDS = [LEFT, RIGHT, CENTER, FREE]
+
+MOVE_CHOICES = (
+    (FORWARD, FORWARD),
+    (REVERSE, REVERSE),
+    (STOP, STOP),
 )
+
+ACTION_CHOICES = (
+    (LEFT, LEFT),
+    (RIGHT, RIGHT),
+    (CENTER, CENTER),
+    (FREE, FREE),
+)
+
+COMMAND_CHOICES = list(MOVE_CHOICES) + list(ACTION_CHOICES)
