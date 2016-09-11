@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 from core import models, consts
 from django.utils import timezone
 import core.car
+import RPi.GPIO as GPIO
 
 
 class Command(BaseCommand):
@@ -39,16 +40,16 @@ class Command(BaseCommand):
                 core.car.right()
             elif latest.name == consts.CENTER:
                 core.car.center()
-            elif latest.name == consts.FREE:
-                core.car.free()
         else:
-            core.car.stop()
+            core.car.center()
 
     def handle(self, *args, **options):
-        while True:
-            self.move()
-            self.action()
-            sleep(0.5)
-
+        try:
+            while True:
+                self.move()
+                self.action()
+                sleep(0.25)
+        finally:
+            GPIO.cleanup()
 
 
