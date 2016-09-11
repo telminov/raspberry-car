@@ -97,6 +97,11 @@ angular.module('RPiCar')
         else
             cancelInterval(direction)
 
+            if direction == 'forward' or direction == 'reverse'
+                sendCommand('stop')
+            else if direction == 'left' or direction == 'right'
+                sendCommand('center')
+
     cancelInterval = (name) ->
         if currentIntervals[name]
             $interval.cancel(currentIntervals[name])
