@@ -10,14 +10,14 @@ pwm_a = GPIO.PWM(settings.EN_A, 500)
 pwm_b = GPIO.PWM(settings.EN_B, 500)
 
 
-def forward(rate=80):
+def forward(rate=100):
     pwm_b.start(0)
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, True)
     pwm_b.start(rate)
 
 
-def reverse(rate=80):
+def reverse(rate=100):
     pwm_b.start(0)
     GPIO.output(settings.IN_3, True)
     GPIO.output(settings.IN_4, False)
@@ -28,17 +28,17 @@ def stop():
     pwm_b.start(0)
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, False)
-    pwm_b.start(80)
+    # pwm_b.start(100)
 
 
-def left(rate=80):
+def left(rate=100):
     pwm_a.start(0)
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, True)
     pwm_a.start(rate)
 
 
-def right(rate=80):
+def right(rate=100):
     pwm_a.start(0)
     GPIO.output(settings.IN_1, True)
     GPIO.output(settings.IN_2, False)
@@ -49,7 +49,7 @@ def center():
     pwm_a.start(0)
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, False)
-    pwm_a.start(80)
+    # pwm_a.start(100)
 
 
 def free():
