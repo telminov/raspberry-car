@@ -7,7 +7,7 @@ class Command(models.Model):
     dm = models.DateTimeField(auto_now=True, db_index=True)
 
     class Meta:
-        ordering = '-dm'
+        ordering = '-dm',
 
     def __str__(self):
         return self.name
