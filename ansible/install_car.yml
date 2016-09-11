@@ -1,0 +1,41 @@
+# ansible-playbook install_car.yml -v -u pi
+# ansible-playbook install_car.yml -e "clear_virt_env=1 update_cache=1" -v
+
+---
+- hosts: cars
+  become: yes
+  become_method: sudo
+
+  vars:
+    app_path: /opt/raspberry_car
+    app_user: raspberry_car
+    git_path: https://github.com/telminov/raspberry-car.git
+    tmp_checkout_path: /tmp/github_project
+    virt_env_path: "{{ app_path }}/virt_env"
+    clear_virt_env: no
+    update_cache: no
+
+  pre_tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+      when: update_cache
+
+    - name: install packages
+      apt: name={{ item }}
+      with_items:
+        - git
+        - ntp
+        - python-pip
+        - python-dev
+#        - build-essential
+
+    - name: install python utils
+      pip: name={{ item }}
+      with_items:
+        - virtualenv
+        - supervisor
+
+
+  roles:
+    - car
+    - setup_supervisor
