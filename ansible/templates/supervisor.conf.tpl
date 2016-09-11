@@ -11,3 +11,10 @@ user = root
 command = {{ virt_env_path }}/bin/python manage.py command_monitor
 stdout_logfile = /var/log/car.log
 stderr_logfile = /var/log/car.error
+
+[program:car_streamer]
+directory = {{ app_path }}
+user = root
+command = {{ virt_env_path }}/bin/python manage.py streamer.py
+stdout_logfile = /var/log/car.log
+stderr_logfile = /var/log/car.error

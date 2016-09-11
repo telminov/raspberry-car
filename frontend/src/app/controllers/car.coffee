@@ -26,7 +26,8 @@ angular.module('RPiCar')
     carId = $routeParams.id
     $scope.car = {
         name: 'Марк 1',
-        address: '192.168.150.109',
+#        address: '192.168.150.109',
+        address: '10.0.1.4',
 #        address: '127.0.0.1',
     }
 
