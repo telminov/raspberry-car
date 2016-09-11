@@ -1,0 +1,35 @@
+- name: Create supervisor directory
+  file: path=/etc/supervisor state=directory
+
+- name: Supervisor config file stat
+  stat: path=/etc/supervisor/supervisor.conf
+  register: st
+
+- name: Create default supervisor config
+  shell: echo_supervisord_conf > /etc/supervisor/supervisor.conf
+  when: not st.stat.exists
+
+- name: Add include directory to config
+  lineinfile: dest=/etc/supervisor/supervisor.conf state=present
+              line='\n[include]\nfiles = /etc/supervisor/conf.d/*.conf'
+  when: not st.stat.exists
+
+- name: Add supervisor to autostart
+  lineinfile: dest=/etc/rc.local regexp="supervisor" insertbefore="exit 0"
+             line="/usr/local/bin/supervisord -c /etc/supervisor/supervisor.conf"
+
+- name: Create supervisor conf.d direcotry
+  file: path=/etc/supervisor/conf.d state=directory
+
+- name: Copy supervisor conf
+  template: src=templates/supervisor.conf.tpl dest=/etc/supervisor/conf.d/raspberry-car.conf
+
+- name: Start supervisord
+  shell: supervisord -c /etc/supervisor/supervisor.conf
+  when: not st.stat.exists
+
+- name: Reread supervisor config
+  shell: supervisorctl -c /etc/supervisor/supervisor.conf reread
+
+- name: Update supervisor config
+  shell: supervisorctl -c /etc/supervisor/supervisor.conf update

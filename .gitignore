@@ -2,3 +2,4 @@
 virt_env
 project/local_settings.py
 db.sqlite3
+frontend/node_modules
