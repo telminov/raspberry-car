@@ -3,6 +3,2449 @@
 r.isFunction(d)||(g=!0),j&&(g?(b.call(a,d),b=null):(j=b,b=function(a,b,c){return j.call(r(a),c)})),b))for(;h<i;h++)b(a[h],c,g?d:d.call(a[h],h,b(a[h],c)));return e?a:j?b.call(a):i?b(a[0],c):f},T=function(a){return 1===a.nodeType||9===a.nodeType||!+a.nodeType};function U(){this.expando=r.expando+U.uid++}U.uid=1,U.prototype={cache:function(a){var b=a[this.expando];return b||(b={},T(a)&&(a.nodeType?a[this.expando]=b:Object.defineProperty(a,this.expando,{value:b,configurable:!0}))),b},set:function(a,b,c){var d,e=this.cache(a);if("string"==typeof b)e[r.camelCase(b)]=c;else for(d in b)e[r.camelCase(d)]=b[d];return e},get:function(a,b){return void 0===b?this.cache(a):a[this.expando]&&a[this.expando][r.camelCase(b)]},access:function(a,b,c){return void 0===b||b&&"string"==typeof b&&void 0===c?this.get(a,b):(this.set(a,b,c),void 0!==c?c:b)},remove:function(a,b){var c,d=a[this.expando];if(void 0!==d){if(void 0!==b){r.isArray(b)?b=b.map(r.camelCase):(b=r.camelCase(b),b=b in d?[b]:b.match(K)||[]),c=b.length;while(c--)delete d[b[c]]}(void 0===b||r.isEmptyObject(d))&&(a.nodeType?a[this.expando]=void 0:delete a[this.expando])}},hasData:function(a){var b=a[this.expando];return void 0!==b&&!r.isEmptyObject(b)}};var V=new U,W=new U,X=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,Y=/[A-Z]/g;function Z(a,b,c){var d;if(void 0===c&&1===a.nodeType)if(d="data-"+b.replace(Y,"-$&").toLowerCase(),c=a.getAttribute(d),"string"==typeof c){try{c="true"===c||"false"!==c&&("null"===c?null:+c+""===c?+c:X.test(c)?JSON.parse(c):c)}catch(e){}W.set(a,b,c)}else c=void 0;return c}r.extend({hasData:function(a){return W.hasData(a)||V.hasData(a)},data:function(a,b,c){return W.access(a,b,c)},removeData:function(a,b){W.remove(a,b)},_data:function(a,b,c){return V.access(a,b,c)},_removeData:function(a,b){V.remove(a,b)}}),r.fn.extend({data:function(a,b){var c,d,e,f=this[0],g=f&&f.attributes;if(void 0===a){if(this.length&&(e=W.get(f),1===f.nodeType&&!V.get(f,"hasDataAttrs"))){c=g.length;while(c--)g[c]&&(d=g[c].name,0===d.indexOf("data-")&&(d=r.camelCase(d.slice(5)),Z(f,d,e[d])));V.set(f,"hasDataAttrs",!0)}return e}return"object"==typeof a?this.each(function(){W.set(this,a)}):S(this,function(b){var c;if(f&&void 0===b){if(c=W.get(f,a),void 0!==c)return c;if(c=Z(f,a),void 0!==c)return c}else this.each(function(){W.set(this,a,b)})},null,b,arguments.length>1,null,!0)},removeData:function(a){return this.each(function(){W.remove(this,a)})}}),r.extend({queue:function(a,b,c){var d;if(a)return b=(b||"fx")+"queue",d=V.get(a,b),c&&(!d||r.isArray(c)?d=V.access(a,b,r.makeArray(c)):d.push(c)),d||[]},dequeue:function(a,b){b=b||"fx";var c=r.queue(a,b),d=c.length,e=c.shift(),f=r._queueHooks(a,b),g=function(){r.dequeue(a,b)};"inprogress"===e&&(e=c.shift(),d--),e&&("fx"===b&&c.unshift("inprogress"),delete f.stop,e.call(a,g,f)),!d&&f&&f.empty.fire()},_queueHooks:function(a,b){var c=b+"queueHooks";return V.get(a,c)||V.access(a,c,{empty:r.Callbacks("once memory").add(function(){V.remove(a,[b+"queue",c])})})}}),r.fn.extend({queue:function(a,b){var c=2;return"string"!=typeof a&&(b=a,a="fx",c--),arguments.length<c?r.queue(this[0],a):void 0===b?this:this.each(function(){var c=r.queue(this,a,b);r._queueHooks(this,a),"fx"===a&&"inprogress"!==c[0]&&r.dequeue(this,a)})},dequeue:function(a){return this.each(function(){r.dequeue(this,a)})},clearQueue:function(a){return this.queue(a||"fx",[])},promise:function(a,b){var c,d=1,e=r.Deferred(),f=this,g=this.length,h=function(){--d||e.resolveWith(f,[f])};"string"!=typeof a&&(b=a,a=void 0),a=a||"fx";while(g--)c=V.get(f[g],a+"queueHooks"),c&&c.empty&&(d++,c.empty.add(h));return h(),e.promise(b)}});var $=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,_=new RegExp("^(?:([+-])=|)("+$+")([a-z%]*)$","i"),aa=["Top","Right","Bottom","Left"],ba=function(a,b){return a=b||a,"none"===a.style.display||""===a.style.display&&r.contains(a.ownerDocument,a)&&"none"===r.css(a,"display")},ca=function(a,b,c,d){var e,f,g={};for(f in b)g[f]=a.style[f],a.style[f]=b[f];e=c.apply(a,d||[]);for(f in b)a.style[f]=g[f];return e};function da(a,b,c,d){var e,f=1,g=20,h=d?function(){return d.cur()}:function(){return r.css(a,b,"")},i=h(),j=c&&c[3]||(r.cssNumber[b]?"":"px"),k=(r.cssNumber[b]||"px"!==j&&+i)&&_.exec(r.css(a,b));if(k&&k[3]!==j){j=j||k[3],c=c||[],k=+i||1;do f=f||".5",k/=f,r.style(a,b,k+j);while(f!==(f=h()/i)&&1!==f&&--g)}return c&&(k=+k||+i||0,e=c[1]?k+(c[1]+1)*c[2]:+c[2],d&&(d.unit=j,d.start=k,d.end=e)),e}var ea={};function fa(a){var b,c=a.ownerDocument,d=a.nodeName,e=ea[d];return e?e:(b=c.body.appendChild(c.createElement(d)),e=r.css(b,"display"),b.parentNode.removeChild(b),"none"===e&&(e="block"),ea[d]=e,e)}function ga(a,b){for(var c,d,e=[],f=0,g=a.length;f<g;f++)d=a[f],d.style&&(c=d.style.display,b?("none"===c&&(e[f]=V.get(d,"display")||null,e[f]||(d.style.display="")),""===d.style.display&&ba(d)&&(e[f]=fa(d))):"none"!==c&&(e[f]="none",V.set(d,"display",c)));for(f=0;f<g;f++)null!=e[f]&&(a[f].style.display=e[f]);return a}r.fn.extend({show:function(){return ga(this,!0)},hide:function(){return ga(this)},toggle:function(a){return"boolean"==typeof a?a?this.show():this.hide():this.each(function(){ba(this)?r(this).show():r(this).hide()})}});var ha=/^(?:checkbox|radio)$/i,ia=/<([a-z][^\/\0>\x20\t\r\n\f]+)/i,ja=/^$|\/(?:java|ecma)script/i,ka={option:[1,"<select multiple='multiple'>","</select>"],thead:[1,"<table>","</table>"],col:[2,"<table><colgroup>","</colgroup></table>"],tr:[2,"<table><tbody>","</tbody></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:[0,"",""]};ka.optgroup=ka.option,ka.tbody=ka.tfoot=ka.colgroup=ka.caption=ka.thead,ka.th=ka.td;function la(a,b){var c="undefined"!=typeof a.getElementsByTagName?a.getElementsByTagName(b||"*"):"undefined"!=typeof a.querySelectorAll?a.querySelectorAll(b||"*"):[];return void 0===b||b&&r.nodeName(a,b)?r.merge([a],c):c}function ma(a,b){for(var c=0,d=a.length;c<d;c++)V.set(a[c],"globalEval",!b||V.get(b[c],"globalEval"))}var na=/<|&#?\w+;/;function oa(a,b,c,d,e){for(var f,g,h,i,j,k,l=b.createDocumentFragment(),m=[],n=0,o=a.length;n<o;n++)if(f=a[n],f||0===f)if("object"===r.type(f))r.merge(m,f.nodeType?[f]:f);else if(na.test(f)){g=g||l.appendChild(b.createElement("div")),h=(ia.exec(f)||["",""])[1].toLowerCase(),i=ka[h]||ka._default,g.innerHTML=i[1]+r.htmlPrefilter(f)+i[2],k=i[0];while(k--)g=g.lastChild;r.merge(m,g.childNodes),g=l.firstChild,g.textContent=""}else m.push(b.createTextNode(f));l.textContent="",n=0;while(f=m[n++])if(d&&r.inArray(f,d)>-1)e&&e.push(f);else if(j=r.contains(f.ownerDocument,f),g=la(l.appendChild(f),"script"),j&&ma(g),c){k=0;while(f=g[k++])ja.test(f.type||"")&&c.push(f)}return l}!function(){var a=d.createDocumentFragment(),b=a.appendChild(d.createElement("div")),c=d.createElement("input");c.setAttribute("type","radio"),c.setAttribute("checked","checked"),c.setAttribute("name","t"),b.appendChild(c),o.checkClone=b.cloneNode(!0).cloneNode(!0).lastChild.checked,b.innerHTML="<textarea>x</textarea>",o.noCloneChecked=!!b.cloneNode(!0).lastChild.defaultValue}();var pa=d.documentElement,qa=/^key/,ra=/^(?:mouse|pointer|contextmenu|drag|drop)|click/,sa=/^([^.]*)(?:\.(.+)|)/;function ta(){return!0}function ua(){return!1}function va(){try{return d.activeElement}catch(a){}}function wa(a,b,c,d,e,f){var g,h;if("object"==typeof b){"string"!=typeof c&&(d=d||c,c=void 0);for(h in b)wa(a,h,c,d,b[h],f);return a}if(null==d&&null==e?(e=c,d=c=void 0):null==e&&("string"==typeof c?(e=d,d=void 0):(e=d,d=c,c=void 0)),e===!1)e=ua;else if(!e)return a;return 1===f&&(g=e,e=function(a){return r().off(a),g.apply(this,arguments)},e.guid=g.guid||(g.guid=r.guid++)),a.each(function(){r.event.add(this,b,e,d,c)})}r.event={global:{},add:function(a,b,c,d,e){var f,g,h,i,j,k,l,m,n,o,p,q=V.get(a);if(q){c.handler&&(f=c,c=f.handler,e=f.selector),e&&r.find.matchesSelector(pa,e),c.guid||(c.guid=r.guid++),(i=q.events)||(i=q.events={}),(g=q.handle)||(g=q.handle=function(b){return"undefined"!=typeof r&&r.event.triggered!==b.type?r.event.dispatch.apply(a,arguments):void 0}),b=(b||"").match(K)||[""],j=b.length;while(j--)h=sa.exec(b[j])||[],n=p=h[1],o=(h[2]||"").split(".").sort(),n&&(l=r.event.special[n]||{},n=(e?l.delegateType:l.bindType)||n,l=r.event.special[n]||{},k=r.extend({type:n,origType:p,data:d,handler:c,guid:c.guid,selector:e,needsContext:e&&r.expr.match.needsContext.test(e),namespace:o.join(".")},f),(m=i[n])||(m=i[n]=[],m.delegateCount=0,l.setup&&l.setup.call(a,d,o,g)!==!1||a.addEventListener&&a.addEventListener(n,g)),l.add&&(l.add.call(a,k),k.handler.guid||(k.handler.guid=c.guid)),e?m.splice(m.delegateCount++,0,k):m.push(k),r.event.global[n]=!0)}},remove:function(a,b,c,d,e){var f,g,h,i,j,k,l,m,n,o,p,q=V.hasData(a)&&V.get(a);if(q&&(i=q.events)){b=(b||"").match(K)||[""],j=b.length;while(j--)if(h=sa.exec(b[j])||[],n=p=h[1],o=(h[2]||"").split(".").sort(),n){l=r.event.special[n]||{},n=(d?l.delegateType:l.bindType)||n,m=i[n]||[],h=h[2]&&new RegExp("(^|\\.)"+o.join("\\.(?:.*\\.|)")+"(\\.|$)"),g=f=m.length;while(f--)k=m[f],!e&&p!==k.origType||c&&c.guid!==k.guid||h&&!h.test(k.namespace)||d&&d!==k.selector&&("**"!==d||!k.selector)||(m.splice(f,1),k.selector&&m.delegateCount--,l.remove&&l.remove.call(a,k));g&&!m.length&&(l.teardown&&l.teardown.call(a,o,q.handle)!==!1||r.removeEvent(a,n,q.handle),delete i[n])}else for(n in i)r.event.remove(a,n+b[j],c,d,!0);r.isEmptyObject(i)&&V.remove(a,"handle events")}},dispatch:function(a){var b=r.event.fix(a),c,d,e,f,g,h,i=new Array(arguments.length),j=(V.get(this,"events")||{})[b.type]||[],k=r.event.special[b.type]||{};for(i[0]=b,c=1;c<arguments.length;c++)i[c]=arguments[c];if(b.delegateTarget=this,!k.preDispatch||k.preDispatch.call(this,b)!==!1){h=r.event.handlers.call(this,b,j),c=0;while((f=h[c++])&&!b.isPropagationStopped()){b.currentTarget=f.elem,d=0;while((g=f.handlers[d++])&&!b.isImmediatePropagationStopped())b.rnamespace&&!b.rnamespace.test(g.namespace)||(b.handleObj=g,b.data=g.data,e=((r.event.special[g.origType]||{}).handle||g.handler).apply(f.elem,i),void 0!==e&&(b.result=e)===!1&&(b.preventDefault(),b.stopPropagation()))}return k.postDispatch&&k.postDispatch.call(this,b),b.result}},handlers:function(a,b){var c,d,e,f,g=[],h=b.delegateCount,i=a.target;if(h&&i.nodeType&&("click"!==a.type||isNaN(a.button)||a.button<1))for(;i!==this;i=i.parentNode||this)if(1===i.nodeType&&(i.disabled!==!0||"click"!==a.type)){for(d=[],c=0;c<h;c++)f=b[c],e=f.selector+" ",void 0===d[e]&&(d[e]=f.needsContext?r(e,this).index(i)>-1:r.find(e,this,null,[i]).length),d[e]&&d.push(f);d.length&&g.push({elem:i,handlers:d})}return h<b.length&&g.push({elem:this,handlers:b.slice(h)}),g},addProp:function(a,b){Object.defineProperty(r.Event.prototype,a,{enumerable:!0,configurable:!0,get:r.isFunction(b)?function(){if(this.originalEvent)return b(this.originalEvent)}:function(){if(this.originalEvent)return this.originalEvent[a]},set:function(b){Object.defineProperty(this,a,{enumerable:!0,configurable:!0,writable:!0,value:b})}})},fix:function(a){return a[r.expando]?a:new r.Event(a)},special:{load:{noBubble:!0},focus:{trigger:function(){if(this!==va()&&this.focus)return this.focus(),!1},delegateType:"focusin"},blur:{trigger:function(){if(this===va()&&this.blur)return this.blur(),!1},delegateType:"focusout"},click:{trigger:function(){if("checkbox"===this.type&&this.click&&r.nodeName(this,"input"))return this.click(),!1},_default:function(a){return r.nodeName(a.target,"a")}},beforeunload:{postDispatch:function(a){void 0!==a.result&&a.originalEvent&&(a.originalEvent.returnValue=a.result)}}}},r.removeEvent=function(a,b,c){a.removeEventListener&&a.removeEventListener(b,c)},r.Event=function(a,b){return this instanceof r.Event?(a&&a.type?(this.originalEvent=a,this.type=a.type,this.isDefaultPrevented=a.defaultPrevented||void 0===a.defaultPrevented&&a.returnValue===!1?ta:ua,this.target=a.target&&3===a.target.nodeType?a.target.parentNode:a.target,this.currentTarget=a.currentTarget,this.relatedTarget=a.relatedTarget):this.type=a,b&&r.extend(this,b),this.timeStamp=a&&a.timeStamp||r.now(),void(this[r.expando]=!0)):new r.Event(a,b)},r.Event.prototype={constructor:r.Event,isDefaultPrevented:ua,isPropagationStopped:ua,isImmediatePropagationStopped:ua,isSimulated:!1,preventDefault:function(){var a=this.originalEvent;this.isDefaultPrevented=ta,a&&!this.isSimulated&&a.preventDefault()},stopPropagation:function(){var a=this.originalEvent;this.isPropagationStopped=ta,a&&!this.isSimulated&&a.stopPropagation()},stopImmediatePropagation:function(){var a=this.originalEvent;this.isImmediatePropagationStopped=ta,a&&!this.isSimulated&&a.stopImmediatePropagation(),this.stopPropagation()}},r.each({altKey:!0,bubbles:!0,cancelable:!0,changedTouches:!0,ctrlKey:!0,detail:!0,eventPhase:!0,metaKey:!0,pageX:!0,pageY:!0,shiftKey:!0,view:!0,"char":!0,charCode:!0,key:!0,keyCode:!0,button:!0,buttons:!0,clientX:!0,clientY:!0,offsetX:!0,offsetY:!0,pointerId:!0,pointerType:!0,screenX:!0,screenY:!0,targetTouches:!0,toElement:!0,touches:!0,which:function(a){var b=a.button;return null==a.which&&qa.test(a.type)?null!=a.charCode?a.charCode:a.keyCode:!a.which&&void 0!==b&&ra.test(a.type)?1&b?1:2&b?3:4&b?2:0:a.which}},r.event.addProp),r.each({mouseenter:"mouseover",mouseleave:"mouseout",pointerenter:"pointerover",pointerleave:"pointerout"},function(a,b){r.event.special[a]={delegateType:b,bindType:b,handle:function(a){var c,d=this,e=a.relatedTarget,f=a.handleObj;return e&&(e===d||r.contains(d,e))||(a.type=f.origType,c=f.handler.apply(this,arguments),a.type=b),c}}}),r.fn.extend({on:function(a,b,c,d){return wa(this,a,b,c,d)},one:function(a,b,c,d){return wa(this,a,b,c,d,1)},off:function(a,b,c){var d,e;if(a&&a.preventDefault&&a.handleObj)return d=a.handleObj,r(a.delegateTarget).off(d.namespace?d.origType+"."+d.namespace:d.origType,d.selector,d.handler),this;if("object"==typeof a){for(e in a)this.off(e,b,a[e]);return this}return b!==!1&&"function"!=typeof b||(c=b,b=void 0),c===!1&&(c=ua),this.each(function(){r.event.remove(this,a,c,b)})}});var xa=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,ya=/<script|<style|<link/i,za=/checked\s*(?:[^=]|=\s*.checked.)/i,Aa=/^true\/(.*)/,Ba=/^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;function Ca(a,b){return r.nodeName(a,"table")&&r.nodeName(11!==b.nodeType?b:b.firstChild,"tr")?a.getElementsByTagName("tbody")[0]||a:a}function Da(a){return a.type=(null!==a.getAttribute("type"))+"/"+a.type,a}function Ea(a){var b=Aa.exec(a.type);return b?a.type=b[1]:a.removeAttribute("type"),a}function Fa(a,b){var c,d,e,f,g,h,i,j;if(1===b.nodeType){if(V.hasData(a)&&(f=V.access(a),g=V.set(b,f),j=f.events)){delete g.handle,g.events={};for(e in j)for(c=0,d=j[e].length;c<d;c++)r.event.add(b,e,j[e][c])}W.hasData(a)&&(h=W.access(a),i=r.extend({},h),W.set(b,i))}}function Ga(a,b){var c=b.nodeName.toLowerCase();"input"===c&&ha.test(a.type)?b.checked=a.checked:"input"!==c&&"textarea"!==c||(b.defaultValue=a.defaultValue)}function Ha(a,b,c,d){b=g.apply([],b);var e,f,h,i,j,k,l=0,m=a.length,n=m-1,q=b[0],s=r.isFunction(q);if(s||m>1&&"string"==typeof q&&!o.checkClone&&za.test(q))return a.each(function(e){var f=a.eq(e);s&&(b[0]=q.call(this,e,f.html())),Ha(f,b,c,d)});if(m&&(e=oa(b,a[0].ownerDocument,!1,a,d),f=e.firstChild,1===e.childNodes.length&&(e=f),f||d)){for(h=r.map(la(e,"script"),Da),i=h.length;l<m;l++)j=e,l!==n&&(j=r.clone(j,!0,!0),i&&r.merge(h,la(j,"script"))),c.call(a[l],j,l);if(i)for(k=h[h.length-1].ownerDocument,r.map(h,Ea),l=0;l<i;l++)j=h[l],ja.test(j.type||"")&&!V.access(j,"globalEval")&&r.contains(k,j)&&(j.src?r._evalUrl&&r._evalUrl(j.src):p(j.textContent.replace(Ba,""),k))}return a}function Ia(a,b,c){for(var d,e=b?r.filter(b,a):a,f=0;null!=(d=e[f]);f++)c||1!==d.nodeType||r.cleanData(la(d)),d.parentNode&&(c&&r.contains(d.ownerDocument,d)&&ma(la(d,"script")),d.parentNode.removeChild(d));return a}r.extend({htmlPrefilter:function(a){return a.replace(xa,"<$1></$2>")},clone:function(a,b,c){var d,e,f,g,h=a.cloneNode(!0),i=r.contains(a.ownerDocument,a);if(!(o.noCloneChecked||1!==a.nodeType&&11!==a.nodeType||r.isXMLDoc(a)))for(g=la(h),f=la(a),d=0,e=f.length;d<e;d++)Ga(f[d],g[d]);if(b)if(c)for(f=f||la(a),g=g||la(h),d=0,e=f.length;d<e;d++)Fa(f[d],g[d]);else Fa(a,h);return g=la(h,"script"),g.length>0&&ma(g,!i&&la(a,"script")),h},cleanData:function(a){for(var b,c,d,e=r.event.special,f=0;void 0!==(c=a[f]);f++)if(T(c)){if(b=c[V.expando]){if(b.events)for(d in b.events)e[d]?r.event.remove(c,d):r.removeEvent(c,d,b.handle);c[V.expando]=void 0}c[W.expando]&&(c[W.expando]=void 0)}}}),r.fn.extend({detach:function(a){return Ia(this,a,!0)},remove:function(a){return Ia(this,a)},text:function(a){return S(this,function(a){return void 0===a?r.text(this):this.empty().each(function(){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||(this.textContent=a)})},null,a,arguments.length)},append:function(){return Ha(this,arguments,function(a){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var b=Ca(this,a);b.appendChild(a)}})},prepend:function(){return Ha(this,arguments,function(a){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var b=Ca(this,a);b.insertBefore(a,b.firstChild)}})},before:function(){return Ha(this,arguments,function(a){this.parentNode&&this.parentNode.insertBefore(a,this)})},after:function(){return Ha(this,arguments,function(a){this.parentNode&&this.parentNode.insertBefore(a,this.nextSibling)})},empty:function(){for(var a,b=0;null!=(a=this[b]);b++)1===a.nodeType&&(r.cleanData(la(a,!1)),a.textContent="");return this},clone:function(a,b){return a=null!=a&&a,b=null==b?a:b,this.map(function(){return r.clone(this,a,b)})},html:function(a){return S(this,function(a){var b=this[0]||{},c=0,d=this.length;if(void 0===a&&1===b.nodeType)return b.innerHTML;if("string"==typeof a&&!ya.test(a)&&!ka[(ia.exec(a)||["",""])[1].toLowerCase()]){a=r.htmlPrefilter(a);try{for(;c<d;c++)b=this[c]||{},1===b.nodeType&&(r.cleanData(la(b,!1)),b.innerHTML=a);b=0}catch(e){}}b&&this.empty().append(a)},null,a,arguments.length)},replaceWith:function(){var a=[];return Ha(this,arguments,function(b){var c=this.parentNode;r.inArray(this,a)<0&&(r.cleanData(la(this)),c&&c.replaceChild(b,this))},a)}}),r.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(a,b){r.fn[a]=function(a){for(var c,d=[],e=r(a),f=e.length-1,g=0;g<=f;g++)c=g===f?this:this.clone(!0),r(e[g])[b](c),h.apply(d,c.get());return this.pushStack(d)}});var Ja=/^margin/,Ka=new RegExp("^("+$+")(?!px)[a-z%]+$","i"),La=function(b){var c=b.ownerDocument.defaultView;return c&&c.opener||(c=a),c.getComputedStyle(b)};!function(){function b(){if(i){i.style.cssText="box-sizing:border-box;position:relative;display:block;margin:auto;border:1px;padding:1px;top:1%;width:50%",i.innerHTML="",pa.appendChild(h);var b=a.getComputedStyle(i);c="1%"!==b.top,g="2px"===b.marginLeft,e="4px"===b.width,i.style.marginRight="50%",f="4px"===b.marginRight,pa.removeChild(h),i=null}}var c,e,f,g,h=d.createElement("div"),i=d.createElement("div");i.style&&(i.style.backgroundClip="content-box",i.cloneNode(!0).style.backgroundClip="",o.clearCloneStyle="content-box"===i.style.backgroundClip,h.style.cssText="border:0;width:8px;height:0;top:0;left:-9999px;padding:0;margin-top:1px;position:absolute",h.appendChild(i),r.extend(o,{pixelPosition:function(){return b(),c},boxSizingReliable:function(){return b(),e},pixelMarginRight:function(){return b(),f},reliableMarginLeft:function(){return b(),g}}))}();function Ma(a,b,c){var d,e,f,g,h=a.style;return c=c||La(a),c&&(g=c.getPropertyValue(b)||c[b],""!==g||r.contains(a.ownerDocument,a)||(g=r.style(a,b)),!o.pixelMarginRight()&&Ka.test(g)&&Ja.test(b)&&(d=h.width,e=h.minWidth,f=h.maxWidth,h.minWidth=h.maxWidth=h.width=g,g=c.width,h.width=d,h.minWidth=e,h.maxWidth=f)),void 0!==g?g+"":g}function Na(a,b){return{get:function(){return a()?void delete this.get:(this.get=b).apply(this,arguments)}}}var Oa=/^(none|table(?!-c[ea]).+)/,Pa={position:"absolute",visibility:"hidden",display:"block"},Qa={letterSpacing:"0",fontWeight:"400"},Ra=["Webkit","Moz","ms"],Sa=d.createElement("div").style;function Ta(a){if(a in Sa)return a;var b=a[0].toUpperCase()+a.slice(1),c=Ra.length;while(c--)if(a=Ra[c]+b,a in Sa)return a}function Ua(a,b,c){var d=_.exec(b);return d?Math.max(0,d[2]-(c||0))+(d[3]||"px"):b}function Va(a,b,c,d,e){for(var f=c===(d?"border":"content")?4:"width"===b?1:0,g=0;f<4;f+=2)"margin"===c&&(g+=r.css(a,c+aa[f],!0,e)),d?("content"===c&&(g-=r.css(a,"padding"+aa[f],!0,e)),"margin"!==c&&(g-=r.css(a,"border"+aa[f]+"Width",!0,e))):(g+=r.css(a,"padding"+aa[f],!0,e),"padding"!==c&&(g+=r.css(a,"border"+aa[f]+"Width",!0,e)));return g}function Wa(a,b,c){var d,e=!0,f=La(a),g="border-box"===r.css(a,"boxSizing",!1,f);if(a.getClientRects().length&&(d=a.getBoundingClientRect()[b]),d<=0||null==d){if(d=Ma(a,b,f),(d<0||null==d)&&(d=a.style[b]),Ka.test(d))return d;e=g&&(o.boxSizingReliable()||d===a.style[b]),d=parseFloat(d)||0}return d+Va(a,b,c||(g?"border":"content"),e,f)+"px"}r.extend({cssHooks:{opacity:{get:function(a,b){if(b){var c=Ma(a,"opacity");return""===c?"1":c}}}},cssNumber:{animationIterationCount:!0,columnCount:!0,fillOpacity:!0,flexGrow:!0,flexShrink:!0,fontWeight:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,widows:!0,zIndex:!0,zoom:!0},cssProps:{"float":"cssFloat"},style:function(a,b,c,d){if(a&&3!==a.nodeType&&8!==a.nodeType&&a.style){var e,f,g,h=r.camelCase(b),i=a.style;return b=r.cssProps[h]||(r.cssProps[h]=Ta(h)||h),g=r.cssHooks[b]||r.cssHooks[h],void 0===c?g&&"get"in g&&void 0!==(e=g.get(a,!1,d))?e:i[b]:(f=typeof c,"string"===f&&(e=_.exec(c))&&e[1]&&(c=da(a,b,e),f="number"),null!=c&&c===c&&("number"===f&&(c+=e&&e[3]||(r.cssNumber[h]?"":"px")),o.clearCloneStyle||""!==c||0!==b.indexOf("background")||(i[b]="inherit"),g&&"set"in g&&void 0===(c=g.set(a,c,d))||(i[b]=c)),void 0)}},css:function(a,b,c,d){var e,f,g,h=r.camelCase(b);return b=r.cssProps[h]||(r.cssProps[h]=Ta(h)||h),g=r.cssHooks[b]||r.cssHooks[h],g&&"get"in g&&(e=g.get(a,!0,c)),void 0===e&&(e=Ma(a,b,d)),"normal"===e&&b in Qa&&(e=Qa[b]),""===c||c?(f=parseFloat(e),c===!0||isFinite(f)?f||0:e):e}}),r.each(["height","width"],function(a,b){r.cssHooks[b]={get:function(a,c,d){if(c)return!Oa.test(r.css(a,"display"))||a.getClientRects().length&&a.getBoundingClientRect().width?Wa(a,b,d):ca(a,Pa,function(){return Wa(a,b,d)})},set:function(a,c,d){var e,f=d&&La(a),g=d&&Va(a,b,d,"border-box"===r.css(a,"boxSizing",!1,f),f);return g&&(e=_.exec(c))&&"px"!==(e[3]||"px")&&(a.style[b]=c,c=r.css(a,b)),Ua(a,c,g)}}}),r.cssHooks.marginLeft=Na(o.reliableMarginLeft,function(a,b){if(b)return(parseFloat(Ma(a,"marginLeft"))||a.getBoundingClientRect().left-ca(a,{marginLeft:0},function(){return a.getBoundingClientRect().left}))+"px"}),r.each({margin:"",padding:"",border:"Width"},function(a,b){r.cssHooks[a+b]={expand:function(c){for(var d=0,e={},f="string"==typeof c?c.split(" "):[c];d<4;d++)e[a+aa[d]+b]=f[d]||f[d-2]||f[0];return e}},Ja.test(a)||(r.cssHooks[a+b].set=Ua)}),r.fn.extend({css:function(a,b){return S(this,function(a,b,c){var d,e,f={},g=0;if(r.isArray(b)){for(d=La(a),e=b.length;g<e;g++)f[b[g]]=r.css(a,b[g],!1,d);return f}return void 0!==c?r.style(a,b,c):r.css(a,b)},a,b,arguments.length>1)}});function Xa(a,b,c,d,e){return new Xa.prototype.init(a,b,c,d,e)}r.Tween=Xa,Xa.prototype={constructor:Xa,init:function(a,b,c,d,e,f){this.elem=a,this.prop=c,this.easing=e||r.easing._default,this.options=b,this.start=this.now=this.cur(),this.end=d,this.unit=f||(r.cssNumber[c]?"":"px")},cur:function(){var a=Xa.propHooks[this.prop];return a&&a.get?a.get(this):Xa.propHooks._default.get(this)},run:function(a){var b,c=Xa.propHooks[this.prop];return this.options.duration?this.pos=b=r.easing[this.easing](a,this.options.duration*a,0,1,this.options.duration):this.pos=b=a,this.now=(this.end-this.start)*b+this.start,this.options.step&&this.options.step.call(this.elem,this.now,this),c&&c.set?c.set(this):Xa.propHooks._default.set(this),this}},Xa.prototype.init.prototype=Xa.prototype,Xa.propHooks={_default:{get:function(a){var b;return 1!==a.elem.nodeType||null!=a.elem[a.prop]&&null==a.elem.style[a.prop]?a.elem[a.prop]:(b=r.css(a.elem,a.prop,""),b&&"auto"!==b?b:0)},set:function(a){r.fx.step[a.prop]?r.fx.step[a.prop](a):1!==a.elem.nodeType||null==a.elem.style[r.cssProps[a.prop]]&&!r.cssHooks[a.prop]?a.elem[a.prop]=a.now:r.style(a.elem,a.prop,a.now+a.unit)}}},Xa.propHooks.scrollTop=Xa.propHooks.scrollLeft={set:function(a){a.elem.nodeType&&a.elem.parentNode&&(a.elem[a.prop]=a.now)}},r.easing={linear:function(a){return a},swing:function(a){return.5-Math.cos(a*Math.PI)/2},_default:"swing"},r.fx=Xa.prototype.init,r.fx.step={};var Ya,Za,$a=/^(?:toggle|show|hide)$/,_a=/queueHooks$/;function ab(){Za&&(a.requestAnimationFrame(ab),r.fx.tick())}function bb(){return a.setTimeout(function(){Ya=void 0}),Ya=r.now()}function cb(a,b){var c,d=0,e={height:a};for(b=b?1:0;d<4;d+=2-b)c=aa[d],e["margin"+c]=e["padding"+c]=a;return b&&(e.opacity=e.width=a),e}function db(a,b,c){for(var d,e=(gb.tweeners[b]||[]).concat(gb.tweeners["*"]),f=0,g=e.length;f<g;f++)if(d=e[f].call(c,b,a))return d}function eb(a,b,c){var d,e,f,g,h,i,j,k,l="width"in b||"height"in b,m=this,n={},o=a.style,p=a.nodeType&&ba(a),q=V.get(a,"fxshow");c.queue||(g=r._queueHooks(a,"fx"),null==g.unqueued&&(g.unqueued=0,h=g.empty.fire,g.empty.fire=function(){g.unqueued||h()}),g.unqueued++,m.always(function(){m.always(function(){g.unqueued--,r.queue(a,"fx").length||g.empty.fire()})}));for(d in b)if(e=b[d],$a.test(e)){if(delete b[d],f=f||"toggle"===e,e===(p?"hide":"show")){if("show"!==e||!q||void 0===q[d])continue;p=!0}n[d]=q&&q[d]||r.style(a,d)}if(i=!r.isEmptyObject(b),i||!r.isEmptyObject(n)){l&&1===a.nodeType&&(c.overflow=[o.overflow,o.overflowX,o.overflowY],j=q&&q.display,null==j&&(j=V.get(a,"display")),k=r.css(a,"display"),"none"===k&&(j?k=j:(ga([a],!0),j=a.style.display||j,k=r.css(a,"display"),ga([a]))),("inline"===k||"inline-block"===k&&null!=j)&&"none"===r.css(a,"float")&&(i||(m.done(function(){o.display=j}),null==j&&(k=o.display,j="none"===k?"":k)),o.display="inline-block")),c.overflow&&(o.overflow="hidden",m.always(function(){o.overflow=c.overflow[0],o.overflowX=c.overflow[1],o.overflowY=c.overflow[2]})),i=!1;for(d in n)i||(q?"hidden"in q&&(p=q.hidden):q=V.access(a,"fxshow",{display:j}),f&&(q.hidden=!p),p&&ga([a],!0),m.done(function(){p||ga([a]),V.remove(a,"fxshow");for(d in n)r.style(a,d,n[d])})),i=db(p?q[d]:0,d,m),d in q||(q[d]=i.start,p&&(i.end=i.start,i.start=0))}}function fb(a,b){var c,d,e,f,g;for(c in a)if(d=r.camelCase(c),e=b[d],f=a[c],r.isArray(f)&&(e=f[1],f=a[c]=f[0]),c!==d&&(a[d]=f,delete a[c]),g=r.cssHooks[d],g&&"expand"in g){f=g.expand(f),delete a[d];for(c in f)c in a||(a[c]=f[c],b[c]=e)}else b[d]=e}function gb(a,b,c){var d,e,f=0,g=gb.prefilters.length,h=r.Deferred().always(function(){delete i.elem}),i=function(){if(e)return!1;for(var b=Ya||bb(),c=Math.max(0,j.startTime+j.duration-b),d=c/j.duration||0,f=1-d,g=0,i=j.tweens.length;g<i;g++)j.tweens[g].run(f);return h.notifyWith(a,[j,f,c]),f<1&&i?c:(h.resolveWith(a,[j]),!1)},j=h.promise({elem:a,props:r.extend({},b),opts:r.extend(!0,{specialEasing:{},easing:r.easing._default},c),originalProperties:b,originalOptions:c,startTime:Ya||bb(),duration:c.duration,tweens:[],createTween:function(b,c){var d=r.Tween(a,j.opts,b,c,j.opts.specialEasing[b]||j.opts.easing);return j.tweens.push(d),d},stop:function(b){var c=0,d=b?j.tweens.length:0;if(e)return this;for(e=!0;c<d;c++)j.tweens[c].run(1);return b?(h.notifyWith(a,[j,1,0]),h.resolveWith(a,[j,b])):h.rejectWith(a,[j,b]),this}}),k=j.props;for(fb(k,j.opts.specialEasing);f<g;f++)if(d=gb.prefilters[f].call(j,a,k,j.opts))return r.isFunction(d.stop)&&(r._queueHooks(j.elem,j.opts.queue).stop=r.proxy(d.stop,d)),d;return r.map(k,db,j),r.isFunction(j.opts.start)&&j.opts.start.call(a,j),r.fx.timer(r.extend(i,{elem:a,anim:j,queue:j.opts.queue})),j.progress(j.opts.progress).done(j.opts.done,j.opts.complete).fail(j.opts.fail).always(j.opts.always)}r.Animation=r.extend(gb,{tweeners:{"*":[function(a,b){var c=this.createTween(a,b);return da(c.elem,a,_.exec(b),c),c}]},tweener:function(a,b){r.isFunction(a)?(b=a,a=["*"]):a=a.match(K);for(var c,d=0,e=a.length;d<e;d++)c=a[d],gb.tweeners[c]=gb.tweeners[c]||[],gb.tweeners[c].unshift(b)},prefilters:[eb],prefilter:function(a,b){b?gb.prefilters.unshift(a):gb.prefilters.push(a)}}),r.speed=function(a,b,c){var e=a&&"object"==typeof a?r.extend({},a):{complete:c||!c&&b||r.isFunction(a)&&a,duration:a,easing:c&&b||b&&!r.isFunction(b)&&b};return r.fx.off||d.hidden?e.duration=0:e.duration="number"==typeof e.duration?e.duration:e.duration in r.fx.speeds?r.fx.speeds[e.duration]:r.fx.speeds._default,null!=e.queue&&e.queue!==!0||(e.queue="fx"),e.old=e.complete,e.complete=function(){r.isFunction(e.old)&&e.old.call(this),e.queue&&r.dequeue(this,e.queue)},e},r.fn.extend({fadeTo:function(a,b,c,d){return this.filter(ba).css("opacity",0).show().end().animate({opacity:b},a,c,d)},animate:function(a,b,c,d){var e=r.isEmptyObject(a),f=r.speed(b,c,d),g=function(){var b=gb(this,r.extend({},a),f);(e||V.get(this,"finish"))&&b.stop(!0)};return g.finish=g,e||f.queue===!1?this.each(g):this.queue(f.queue,g)},stop:function(a,b,c){var d=function(a){var b=a.stop;delete a.stop,b(c)};return"string"!=typeof a&&(c=b,b=a,a=void 0),b&&a!==!1&&this.queue(a||"fx",[]),this.each(function(){var b=!0,e=null!=a&&a+"queueHooks",f=r.timers,g=V.get(this);if(e)g[e]&&g[e].stop&&d(g[e]);else for(e in g)g[e]&&g[e].stop&&_a.test(e)&&d(g[e]);for(e=f.length;e--;)f[e].elem!==this||null!=a&&f[e].queue!==a||(f[e].anim.stop(c),b=!1,f.splice(e,1));!b&&c||r.dequeue(this,a)})},finish:function(a){return a!==!1&&(a=a||"fx"),this.each(function(){var b,c=V.get(this),d=c[a+"queue"],e=c[a+"queueHooks"],f=r.timers,g=d?d.length:0;for(c.finish=!0,r.queue(this,a,[]),e&&e.stop&&e.stop.call(this,!0),b=f.length;b--;)f[b].elem===this&&f[b].queue===a&&(f[b].anim.stop(!0),f.splice(b,1));for(b=0;b<g;b++)d[b]&&d[b].finish&&d[b].finish.call(this);delete c.finish})}}),r.each(["toggle","show","hide"],function(a,b){var c=r.fn[b];r.fn[b]=function(a,d,e){return null==a||"boolean"==typeof a?c.apply(this,arguments):this.animate(cb(b,!0),a,d,e)}}),r.each({slideDown:cb("show"),slideUp:cb("hide"),slideToggle:cb("toggle"),fadeIn:{opacity:"show"},fadeOut:{opacity:"hide"},fadeToggle:{opacity:"toggle"}},function(a,b){r.fn[a]=function(a,c,d){return this.animate(b,a,c,d)}}),r.timers=[],r.fx.tick=function(){var a,b=0,c=r.timers;for(Ya=r.now();b<c.length;b++)a=c[b],a()||c[b]!==a||c.splice(b--,1);c.length||r.fx.stop(),Ya=void 0},r.fx.timer=function(a){r.timers.push(a),a()?r.fx.start():r.timers.pop()},r.fx.interval=13,r.fx.start=function(){Za||(Za=a.requestAnimationFrame?a.requestAnimationFrame(ab):a.setInterval(r.fx.tick,r.fx.interval))},r.fx.stop=function(){a.cancelAnimationFrame?a.cancelAnimationFrame(Za):a.clearInterval(Za),Za=null},r.fx.speeds={slow:600,fast:200,_default:400},r.fn.delay=function(b,c){return b=r.fx?r.fx.speeds[b]||b:b,c=c||"fx",this.queue(c,function(c,d){var e=a.setTimeout(c,b);d.stop=function(){a.clearTimeout(e)}})},function(){var a=d.createElement("input"),b=d.createElement("select"),c=b.appendChild(d.createElement("option"));a.type="checkbox",o.checkOn=""!==a.value,o.optSelected=c.selected,a=d.createElement("input"),a.value="t",a.type="radio",o.radioValue="t"===a.value}();var hb,ib=r.expr.attrHandle;r.fn.extend({attr:function(a,b){return S(this,r.attr,a,b,arguments.length>1)},removeAttr:function(a){return this.each(function(){r.removeAttr(this,a)})}}),r.extend({attr:function(a,b,c){var d,e,f=a.nodeType;if(3!==f&&8!==f&&2!==f)return"undefined"==typeof a.getAttribute?r.prop(a,b,c):(1===f&&r.isXMLDoc(a)||(e=r.attrHooks[b.toLowerCase()]||(r.expr.match.bool.test(b)?hb:void 0)),void 0!==c?null===c?void r.removeAttr(a,b):e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:(a.setAttribute(b,c+""),c):e&&"get"in e&&null!==(d=e.get(a,b))?d:(d=r.find.attr(a,b),null==d?void 0:d))},attrHooks:{type:{set:function(a,b){if(!o.radioValue&&"radio"===b&&r.nodeName(a,"input")){var c=a.value;return a.setAttribute("type",b),c&&(a.value=c),b}}}},removeAttr:function(a,b){var c,d=0,e=b&&b.match(K);
 if(e&&1===a.nodeType)while(c=e[d++])a.removeAttribute(c)}}),hb={set:function(a,b,c){return b===!1?r.removeAttr(a,c):a.setAttribute(c,c),c}},r.each(r.expr.match.bool.source.match(/\w+/g),function(a,b){var c=ib[b]||r.find.attr;ib[b]=function(a,b,d){var e,f,g=b.toLowerCase();return d||(f=ib[g],ib[g]=e,e=null!=c(a,b,d)?g:null,ib[g]=f),e}});var jb=/^(?:input|select|textarea|button)$/i,kb=/^(?:a|area)$/i;r.fn.extend({prop:function(a,b){return S(this,r.prop,a,b,arguments.length>1)},removeProp:function(a){return this.each(function(){delete this[r.propFix[a]||a]})}}),r.extend({prop:function(a,b,c){var d,e,f=a.nodeType;if(3!==f&&8!==f&&2!==f)return 1===f&&r.isXMLDoc(a)||(b=r.propFix[b]||b,e=r.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!==(d=e.get(a,b))?d:a[b]},propHooks:{tabIndex:{get:function(a){var b=r.find.attr(a,"tabindex");return b?parseInt(b,10):jb.test(a.nodeName)||kb.test(a.nodeName)&&a.href?0:-1}}},propFix:{"for":"htmlFor","class":"className"}}),o.optSelected||(r.propHooks.selected={get:function(a){var b=a.parentNode;return b&&b.parentNode&&b.parentNode.selectedIndex,null},set:function(a){var b=a.parentNode;b&&(b.selectedIndex,b.parentNode&&b.parentNode.selectedIndex)}}),r.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){r.propFix[this.toLowerCase()]=this});var lb=/[\t\r\n\f]/g;function mb(a){return a.getAttribute&&a.getAttribute("class")||""}r.fn.extend({addClass:function(a){var b,c,d,e,f,g,h,i=0;if(r.isFunction(a))return this.each(function(b){r(this).addClass(a.call(this,b,mb(this)))});if("string"==typeof a&&a){b=a.match(K)||[];while(c=this[i++])if(e=mb(c),d=1===c.nodeType&&(" "+e+" ").replace(lb," ")){g=0;while(f=b[g++])d.indexOf(" "+f+" ")<0&&(d+=f+" ");h=r.trim(d),e!==h&&c.setAttribute("class",h)}}return this},removeClass:function(a){var b,c,d,e,f,g,h,i=0;if(r.isFunction(a))return this.each(function(b){r(this).removeClass(a.call(this,b,mb(this)))});if(!arguments.length)return this.attr("class","");if("string"==typeof a&&a){b=a.match(K)||[];while(c=this[i++])if(e=mb(c),d=1===c.nodeType&&(" "+e+" ").replace(lb," ")){g=0;while(f=b[g++])while(d.indexOf(" "+f+" ")>-1)d=d.replace(" "+f+" "," ");h=r.trim(d),e!==h&&c.setAttribute("class",h)}}return this},toggleClass:function(a,b){var c=typeof a;return"boolean"==typeof b&&"string"===c?b?this.addClass(a):this.removeClass(a):r.isFunction(a)?this.each(function(c){r(this).toggleClass(a.call(this,c,mb(this),b),b)}):this.each(function(){var b,d,e,f;if("string"===c){d=0,e=r(this),f=a.match(K)||[];while(b=f[d++])e.hasClass(b)?e.removeClass(b):e.addClass(b)}else void 0!==a&&"boolean"!==c||(b=mb(this),b&&V.set(this,"__className__",b),this.setAttribute&&this.setAttribute("class",b||a===!1?"":V.get(this,"__className__")||""))})},hasClass:function(a){var b,c,d=0;b=" "+a+" ";while(c=this[d++])if(1===c.nodeType&&(" "+mb(c)+" ").replace(lb," ").indexOf(b)>-1)return!0;return!1}});var nb=/\r/g,ob=/[\x20\t\r\n\f]+/g;r.fn.extend({val:function(a){var b,c,d,e=this[0];{if(arguments.length)return d=r.isFunction(a),this.each(function(c){var e;1===this.nodeType&&(e=d?a.call(this,c,r(this).val()):a,null==e?e="":"number"==typeof e?e+="":r.isArray(e)&&(e=r.map(e,function(a){return null==a?"":a+""})),b=r.valHooks[this.type]||r.valHooks[this.nodeName.toLowerCase()],b&&"set"in b&&void 0!==b.set(this,e,"value")||(this.value=e))});if(e)return b=r.valHooks[e.type]||r.valHooks[e.nodeName.toLowerCase()],b&&"get"in b&&void 0!==(c=b.get(e,"value"))?c:(c=e.value,"string"==typeof c?c.replace(nb,""):null==c?"":c)}}}),r.extend({valHooks:{option:{get:function(a){var b=r.find.attr(a,"value");return null!=b?b:r.trim(r.text(a)).replace(ob," ")}},select:{get:function(a){for(var b,c,d=a.options,e=a.selectedIndex,f="select-one"===a.type,g=f?null:[],h=f?e+1:d.length,i=e<0?h:f?e:0;i<h;i++)if(c=d[i],(c.selected||i===e)&&!c.disabled&&(!c.parentNode.disabled||!r.nodeName(c.parentNode,"optgroup"))){if(b=r(c).val(),f)return b;g.push(b)}return g},set:function(a,b){var c,d,e=a.options,f=r.makeArray(b),g=e.length;while(g--)d=e[g],(d.selected=r.inArray(r.valHooks.option.get(d),f)>-1)&&(c=!0);return c||(a.selectedIndex=-1),f}}}}),r.each(["radio","checkbox"],function(){r.valHooks[this]={set:function(a,b){if(r.isArray(b))return a.checked=r.inArray(r(a).val(),b)>-1}},o.checkOn||(r.valHooks[this].get=function(a){return null===a.getAttribute("value")?"on":a.value})});var pb=/^(?:focusinfocus|focusoutblur)$/;r.extend(r.event,{trigger:function(b,c,e,f){var g,h,i,j,k,m,n,o=[e||d],p=l.call(b,"type")?b.type:b,q=l.call(b,"namespace")?b.namespace.split("."):[];if(h=i=e=e||d,3!==e.nodeType&&8!==e.nodeType&&!pb.test(p+r.event.triggered)&&(p.indexOf(".")>-1&&(q=p.split("."),p=q.shift(),q.sort()),k=p.indexOf(":")<0&&"on"+p,b=b[r.expando]?b:new r.Event(p,"object"==typeof b&&b),b.isTrigger=f?2:3,b.namespace=q.join("."),b.rnamespace=b.namespace?new RegExp("(^|\\.)"+q.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,b.result=void 0,b.target||(b.target=e),c=null==c?[b]:r.makeArray(c,[b]),n=r.event.special[p]||{},f||!n.trigger||n.trigger.apply(e,c)!==!1)){if(!f&&!n.noBubble&&!r.isWindow(e)){for(j=n.delegateType||p,pb.test(j+p)||(h=h.parentNode);h;h=h.parentNode)o.push(h),i=h;i===(e.ownerDocument||d)&&o.push(i.defaultView||i.parentWindow||a)}g=0;while((h=o[g++])&&!b.isPropagationStopped())b.type=g>1?j:n.bindType||p,m=(V.get(h,"events")||{})[b.type]&&V.get(h,"handle"),m&&m.apply(h,c),m=k&&h[k],m&&m.apply&&T(h)&&(b.result=m.apply(h,c),b.result===!1&&b.preventDefault());return b.type=p,f||b.isDefaultPrevented()||n._default&&n._default.apply(o.pop(),c)!==!1||!T(e)||k&&r.isFunction(e[p])&&!r.isWindow(e)&&(i=e[k],i&&(e[k]=null),r.event.triggered=p,e[p](),r.event.triggered=void 0,i&&(e[k]=i)),b.result}},simulate:function(a,b,c){var d=r.extend(new r.Event,c,{type:a,isSimulated:!0});r.event.trigger(d,null,b)}}),r.fn.extend({trigger:function(a,b){return this.each(function(){r.event.trigger(a,b,this)})},triggerHandler:function(a,b){var c=this[0];if(c)return r.event.trigger(a,b,c,!0)}}),r.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "),function(a,b){r.fn[b]=function(a,c){return arguments.length>0?this.on(b,null,a,c):this.trigger(b)}}),r.fn.extend({hover:function(a,b){return this.mouseenter(a).mouseleave(b||a)}}),o.focusin="onfocusin"in a,o.focusin||r.each({focus:"focusin",blur:"focusout"},function(a,b){var c=function(a){r.event.simulate(b,a.target,r.event.fix(a))};r.event.special[b]={setup:function(){var d=this.ownerDocument||this,e=V.access(d,b);e||d.addEventListener(a,c,!0),V.access(d,b,(e||0)+1)},teardown:function(){var d=this.ownerDocument||this,e=V.access(d,b)-1;e?V.access(d,b,e):(d.removeEventListener(a,c,!0),V.remove(d,b))}}});var qb=a.location,rb=r.now(),sb=/\?/;r.parseXML=function(b){var c;if(!b||"string"!=typeof b)return null;try{c=(new a.DOMParser).parseFromString(b,"text/xml")}catch(d){c=void 0}return c&&!c.getElementsByTagName("parsererror").length||r.error("Invalid XML: "+b),c};var tb=/\[\]$/,ub=/\r?\n/g,vb=/^(?:submit|button|image|reset|file)$/i,wb=/^(?:input|select|textarea|keygen)/i;function xb(a,b,c,d){var e;if(r.isArray(b))r.each(b,function(b,e){c||tb.test(a)?d(a,e):xb(a+"["+("object"==typeof e&&null!=e?b:"")+"]",e,c,d)});else if(c||"object"!==r.type(b))d(a,b);else for(e in b)xb(a+"["+e+"]",b[e],c,d)}r.param=function(a,b){var c,d=[],e=function(a,b){var c=r.isFunction(b)?b():b;d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(null==c?"":c)};if(r.isArray(a)||a.jquery&&!r.isPlainObject(a))r.each(a,function(){e(this.name,this.value)});else for(c in a)xb(c,a[c],b,e);return d.join("&")},r.fn.extend({serialize:function(){return r.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var a=r.prop(this,"elements");return a?r.makeArray(a):this}).filter(function(){var a=this.type;return this.name&&!r(this).is(":disabled")&&wb.test(this.nodeName)&&!vb.test(a)&&(this.checked||!ha.test(a))}).map(function(a,b){var c=r(this).val();return null==c?null:r.isArray(c)?r.map(c,function(a){return{name:b.name,value:a.replace(ub,"\r\n")}}):{name:b.name,value:c.replace(ub,"\r\n")}}).get()}});var yb=/%20/g,zb=/#.*$/,Ab=/([?&])_=[^&]*/,Bb=/^(.*?):[ \t]*([^\r\n]*)$/gm,Cb=/^(?:about|app|app-storage|.+-extension|file|res|widget):$/,Db=/^(?:GET|HEAD)$/,Eb=/^\/\//,Fb={},Gb={},Hb="*/".concat("*"),Ib=d.createElement("a");Ib.href=qb.href;function Jb(a){return function(b,c){"string"!=typeof b&&(c=b,b="*");var d,e=0,f=b.toLowerCase().match(K)||[];if(r.isFunction(c))while(d=f[e++])"+"===d[0]?(d=d.slice(1)||"*",(a[d]=a[d]||[]).unshift(c)):(a[d]=a[d]||[]).push(c)}}function Kb(a,b,c,d){var e={},f=a===Gb;function g(h){var i;return e[h]=!0,r.each(a[h]||[],function(a,h){var j=h(b,c,d);return"string"!=typeof j||f||e[j]?f?!(i=j):void 0:(b.dataTypes.unshift(j),g(j),!1)}),i}return g(b.dataTypes[0])||!e["*"]&&g("*")}function Lb(a,b){var c,d,e=r.ajaxSettings.flatOptions||{};for(c in b)void 0!==b[c]&&((e[c]?a:d||(d={}))[c]=b[c]);return d&&r.extend(!0,a,d),a}function Mb(a,b,c){var d,e,f,g,h=a.contents,i=a.dataTypes;while("*"===i[0])i.shift(),void 0===d&&(d=a.mimeType||b.getResponseHeader("Content-Type"));if(d)for(e in h)if(h[e]&&h[e].test(d)){i.unshift(e);break}if(i[0]in c)f=i[0];else{for(e in c){if(!i[0]||a.converters[e+" "+i[0]]){f=e;break}g||(g=e)}f=f||g}if(f)return f!==i[0]&&i.unshift(f),c[f]}function Nb(a,b,c,d){var e,f,g,h,i,j={},k=a.dataTypes.slice();if(k[1])for(g in a.converters)j[g.toLowerCase()]=a.converters[g];f=k.shift();while(f)if(a.responseFields[f]&&(c[a.responseFields[f]]=b),!i&&d&&a.dataFilter&&(b=a.dataFilter(b,a.dataType)),i=f,f=k.shift())if("*"===f)f=i;else if("*"!==i&&i!==f){if(g=j[i+" "+f]||j["* "+f],!g)for(e in j)if(h=e.split(" "),h[1]===f&&(g=j[i+" "+h[0]]||j["* "+h[0]])){g===!0?g=j[e]:j[e]!==!0&&(f=h[0],k.unshift(h[1]));break}if(g!==!0)if(g&&a["throws"])b=g(b);else try{b=g(b)}catch(l){return{state:"parsererror",error:g?l:"No conversion from "+i+" to "+f}}}return{state:"success",data:b}}r.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:qb.href,type:"GET",isLocal:Cb.test(qb.protocol),global:!0,processData:!0,async:!0,contentType:"application/x-www-form-urlencoded; charset=UTF-8",accepts:{"*":Hb,text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript"},contents:{xml:/\bxml\b/,html:/\bhtml/,json:/\bjson\b/},responseFields:{xml:"responseXML",text:"responseText",json:"responseJSON"},converters:{"* text":String,"text html":!0,"text json":JSON.parse,"text xml":r.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(a,b){return b?Lb(Lb(a,r.ajaxSettings),b):Lb(r.ajaxSettings,a)},ajaxPrefilter:Jb(Fb),ajaxTransport:Jb(Gb),ajax:function(b,c){"object"==typeof b&&(c=b,b=void 0),c=c||{};var e,f,g,h,i,j,k,l,m,n,o=r.ajaxSetup({},c),p=o.context||o,q=o.context&&(p.nodeType||p.jquery)?r(p):r.event,s=r.Deferred(),t=r.Callbacks("once memory"),u=o.statusCode||{},v={},w={},x="canceled",y={readyState:0,getResponseHeader:function(a){var b;if(k){if(!h){h={};while(b=Bb.exec(g))h[b[1].toLowerCase()]=b[2]}b=h[a.toLowerCase()]}return null==b?null:b},getAllResponseHeaders:function(){return k?g:null},setRequestHeader:function(a,b){return null==k&&(a=w[a.toLowerCase()]=w[a.toLowerCase()]||a,v[a]=b),this},overrideMimeType:function(a){return null==k&&(o.mimeType=a),this},statusCode:function(a){var b;if(a)if(k)y.always(a[y.status]);else for(b in a)u[b]=[u[b],a[b]];return this},abort:function(a){var b=a||x;return e&&e.abort(b),A(0,b),this}};if(s.promise(y),o.url=((b||o.url||qb.href)+"").replace(Eb,qb.protocol+"//"),o.type=c.method||c.type||o.method||o.type,o.dataTypes=(o.dataType||"*").toLowerCase().match(K)||[""],null==o.crossDomain){j=d.createElement("a");try{j.href=o.url,j.href=j.href,o.crossDomain=Ib.protocol+"//"+Ib.host!=j.protocol+"//"+j.host}catch(z){o.crossDomain=!0}}if(o.data&&o.processData&&"string"!=typeof o.data&&(o.data=r.param(o.data,o.traditional)),Kb(Fb,o,c,y),k)return y;l=r.event&&o.global,l&&0===r.active++&&r.event.trigger("ajaxStart"),o.type=o.type.toUpperCase(),o.hasContent=!Db.test(o.type),f=o.url.replace(zb,""),o.hasContent?o.data&&o.processData&&0===(o.contentType||"").indexOf("application/x-www-form-urlencoded")&&(o.data=o.data.replace(yb,"+")):(n=o.url.slice(f.length),o.data&&(f+=(sb.test(f)?"&":"?")+o.data,delete o.data),o.cache===!1&&(f=f.replace(Ab,""),n=(sb.test(f)?"&":"?")+"_="+rb++ +n),o.url=f+n),o.ifModified&&(r.lastModified[f]&&y.setRequestHeader("If-Modified-Since",r.lastModified[f]),r.etag[f]&&y.setRequestHeader("If-None-Match",r.etag[f])),(o.data&&o.hasContent&&o.contentType!==!1||c.contentType)&&y.setRequestHeader("Content-Type",o.contentType),y.setRequestHeader("Accept",o.dataTypes[0]&&o.accepts[o.dataTypes[0]]?o.accepts[o.dataTypes[0]]+("*"!==o.dataTypes[0]?", "+Hb+"; q=0.01":""):o.accepts["*"]);for(m in o.headers)y.setRequestHeader(m,o.headers[m]);if(o.beforeSend&&(o.beforeSend.call(p,y,o)===!1||k))return y.abort();if(x="abort",t.add(o.complete),y.done(o.success),y.fail(o.error),e=Kb(Gb,o,c,y)){if(y.readyState=1,l&&q.trigger("ajaxSend",[y,o]),k)return y;o.async&&o.timeout>0&&(i=a.setTimeout(function(){y.abort("timeout")},o.timeout));try{k=!1,e.send(v,A)}catch(z){if(k)throw z;A(-1,z)}}else A(-1,"No Transport");function A(b,c,d,h){var j,m,n,v,w,x=c;k||(k=!0,i&&a.clearTimeout(i),e=void 0,g=h||"",y.readyState=b>0?4:0,j=b>=200&&b<300||304===b,d&&(v=Mb(o,y,d)),v=Nb(o,v,y,j),j?(o.ifModified&&(w=y.getResponseHeader("Last-Modified"),w&&(r.lastModified[f]=w),w=y.getResponseHeader("etag"),w&&(r.etag[f]=w)),204===b||"HEAD"===o.type?x="nocontent":304===b?x="notmodified":(x=v.state,m=v.data,n=v.error,j=!n)):(n=x,!b&&x||(x="error",b<0&&(b=0))),y.status=b,y.statusText=(c||x)+"",j?s.resolveWith(p,[m,x,y]):s.rejectWith(p,[y,x,n]),y.statusCode(u),u=void 0,l&&q.trigger(j?"ajaxSuccess":"ajaxError",[y,o,j?m:n]),t.fireWith(p,[y,x]),l&&(q.trigger("ajaxComplete",[y,o]),--r.active||r.event.trigger("ajaxStop")))}return y},getJSON:function(a,b,c){return r.get(a,b,c,"json")},getScript:function(a,b){return r.get(a,void 0,b,"script")}}),r.each(["get","post"],function(a,b){r[b]=function(a,c,d,e){return r.isFunction(c)&&(e=e||d,d=c,c=void 0),r.ajax(r.extend({url:a,type:b,dataType:e,data:c,success:d},r.isPlainObject(a)&&a))}}),r._evalUrl=function(a){return r.ajax({url:a,type:"GET",dataType:"script",cache:!0,async:!1,global:!1,"throws":!0})},r.fn.extend({wrapAll:function(a){var b;return this[0]&&(r.isFunction(a)&&(a=a.call(this[0])),b=r(a,this[0].ownerDocument).eq(0).clone(!0),this[0].parentNode&&b.insertBefore(this[0]),b.map(function(){var a=this;while(a.firstElementChild)a=a.firstElementChild;return a}).append(this)),this},wrapInner:function(a){return r.isFunction(a)?this.each(function(b){r(this).wrapInner(a.call(this,b))}):this.each(function(){var b=r(this),c=b.contents();c.length?c.wrapAll(a):b.append(a)})},wrap:function(a){var b=r.isFunction(a);return this.each(function(c){r(this).wrapAll(b?a.call(this,c):a)})},unwrap:function(a){return this.parent(a).not("body").each(function(){r(this).replaceWith(this.childNodes)}),this}}),r.expr.pseudos.hidden=function(a){return!r.expr.pseudos.visible(a)},r.expr.pseudos.visible=function(a){return!!(a.offsetWidth||a.offsetHeight||a.getClientRects().length)},r.ajaxSettings.xhr=function(){try{return new a.XMLHttpRequest}catch(b){}};var Ob={0:200,1223:204},Pb=r.ajaxSettings.xhr();o.cors=!!Pb&&"withCredentials"in Pb,o.ajax=Pb=!!Pb,r.ajaxTransport(function(b){var c,d;if(o.cors||Pb&&!b.crossDomain)return{send:function(e,f){var g,h=b.xhr();if(h.open(b.type,b.url,b.async,b.username,b.password),b.xhrFields)for(g in b.xhrFields)h[g]=b.xhrFields[g];b.mimeType&&h.overrideMimeType&&h.overrideMimeType(b.mimeType),b.crossDomain||e["X-Requested-With"]||(e["X-Requested-With"]="XMLHttpRequest");for(g in e)h.setRequestHeader(g,e[g]);c=function(a){return function(){c&&(c=d=h.onload=h.onerror=h.onabort=h.onreadystatechange=null,"abort"===a?h.abort():"error"===a?"number"!=typeof h.status?f(0,"error"):f(h.status,h.statusText):f(Ob[h.status]||h.status,h.statusText,"text"!==(h.responseType||"text")||"string"!=typeof h.responseText?{binary:h.response}:{text:h.responseText},h.getAllResponseHeaders()))}},h.onload=c(),d=h.onerror=c("error"),void 0!==h.onabort?h.onabort=d:h.onreadystatechange=function(){4===h.readyState&&a.setTimeout(function(){c&&d()})},c=c("abort");try{h.send(b.hasContent&&b.data||null)}catch(i){if(c)throw i}},abort:function(){c&&c()}}}),r.ajaxPrefilter(function(a){a.crossDomain&&(a.contents.script=!1)}),r.ajaxSetup({accepts:{script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},contents:{script:/\b(?:java|ecma)script\b/},converters:{"text script":function(a){return r.globalEval(a),a}}}),r.ajaxPrefilter("script",function(a){void 0===a.cache&&(a.cache=!1),a.crossDomain&&(a.type="GET")}),r.ajaxTransport("script",function(a){if(a.crossDomain){var b,c;return{send:function(e,f){b=r("<script>").prop({charset:a.scriptCharset,src:a.url}).on("load error",c=function(a){b.remove(),c=null,a&&f("error"===a.type?404:200,a.type)}),d.head.appendChild(b[0])},abort:function(){c&&c()}}}});var Qb=[],Rb=/(=)\?(?=&|$)|\?\?/;r.ajaxSetup({jsonp:"callback",jsonpCallback:function(){var a=Qb.pop()||r.expando+"_"+rb++;return this[a]=!0,a}}),r.ajaxPrefilter("json jsonp",function(b,c,d){var e,f,g,h=b.jsonp!==!1&&(Rb.test(b.url)?"url":"string"==typeof b.data&&0===(b.contentType||"").indexOf("application/x-www-form-urlencoded")&&Rb.test(b.data)&&"data");if(h||"jsonp"===b.dataTypes[0])return e=b.jsonpCallback=r.isFunction(b.jsonpCallback)?b.jsonpCallback():b.jsonpCallback,h?b[h]=b[h].replace(Rb,"$1"+e):b.jsonp!==!1&&(b.url+=(sb.test(b.url)?"&":"?")+b.jsonp+"="+e),b.converters["script json"]=function(){return g||r.error(e+" was not called"),g[0]},b.dataTypes[0]="json",f=a[e],a[e]=function(){g=arguments},d.always(function(){void 0===f?r(a).removeProp(e):a[e]=f,b[e]&&(b.jsonpCallback=c.jsonpCallback,Qb.push(e)),g&&r.isFunction(f)&&f(g[0]),g=f=void 0}),"script"}),o.createHTMLDocument=function(){var a=d.implementation.createHTMLDocument("").body;return a.innerHTML="<form></form><form></form>",2===a.childNodes.length}(),r.parseHTML=function(a,b,c){if("string"!=typeof a)return[];"boolean"==typeof b&&(c=b,b=!1);var e,f,g;return b||(o.createHTMLDocument?(b=d.implementation.createHTMLDocument(""),e=b.createElement("base"),e.href=d.location.href,b.head.appendChild(e)):b=d),f=B.exec(a),g=!c&&[],f?[b.createElement(f[1])]:(f=oa([a],b,g),g&&g.length&&r(g).remove(),r.merge([],f.childNodes))},r.fn.load=function(a,b,c){var d,e,f,g=this,h=a.indexOf(" ");return h>-1&&(d=r.trim(a.slice(h)),a=a.slice(0,h)),r.isFunction(b)?(c=b,b=void 0):b&&"object"==typeof b&&(e="POST"),g.length>0&&r.ajax({url:a,type:e||"GET",dataType:"html",data:b}).done(function(a){f=arguments,g.html(d?r("<div>").append(r.parseHTML(a)).find(d):a)}).always(c&&function(a,b){g.each(function(){c.apply(this,f||[a.responseText,b,a])})}),this},r.each(["ajaxStart","ajaxStop","ajaxComplete","ajaxError","ajaxSuccess","ajaxSend"],function(a,b){r.fn[b]=function(a){return this.on(b,a)}}),r.expr.pseudos.animated=function(a){return r.grep(r.timers,function(b){return a===b.elem}).length};function Sb(a){return r.isWindow(a)?a:9===a.nodeType&&a.defaultView}r.offset={setOffset:function(a,b,c){var d,e,f,g,h,i,j,k=r.css(a,"position"),l=r(a),m={};"static"===k&&(a.style.position="relative"),h=l.offset(),f=r.css(a,"top"),i=r.css(a,"left"),j=("absolute"===k||"fixed"===k)&&(f+i).indexOf("auto")>-1,j?(d=l.position(),g=d.top,e=d.left):(g=parseFloat(f)||0,e=parseFloat(i)||0),r.isFunction(b)&&(b=b.call(a,c,r.extend({},h))),null!=b.top&&(m.top=b.top-h.top+g),null!=b.left&&(m.left=b.left-h.left+e),"using"in b?b.using.call(a,m):l.css(m)}},r.fn.extend({offset:function(a){if(arguments.length)return void 0===a?this:this.each(function(b){r.offset.setOffset(this,a,b)});var b,c,d,e,f=this[0];if(f)return f.getClientRects().length?(d=f.getBoundingClientRect(),d.width||d.height?(e=f.ownerDocument,c=Sb(e),b=e.documentElement,{top:d.top+c.pageYOffset-b.clientTop,left:d.left+c.pageXOffset-b.clientLeft}):d):{top:0,left:0}},position:function(){if(this[0]){var a,b,c=this[0],d={top:0,left:0};return"fixed"===r.css(c,"position")?b=c.getBoundingClientRect():(a=this.offsetParent(),b=this.offset(),r.nodeName(a[0],"html")||(d=a.offset()),d={top:d.top+r.css(a[0],"borderTopWidth",!0),left:d.left+r.css(a[0],"borderLeftWidth",!0)}),{top:b.top-d.top-r.css(c,"marginTop",!0),left:b.left-d.left-r.css(c,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){var a=this.offsetParent;while(a&&"static"===r.css(a,"position"))a=a.offsetParent;return a||pa})}}),r.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(a,b){var c="pageYOffset"===b;r.fn[a]=function(d){return S(this,function(a,d,e){var f=Sb(a);return void 0===e?f?f[b]:a[d]:void(f?f.scrollTo(c?f.pageXOffset:e,c?e:f.pageYOffset):a[d]=e)},a,d,arguments.length)}}),r.each(["top","left"],function(a,b){r.cssHooks[b]=Na(o.pixelPosition,function(a,c){if(c)return c=Ma(a,b),Ka.test(c)?r(a).position()[b]+"px":c})}),r.each({Height:"height",Width:"width"},function(a,b){r.each({padding:"inner"+a,content:b,"":"outer"+a},function(c,d){r.fn[d]=function(e,f){var g=arguments.length&&(c||"boolean"!=typeof e),h=c||(e===!0||f===!0?"margin":"border");return S(this,function(b,c,e){var f;return r.isWindow(b)?0===d.indexOf("outer")?b["inner"+a]:b.document.documentElement["client"+a]:9===b.nodeType?(f=b.documentElement,Math.max(b.body["scroll"+a],f["scroll"+a],b.body["offset"+a],f["offset"+a],f["client"+a])):void 0===e?r.css(b,c,h):r.style(b,c,e,h)},b,g?e:void 0,g)}})}),r.fn.extend({bind:function(a,b,c){return this.on(a,null,b,c)},unbind:function(a,b){return this.off(a,null,b)},delegate:function(a,b,c,d){return this.on(b,a,c,d)},undelegate:function(a,b,c){return 1===arguments.length?this.off(a,"**"):this.off(b,a||"**",c)}}),r.parseJSON=JSON.parse,"function"==typeof define&&define.amd&&define("jquery",[],function(){return r});var Tb=a.jQuery,Ub=a.$;return r.noConflict=function(b){return a.$===r&&(a.$=Ub),b&&a.jQuery===r&&(a.jQuery=Tb),r},b||(a.jQuery=a.$=r),r});
 
+(function(window){ "use strict";
+
+// jsmpeg by Dominic Szablewski - phoboslab.org, github.com/phoboslab
+//
+// Consider this to be under MIT license. It's largely based an an Open Source
+// Decoder for Java under GPL, while I looked at another Decoder from Nokia 
+// (under no particular license?) for certain aspects.
+// I'm not sure if this work is "derivative" enough to have a different license
+// but then again, who still cares about MPEG1?
+//
+// Based on "Java MPEG-1 Video Decoder and Player" by Korandi Zoltan:
+// http://sourceforge.net/projects/javampeg1video/
+//
+// Inspired by "MPEG Decoder in Java ME" by Nokia:
+// http://www.developer.nokia.com/Community/Wiki/MPEG_decoder_in_Java_ME
+
+
+var requestAnimFrame = (function(){
+	return window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		function( callback ){
+			window.setTimeout(callback, 1000 / 60);
+		};
+})();
+		
+var jsmpeg = window.jsmpeg = function( url, opts ) {
+	opts = opts || {};
+	this.benchmark = !!opts.benchmark;
+	this.canvas = opts.canvas || document.createElement('canvas');
+	this.autoplay = !!opts.autoplay;
+	this.loop = !!opts.loop;
+	this.externalLoadCallback = opts.onload || null;
+	this.externalDecodeCallback = opts.ondecodeframe || null;
+	this.externalFinishedCallback = opts.onfinished || null;
+
+	this.customIntraQuantMatrix = new Uint8Array(64);
+	this.customNonIntraQuantMatrix = new Uint8Array(64);
+	this.blockData = new Int32Array(64);
+	this.zeroBlockData = new Int32Array(64);
+	this.fillArray(this.zeroBlockData, 0);
+	
+	// use WebGL for YCbCrToRGBA conversion if possible (much faster)
+	if( !opts.forceCanvas2D && this.initWebGL() ) {
+		this.renderFrame = this.renderFrameGL;
+	} else {
+		this.canvasContext = this.canvas.getContext('2d');
+		this.renderFrame = this.renderFrame2D;
+	}
+
+	if( url instanceof WebSocket ) {
+		this.client = url;
+		this.client.onopen = this.initSocketClient.bind(this);
+	} 
+	else {
+		this.load(url);
+	}
+};
+
+
+
+// ----------------------------------------------------------------------------
+// Streaming over WebSockets
+
+jsmpeg.prototype.waitForIntraFrame = true;
+jsmpeg.prototype.socketBufferSize = 512 * 1024; // 512kb each
+jsmpeg.prototype.onlostconnection = null;
+
+jsmpeg.prototype.initSocketClient = function( client ) {
+	this.buffer = new BitReader(new ArrayBuffer(this.socketBufferSize));
+
+	this.nextPictureBuffer = new BitReader(new ArrayBuffer(this.socketBufferSize));
+	this.nextPictureBuffer.writePos = 0;
+	this.nextPictureBuffer.chunkBegin = 0;
+	this.nextPictureBuffer.lastWriteBeforeWrap = 0;
+
+	this.client.binaryType = 'arraybuffer';
+	this.client.onmessage = this.receiveSocketMessage.bind(this);
+};
+
+jsmpeg.prototype.decodeSocketHeader = function( data ) {
+	// Custom header sent to all newly connected clients when streaming
+	// over websockets:
+	// struct { char magic[4] = "jsmp"; unsigned short width, height; };
+	if( 
+		data[0] == SOCKET_MAGIC_BYTES.charCodeAt(0) && 
+		data[1] == SOCKET_MAGIC_BYTES.charCodeAt(1) && 
+		data[2] == SOCKET_MAGIC_BYTES.charCodeAt(2) && 
+		data[3] == SOCKET_MAGIC_BYTES.charCodeAt(3)
+	) {
+		this.width = (data[4] * 256 + data[5]);
+		this.height = (data[6] * 256 + data[7]);
+		this.initBuffers();
+	}
+};
+
+jsmpeg.prototype.receiveSocketMessage = function( event ) {
+	var messageData = new Uint8Array(event.data);
+
+	if( !this.sequenceStarted ) {
+		this.decodeSocketHeader(messageData);
+	}
+
+	var current = this.buffer;
+	var next = this.nextPictureBuffer;
+
+	if( next.writePos + messageData.length > next.length ) {
+		next.lastWriteBeforeWrap = next.writePos;
+		next.writePos = 0;
+		next.index = 0;
+	}
+	
+	next.bytes.set( messageData, next.writePos );
+	next.writePos += messageData.length;
+
+	var startCode = 0;
+	while( true ) {
+		startCode = next.findNextMPEGStartCode();
+		if( 
+			startCode == BitReader.NOT_FOUND ||
+			((next.index >> 3) > next.writePos)
+		) {
+			// We reached the end with no picture found yet; move back a few bytes
+			// in case we are at the beginning of a start code and exit.
+			next.index = Math.max((next.writePos-3), 0) << 3;
+			return;
+		}
+		else if( startCode == START_PICTURE ) {
+			break;
+		}
+	}
+
+	// If we are still here, we found the next picture start code!
+
+	
+	// Skip picture decoding until we find the first intra frame?
+	if( this.waitForIntraFrame ) {
+		next.advance(10); // skip temporalReference
+		if( next.getBits(3) == PICTURE_TYPE_I ) {
+			this.waitForIntraFrame = false;
+			next.chunkBegin = (next.index-13) >> 3;
+		}
+		return;
+	}
+
+	// Last picture hasn't been decoded yet? Decode now but skip output
+	// before scheduling the next one
+	if( !this.currentPictureDecoded ) {
+		this.decodePicture(DECODE_SKIP_OUTPUT);
+	}
+
+	
+	// Copy the picture chunk over to 'this.buffer' and schedule decoding.
+	var chunkEnd = ((next.index) >> 3);
+
+	if( chunkEnd > next.chunkBegin ) {
+		// Just copy the current picture chunk
+		current.bytes.set( next.bytes.subarray(next.chunkBegin, chunkEnd) );
+		current.writePos = chunkEnd - next.chunkBegin;
+	}
+	else {
+		// We wrapped the nextPictureBuffer around, so we have to copy the last part
+		// till the end, as well as from 0 to the current writePos
+		current.bytes.set( next.bytes.subarray(next.chunkBegin, next.lastWriteBeforeWrap) );
+		var written = next.lastWriteBeforeWrap - next.chunkBegin;
+		current.bytes.set( next.bytes.subarray(0, chunkEnd), written );
+		current.writePos = chunkEnd + written;
+	}
+
+	current.index = 0;
+	next.chunkBegin = chunkEnd;
+
+	// Decode!
+	this.currentPictureDecoded = false;
+	requestAnimFrame( this.scheduleDecoding.bind(this), this.canvas );
+};
+
+jsmpeg.prototype.scheduleDecoding = function() {
+	this.decodePicture();
+	this.currentPictureDecoded = true;
+};
+
+
+
+// ----------------------------------------------------------------------------
+// Recording from WebSockets
+
+jsmpeg.prototype.isRecording = false;
+jsmpeg.prototype.recorderWaitForIntraFrame = false;
+jsmpeg.prototype.recordedFrames = 0;
+jsmpeg.prototype.recordedSize = 0;
+jsmpeg.prototype.didStartRecordingCallback = null;
+
+jsmpeg.prototype.recordBuffers = [];
+
+jsmpeg.prototype.canRecord = function(){
+	return (this.client && this.client.readyState == this.client.OPEN);
+};
+
+jsmpeg.prototype.startRecording = function(callback) {
+	if( !this.canRecord() ) {
+		return;
+	}
+	
+	// Discard old buffers and set for recording
+	this.discardRecordBuffers();
+	this.isRecording = true;
+	this.recorderWaitForIntraFrame = true;
+	this.didStartRecordingCallback = callback || null;
+
+	this.recordedFrames = 0;
+	this.recordedSize = 0;
+	
+	// Fudge a simple Sequence Header for the MPEG file
+	
+	// 3 bytes width & height, 12 bits each
+	var wh1 = (this.width >> 4),
+		wh2 = ((this.width & 0xf) << 4) | (this.height >> 8),
+		wh3 = (this.height & 0xff);
+	
+	this.recordBuffers.push(new Uint8Array([
+		0x00, 0x00, 0x01, 0xb3, // Sequence Start Code
+		wh1, wh2, wh3, // Width & height
+		0x13, // aspect ratio & framerate
+		0xff, 0xff, 0xe1, 0x58, // Meh. Bitrate and other boring stuff
+		0x00, 0x00, 0x01, 0xb8, 0x00, 0x08, 0x00, // GOP
+		0x00, 0x00, 0x00, 0x01, 0x00 // First Picture Start Code
+	]));
+};
+
+jsmpeg.prototype.recordFrameFromCurrentBuffer = function() {
+	if( !this.isRecording ) { return; }
+	
+	if( this.recorderWaitForIntraFrame ) {
+		// Not an intra frame? Exit.
+		if( this.pictureCodingType != PICTURE_TYPE_I ) { return; }
+	
+		// Start recording!
+		this.recorderWaitForIntraFrame = false;
+		if( this.didStartRecordingCallback ) {
+			this.didStartRecordingCallback( this );
+		}
+	}
+	
+	this.recordedFrames++;
+	this.recordedSize += this.buffer.writePos;
+	
+	// Copy the actual subrange for the current picture into a new Buffer
+	this.recordBuffers.push(new Uint8Array(this.buffer.bytes.subarray(0, this.buffer.writePos)));
+};
+
+jsmpeg.prototype.discardRecordBuffers = function() {
+	this.recordBuffers = [];
+	this.recordedFrames = 0;
+};
+
+jsmpeg.prototype.stopRecording = function() {
+	var blob = new Blob(this.recordBuffers, {type: 'video/mpeg'});
+	this.discardRecordBuffers();
+	this.isRecording = false;
+	return blob;
+};
+
+
+
+// ----------------------------------------------------------------------------
+// Loading via Ajax
+	
+jsmpeg.prototype.load = function( url ) {
+	this.url = url;
+
+	var request = new XMLHttpRequest();
+	var that = this;
+	request.onreadystatechange = function() {		
+		if( request.readyState == request.DONE && request.status == 200 ) {
+			that.loadCallback(request.response);
+		}
+	};
+
+	request.onprogress = this.gl 
+		? this.updateLoaderGL.bind(this) 
+		: this.updateLoader2D.bind(this);
+
+	request.open('GET', url);
+	request.responseType = "arraybuffer";
+	request.send();
+};
+
+jsmpeg.prototype.updateLoader2D = function( ev ) {
+	var 
+		p = ev.loaded / ev.total,
+		w = this.canvas.width,
+		h = this.canvas.height,
+		ctx = this.canvasContext;
+
+	ctx.fillStyle = '#222';
+	ctx.fillRect(0, 0, w, h);
+	ctx.fillStyle = '#fff';
+	ctx.fillRect(0, h - h*p, w, h*p);
+};
+
+jsmpeg.prototype.updateLoaderGL = function( ev ) {
+	var gl = this.gl;
+	gl.uniform1f(gl.getUniformLocation(this.loadingProgram, 'loaded'), (ev.loaded / ev.total));
+	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+};
+	
+jsmpeg.prototype.loadCallback = function(file) {
+	this.buffer = new BitReader(file);
+	
+	this.findStartCode(START_SEQUENCE);
+	this.firstSequenceHeader = this.buffer.index;
+	this.decodeSequenceHeader();
+
+	// Load the first frame
+	this.nextFrame();
+	
+	if( this.autoplay ) {
+		this.play();
+	}
+
+	if( this.externalLoadCallback ) {
+		this.externalLoadCallback(this);
+	}
+};
+
+jsmpeg.prototype.play = function(file) {
+	if( this.playing ) { return; }
+	this.targetTime = this.now();
+	this.playing = true;
+	this.scheduleNextFrame();
+};
+
+jsmpeg.prototype.pause = function(file) {
+	this.playing = false;
+};
+
+jsmpeg.prototype.stop = function(file) {
+	if( this.buffer ) {
+		this.buffer.index = this.firstSequenceHeader;
+	}
+	this.playing = false;
+	if( this.client ) {
+		this.client.close();
+		this.client = null;
+	}
+};
+
+
+
+// ----------------------------------------------------------------------------
+// Utilities
+
+jsmpeg.prototype.readCode = function(codeTable) {
+	var state = 0;
+	do {
+		state = codeTable[state + this.buffer.getBits(1)];
+	} while( state >= 0 && codeTable[state] != 0 );
+	return codeTable[state+2];
+};
+
+jsmpeg.prototype.findStartCode = function( code ) {
+	var current = 0;
+	while( true ) {
+		current = this.buffer.findNextMPEGStartCode();
+		if( current == code || current == BitReader.NOT_FOUND ) {
+			return current;
+		}
+	}
+	return BitReader.NOT_FOUND;
+};
+
+jsmpeg.prototype.fillArray = function(a, value) {
+	for( var i = 0, length = a.length; i < length; i++ ) {
+		a[i] = value;
+	}
+};
+
+jsmpeg.prototype.cachedFrameCount = 0;
+jsmpeg.prototype.calculateFrameCount = function() {
+	if( !this.buffer || this.cachedFrameCount ) { 
+		return this.cachedFrameCount; 
+	}
+	
+	// Remember the buffer position, so we can rewind to the beginning and 
+	// reset to the current position afterwards
+	var currentPlaybackIndex = this.buffer.index,
+		frames = 0;
+	
+	this.buffer.index = 0;
+	while( this.findStartCode(START_PICTURE) !== BitReader.NOT_FOUND ) {
+		frames++;
+	}
+	this.buffer.index = currentPlaybackIndex;
+	
+	this.cachedFrameCount = frames;
+	return frames;
+};
+
+jsmpeg.prototype.calculateDuration = function() {
+	return this.calculateFrameCount() * (1/this.pictureRate);
+};
+
+
+
+// ----------------------------------------------------------------------------
+// Sequence Layer
+
+jsmpeg.prototype.pictureRate = 30;
+jsmpeg.prototype.lateTime = 0;
+jsmpeg.prototype.firstSequenceHeader = 0;
+jsmpeg.prototype.targetTime = 0;
+
+jsmpeg.prototype.benchmark = false;
+jsmpeg.prototype.benchFrame = 0;
+jsmpeg.prototype.benchDecodeTimes = 0;
+jsmpeg.prototype.benchAvgFrameTime = 0;
+
+jsmpeg.prototype.now = function() {
+	return window.performance 
+		? window.performance.now() 
+		: Date.now();
+}
+
+jsmpeg.prototype.nextFrame = function() {
+	if( !this.buffer ) { return; }
+
+	var frameStart = this.now();
+	while(true) {
+		var code = this.buffer.findNextMPEGStartCode();
+		
+		if( code == START_SEQUENCE ) {
+			this.decodeSequenceHeader();
+		}
+		else if( code == START_PICTURE ) {
+			if( this.playing ) {
+				this.scheduleNextFrame();
+			}
+			this.decodePicture();
+			this.benchDecodeTimes += this.now() - frameStart;
+			return this.canvas;
+		}
+		else if( code == BitReader.NOT_FOUND ) {
+			this.stop(); // Jump back to the beginning
+
+			if( this.externalFinishedCallback ) {
+				this.externalFinishedCallback(this);
+			}
+
+			// Only loop if we found a sequence header
+			if( this.loop && this.sequenceStarted ) {
+				this.play();
+			}
+			return null;
+		}
+		else {
+			// ignore (GROUP, USER_DATA, EXTENSION, SLICES...)
+		}
+	}
+};
+
+jsmpeg.prototype.scheduleNextFrame = function() {
+	this.lateTime = this.now() - this.targetTime;
+	var wait = Math.max(0, (1000/this.pictureRate) - this.lateTime);
+	this.targetTime = this.now() + wait;
+
+	if( this.benchmark ) {
+		this.benchFrame++;
+		if( this.benchFrame >= 120 ) {
+			this.benchAvgFrameTime = this.benchDecodeTimes / this.benchFrame;
+			this.benchFrame = 0;
+			this.benchDecodeTimes = 0;
+			if( window.console ) { console.log("Average time per frame:", this.benchAvgFrameTime, 'ms'); }
+		}
+		setTimeout( this.nextFrame.bind(this), 0);
+	}
+	else if( wait < 18) {
+		this.scheduleAnimation();
+	}
+	else {
+		setTimeout( this.scheduleAnimation.bind(this), wait );
+	}
+};
+
+jsmpeg.prototype.scheduleAnimation = function() {
+	requestAnimFrame( this.nextFrame.bind(this), this.canvas );
+};
+	
+jsmpeg.prototype.decodeSequenceHeader = function() {
+	this.width = this.buffer.getBits(12);
+	this.height = this.buffer.getBits(12);
+	this.buffer.advance(4); // skip pixel aspect ratio
+	this.pictureRate = PICTURE_RATE[this.buffer.getBits(4)];
+	this.buffer.advance(18 + 1 + 10 + 1); // skip bitRate, marker, bufferSize and constrained bit
+
+	this.initBuffers();
+
+	if( this.buffer.getBits(1) ) { // load custom intra quant matrix?
+		for( var i = 0; i < 64; i++ ) {
+			this.customIntraQuantMatrix[ZIG_ZAG[i]] = this.buffer.getBits(8);
+		}
+		this.intraQuantMatrix = this.customIntraQuantMatrix;
+	}
+	
+	if( this.buffer.getBits(1) ) { // load custom non intra quant matrix?
+		for( var i = 0; i < 64; i++ ) {
+			this.customNonIntraQuantMatrix[ZIG_ZAG[i]] = this.buffer.getBits(8);
+		}
+		this.nonIntraQuantMatrix = this.customNonIntraQuantMatrix;
+	}
+};
+
+jsmpeg.prototype.initBuffers = function() {	
+	this.intraQuantMatrix = DEFAULT_INTRA_QUANT_MATRIX;
+	this.nonIntraQuantMatrix = DEFAULT_NON_INTRA_QUANT_MATRIX;
+	
+	this.mbWidth = (this.width + 15) >> 4;
+	this.mbHeight = (this.height + 15) >> 4;
+	this.mbSize = this.mbWidth * this.mbHeight;
+	
+	this.codedWidth = this.mbWidth << 4;
+	this.codedHeight = this.mbHeight << 4;
+	this.codedSize = this.codedWidth * this.codedHeight;
+	
+	this.halfWidth = this.mbWidth << 3;
+	this.halfHeight = this.mbHeight << 3;
+	this.quarterSize = this.codedSize >> 2;
+	
+	// Sequence already started? Don't allocate buffers again
+	if( this.sequenceStarted ) { return; }
+	this.sequenceStarted = true;
+	
+	
+	// Manually clamp values when writing macroblocks for shitty browsers
+	// that don't support Uint8ClampedArray
+	var MaybeClampedUint8Array = window.Uint8ClampedArray || window.Uint8Array;
+	if( !window.Uint8ClampedArray ) {
+		this.copyBlockToDestination = this.copyBlockToDestinationClamp;
+		this.addBlockToDestination = this.addBlockToDestinationClamp;
+	}
+	
+	// Allocated buffers and resize the canvas
+	this.currentY = new MaybeClampedUint8Array(this.codedSize);
+	this.currentY32 = new Uint32Array(this.currentY.buffer);
+
+	this.currentCr = new MaybeClampedUint8Array(this.codedSize >> 2);
+	this.currentCr32 = new Uint32Array(this.currentCr.buffer);
+
+	this.currentCb = new MaybeClampedUint8Array(this.codedSize >> 2);
+	this.currentCb32 = new Uint32Array(this.currentCb.buffer);
+	
+
+	this.forwardY = new MaybeClampedUint8Array(this.codedSize);
+	this.forwardY32 = new Uint32Array(this.forwardY.buffer);
+
+	this.forwardCr = new MaybeClampedUint8Array(this.codedSize >> 2);
+	this.forwardCr32 = new Uint32Array(this.forwardCr.buffer);
+
+	this.forwardCb = new MaybeClampedUint8Array(this.codedSize >> 2);
+	this.forwardCb32 = new Uint32Array(this.forwardCb.buffer);
+	
+	this.canvas.width = this.width;
+	this.canvas.height = this.height;
+	
+	if( this.gl ) {
+		this.gl.useProgram(this.program);
+		this.gl.viewport(0, 0, this.width, this.height);
+	}
+	else {
+		this.currentRGBA = this.canvasContext.getImageData(0, 0, this.width, this.height);
+		this.fillArray(this.currentRGBA.data, 255);
+	}
+};
+
+
+
+
+// ----------------------------------------------------------------------------
+// Picture Layer
+
+jsmpeg.prototype.currentY = null;
+jsmpeg.prototype.currentCr = null;
+jsmpeg.prototype.currentCb = null;
+
+jsmpeg.prototype.currentRGBA = null;
+
+jsmpeg.prototype.pictureCodingType = 0;
+
+// Buffers for motion compensation
+jsmpeg.prototype.forwardY = null;
+jsmpeg.prototype.forwardCr = null;
+jsmpeg.prototype.forwardCb = null;
+
+jsmpeg.prototype.fullPelForward = false;
+jsmpeg.prototype.forwardFCode = 0;
+jsmpeg.prototype.forwardRSize = 0;
+jsmpeg.prototype.forwardF = 0;
+
+
+jsmpeg.prototype.decodePicture = function(skipOutput) {
+	this.buffer.advance(10); // skip temporalReference
+	this.pictureCodingType = this.buffer.getBits(3);
+	this.buffer.advance(16); // skip vbv_delay
+	
+	// Skip B and D frames or unknown coding type
+	if( this.pictureCodingType <= 0 || this.pictureCodingType >= PICTURE_TYPE_B ) {
+		return;
+	}
+	
+	// full_pel_forward, forward_f_code
+	if( this.pictureCodingType == PICTURE_TYPE_P ) {
+		this.fullPelForward = this.buffer.getBits(1);
+		this.forwardFCode = this.buffer.getBits(3);
+		if( this.forwardFCode == 0 ) {
+			// Ignore picture with zero forward_f_code
+			return;
+		}
+		this.forwardRSize = this.forwardFCode - 1;
+		this.forwardF = 1 << this.forwardRSize;
+	}
+	
+	var code = 0;
+	do {
+		code = this.buffer.findNextMPEGStartCode();
+	} while( code == START_EXTENSION || code == START_USER_DATA );
+	
+	
+	while( code >= START_SLICE_FIRST && code <= START_SLICE_LAST ) {
+		this.decodeSlice( (code & 0x000000FF) );
+		code = this.buffer.findNextMPEGStartCode();
+	}
+	
+	// We found the next start code; rewind 32bits and let the main loop handle it.
+	this.buffer.rewind(32);
+
+	// Record this frame, if the recorder wants it
+	this.recordFrameFromCurrentBuffer();
+	
+	
+	if( skipOutput != DECODE_SKIP_OUTPUT ) {
+		this.renderFrame();
+
+		if(this.externalDecodeCallback) {
+			this.externalDecodeCallback(this, this.canvas);
+		}
+	}
+	
+	// If this is a reference picutre then rotate the prediction pointers
+	if( this.pictureCodingType == PICTURE_TYPE_I || this.pictureCodingType == PICTURE_TYPE_P ) {
+		var 
+			tmpY = this.forwardY,
+			tmpY32 = this.forwardY32,
+			tmpCr = this.forwardCr,
+			tmpCr32 = this.forwardCr32,
+			tmpCb = this.forwardCb,
+			tmpCb32 = this.forwardCb32;
+
+		this.forwardY = this.currentY;
+		this.forwardY32 = this.currentY32;
+		this.forwardCr = this.currentCr;
+		this.forwardCr32 = this.currentCr32;
+		this.forwardCb = this.currentCb;
+		this.forwardCb32 = this.currentCb32;
+
+		this.currentY = tmpY;
+		this.currentY32 = tmpY32;
+		this.currentCr = tmpCr;
+		this.currentCr32 = tmpCr32;
+		this.currentCb = tmpCb;
+		this.currentCb32 = tmpCb32;
+	}
+};
+
+jsmpeg.prototype.YCbCrToRGBA = function() {	
+	var pY = this.currentY;
+	var pCb = this.currentCb;
+	var pCr = this.currentCr;
+	var pRGBA = this.currentRGBA.data;
+
+	// Chroma values are the same for each block of 4 pixels, so we proccess
+	// 2 lines at a time, 2 neighboring pixels each.
+	// I wish we could use 32bit writes to the RGBA buffer instead of writing
+	// each byte separately, but we need the automatic clamping of the RGBA
+	// buffer.
+
+	var yIndex1 = 0;
+	var yIndex2 = this.codedWidth;
+	var yNext2Lines = this.codedWidth + (this.codedWidth - this.width);
+
+	var cIndex = 0;
+	var cNextLine = this.halfWidth - (this.width >> 1);
+
+	var rgbaIndex1 = 0;
+	var rgbaIndex2 = this.width * 4;
+	var rgbaNext2Lines = this.width * 4;
+	
+	var cols = this.width >> 1;
+	var rows = this.height >> 1;
+
+	var y, cb, cr, r, g, b;
+
+	for( var row = 0; row < rows; row++ ) {
+		for( var col = 0; col < cols; col++ ) {
+			cb = pCb[cIndex];
+			cr = pCr[cIndex];
+			cIndex++;
+			
+			r = (cr + ((cr * 103) >> 8)) - 179;
+			g = ((cb * 88) >> 8) - 44 + ((cr * 183) >> 8) - 91;
+			b = (cb + ((cb * 198) >> 8)) - 227;
+			
+			// Line 1
+			var y1 = pY[yIndex1++];
+			var y2 = pY[yIndex1++];
+			pRGBA[rgbaIndex1]   = y1 + r;
+			pRGBA[rgbaIndex1+1] = y1 - g;
+			pRGBA[rgbaIndex1+2] = y1 + b;
+			pRGBA[rgbaIndex1+4] = y2 + r;
+			pRGBA[rgbaIndex1+5] = y2 - g;
+			pRGBA[rgbaIndex1+6] = y2 + b;
+			rgbaIndex1 += 8;
+
+			// Line 2
+			var y3 = pY[yIndex2++];
+			var y4 = pY[yIndex2++];
+			pRGBA[rgbaIndex2]   = y3 + r;
+			pRGBA[rgbaIndex2+1] = y3 - g;
+			pRGBA[rgbaIndex2+2] = y3 + b;
+			pRGBA[rgbaIndex2+4] = y4 + r;
+			pRGBA[rgbaIndex2+5] = y4 - g;
+			pRGBA[rgbaIndex2+6] = y4 + b;
+			rgbaIndex2 += 8;
+		}
+		
+		yIndex1 += yNext2Lines;
+		yIndex2 += yNext2Lines;
+		rgbaIndex1 += rgbaNext2Lines;
+		rgbaIndex2 += rgbaNext2Lines;
+		cIndex += cNextLine;
+	}
+};
+
+jsmpeg.prototype.renderFrame2D = function() {
+	this.YCbCrToRGBA();
+	this.canvasContext.putImageData(this.currentRGBA, 0, 0);
+};
+
+
+// ----------------------------------------------------------------------------
+// Accelerated WebGL YCbCrToRGBA conversion
+
+jsmpeg.prototype.gl = null;
+jsmpeg.prototype.program = null;
+jsmpeg.prototype.YTexture = null;
+jsmpeg.prototype.CBTexture = null;
+jsmpeg.prototype.CRTexture = null;
+
+jsmpeg.prototype.createTexture = function(index, name) {
+	var gl = this.gl;
+	var texture = gl.createTexture();
+	
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.uniform1i(gl.getUniformLocation(this.program, name), index);
+	
+	return texture;
+};
+
+jsmpeg.prototype.compileShader = function(type, source) {
+	var gl = this.gl;
+	var shader = gl.createShader(type);
+	gl.shaderSource(shader, source);
+	gl.compileShader(shader);
+	
+	if( !gl.getShaderParameter(shader, gl.COMPILE_STATUS) ) {
+		throw new Error(gl.getShaderInfoLog(shader));
+	}
+		
+	return shader;
+};
+
+jsmpeg.prototype.initWebGL = function() {
+	// attempt to get a webgl context
+	try {
+		var gl = this.gl = this.canvas.getContext('webgl') || this.canvas.getContext('experimental-webgl');
+	} catch (e) {
+		return false;
+	}
+	
+	if (!gl) {
+		return false;
+	}
+
+	// init buffers
+	this.buffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 1, 0, 1, 1]), gl.STATIC_DRAW);
+
+	// The main YCbCrToRGBA Shader
+	this.program = gl.createProgram();
+	gl.attachShader(this.program, this.compileShader(gl.VERTEX_SHADER, SHADER_VERTEX_IDENTITY));
+	gl.attachShader(this.program, this.compileShader(gl.FRAGMENT_SHADER, SHADER_FRAGMENT_YCBCRTORGBA));
+	gl.linkProgram(this.program);
+	
+	if( !gl.getProgramParameter(this.program, gl.LINK_STATUS) ) {
+		throw new Error(gl.getProgramInfoLog(this.program));
+	}
+	
+	gl.useProgram(this.program);
+	
+	// setup textures
+	this.YTexture = this.createTexture(0, 'YTexture');
+	this.CBTexture = this.createTexture(1, 'CBTexture');
+	this.CRTexture = this.createTexture(2, 'CRTexture');
+	
+	var vertexAttr = gl.getAttribLocation(this.program, 'vertex');
+	gl.enableVertexAttribArray(vertexAttr);
+	gl.vertexAttribPointer(vertexAttr, 2, gl.FLOAT, false, 0, 0);
+
+
+	// Shader for the loading screen
+	this.loadingProgram = gl.createProgram();
+	gl.attachShader(this.loadingProgram, this.compileShader(gl.VERTEX_SHADER, SHADER_VERTEX_IDENTITY));
+	gl.attachShader(this.loadingProgram, this.compileShader(gl.FRAGMENT_SHADER, SHADER_FRAGMENT_LOADING));
+	gl.linkProgram(this.loadingProgram);
+
+	gl.useProgram(this.loadingProgram);
+
+	vertexAttr = gl.getAttribLocation(this.loadingProgram, 'vertex');
+	gl.enableVertexAttribArray(vertexAttr);
+	gl.vertexAttribPointer(vertexAttr, 2, gl.FLOAT, false, 0, 0);
+	
+	return true;
+};
+
+jsmpeg.prototype.renderFrameGL = function() {
+	var gl = this.gl;
+
+	// WebGL doesn't like Uint8ClampedArrays, so we have to create a Uint8Array view for 
+	// each plane
+	var uint8Y = new Uint8Array(this.currentY.buffer),
+		uint8Cr = new Uint8Array(this.currentCr.buffer),
+		uint8Cb = new Uint8Array(this.currentCb.buffer);
+	
+	gl.activeTexture(gl.TEXTURE0);
+	gl.bindTexture(gl.TEXTURE_2D, this.YTexture);
+
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, this.codedWidth, this.height, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, uint8Y);
+	
+	gl.activeTexture(gl.TEXTURE1);
+	gl.bindTexture(gl.TEXTURE_2D, this.CBTexture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.height/2, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, uint8Cr);
+	
+	gl.activeTexture(gl.TEXTURE2);
+	gl.bindTexture(gl.TEXTURE_2D, this.CRTexture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, this.halfWidth, this.height/2, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, uint8Cb);
+	
+	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+};
+
+
+// ----------------------------------------------------------------------------
+// Slice Layer
+
+jsmpeg.prototype.quantizerScale = 0;
+jsmpeg.prototype.sliceBegin = false;
+
+jsmpeg.prototype.decodeSlice = function(slice) {	
+	this.sliceBegin = true;
+	this.macroblockAddress = (slice - 1) * this.mbWidth - 1;
+	
+	// Reset motion vectors and DC predictors
+	this.motionFwH = this.motionFwHPrev = 0;
+	this.motionFwV = this.motionFwVPrev = 0;
+	this.dcPredictorY  = 128;
+	this.dcPredictorCr = 128;
+	this.dcPredictorCb = 128;
+	
+	this.quantizerScale = this.buffer.getBits(5);
+	
+	// skip extra bits
+	while( this.buffer.getBits(1) ) {
+		this.buffer.advance(8);
+	}
+
+	do {
+		this.decodeMacroblock();
+		// We may have to ignore Video Stream Start Codes here (0xE0)!?
+	} while( !this.buffer.nextBytesAreStartCode() );
+}
+
+
+// ----------------------------------------------------------------------------
+// Macroblock Layer
+
+jsmpeg.prototype.macroblockAddress = 0;
+jsmpeg.prototype.mbRow = 0;
+jsmpeg.prototype.mbCol = 0;
+	
+jsmpeg.prototype.macroblockType = 0;
+jsmpeg.prototype.macroblockIntra = false;
+jsmpeg.prototype.macroblockMotFw = false;
+	
+jsmpeg.prototype.motionFwH = 0;
+jsmpeg.prototype.motionFwV = 0;
+jsmpeg.prototype.motionFwHPrev = 0;
+jsmpeg.prototype.motionFwVPrev = 0;
+
+jsmpeg.prototype.decodeMacroblock = function() {
+	// Decode macroblock_address_increment
+	var 
+		increment = 0,
+		t = this.readCode(MACROBLOCK_ADDRESS_INCREMENT);
+	
+	while( t == 34 ) {
+		// macroblock_stuffing
+		t = this.readCode(MACROBLOCK_ADDRESS_INCREMENT);
+	}
+	while( t == 35 ) {
+		// macroblock_escape
+		increment += 33;
+		t = this.readCode(MACROBLOCK_ADDRESS_INCREMENT);
+	}
+	increment += t;
+
+	// Process any skipped macroblocks
+	if( this.sliceBegin ) {
+		// The first macroblock_address_increment of each slice is relative
+		// to beginning of the preverious row, not the preverious macroblock
+		this.sliceBegin = false;
+		this.macroblockAddress += increment;
+	}
+	else {
+		if( this.macroblockAddress + increment >= this.mbSize ) {
+			// Illegal (too large) macroblock_address_increment
+			return;
+		}
+		if( increment > 1 ) {
+			// Skipped macroblocks reset DC predictors
+			this.dcPredictorY  = 128;
+			this.dcPredictorCr = 128;
+			this.dcPredictorCb = 128;
+			
+			// Skipped macroblocks in P-pictures reset motion vectors
+			if( this.pictureCodingType == PICTURE_TYPE_P ) {
+				this.motionFwH = this.motionFwHPrev = 0;
+				this.motionFwV = this.motionFwVPrev = 0;
+			}
+		}
+		
+		// Predict skipped macroblocks
+		while( increment > 1) {
+			this.macroblockAddress++;
+			this.mbRow = (this.macroblockAddress / this.mbWidth)|0;
+			this.mbCol = this.macroblockAddress % this.mbWidth;
+			this.copyMacroblock(this.motionFwH, this.motionFwV, this.forwardY, this.forwardCr, this.forwardCb);
+			increment--;
+		}
+		this.macroblockAddress++;
+	}
+	this.mbRow = (this.macroblockAddress / this.mbWidth)|0;
+	this.mbCol = this.macroblockAddress % this.mbWidth;
+
+	// Process the current macroblock
+	this.macroblockType = this.readCode(MACROBLOCK_TYPE_TABLES[this.pictureCodingType]);
+	this.macroblockIntra = (this.macroblockType & 0x01);
+	this.macroblockMotFw = (this.macroblockType & 0x08);
+
+	// Quantizer scale
+	if( (this.macroblockType & 0x10) != 0 ) {
+		this.quantizerScale = this.buffer.getBits(5);
+	}
+
+	if( this.macroblockIntra ) {
+		// Intra-coded macroblocks reset motion vectors
+		this.motionFwH = this.motionFwHPrev = 0;
+		this.motionFwV = this.motionFwVPrev = 0;
+	}
+	else {
+		// Non-intra macroblocks reset DC predictors
+		this.dcPredictorY = 128;
+		this.dcPredictorCr = 128;
+		this.dcPredictorCb = 128;
+		
+		this.decodeMotionVectors();
+		this.copyMacroblock(this.motionFwH, this.motionFwV, this.forwardY, this.forwardCr, this.forwardCb);
+	}
+
+	// Decode blocks
+	var cbp = ((this.macroblockType & 0x02) != 0) 
+		? this.readCode(CODE_BLOCK_PATTERN) 
+		: (this.macroblockIntra ? 0x3f : 0);
+
+	for( var block = 0, mask = 0x20; block < 6; block++ ) {
+		if( (cbp & mask) != 0 ) {
+			this.decodeBlock(block);
+		}
+		mask >>= 1;
+	}
+};
+
+
+jsmpeg.prototype.decodeMotionVectors = function() {
+	var code, d, r = 0;
+	
+	// Forward
+	if( this.macroblockMotFw ) {
+		// Horizontal forward
+		code = this.readCode(MOTION);
+		if( (code != 0) && (this.forwardF != 1) ) {
+			r = this.buffer.getBits(this.forwardRSize);
+			d = ((Math.abs(code) - 1) << this.forwardRSize) + r + 1;
+			if( code < 0 ) {
+				d = -d;
+			}
+		}
+		else {
+			d = code;
+		}
+		
+		this.motionFwHPrev += d;
+		if( this.motionFwHPrev > (this.forwardF << 4) - 1 ) {
+			this.motionFwHPrev -= this.forwardF << 5;
+		}
+		else if( this.motionFwHPrev < ((-this.forwardF) << 4) ) {
+			this.motionFwHPrev += this.forwardF << 5;
+		}
+		
+		this.motionFwH = this.motionFwHPrev;
+		if( this.fullPelForward ) {
+			this.motionFwH <<= 1;
+		}
+		
+		// Vertical forward
+		code = this.readCode(MOTION);
+		if( (code != 0) && (this.forwardF != 1) ) {
+			r = this.buffer.getBits(this.forwardRSize);
+			d = ((Math.abs(code) - 1) << this.forwardRSize) + r + 1;
+			if( code < 0 ) {
+				d = -d;
+			}
+		}
+		else {
+			d = code;
+		}
+		
+		this.motionFwVPrev += d;
+		if( this.motionFwVPrev > (this.forwardF << 4) - 1 ) {
+			this.motionFwVPrev -= this.forwardF << 5;
+		}
+		else if( this.motionFwVPrev < ((-this.forwardF) << 4) ) {
+			this.motionFwVPrev += this.forwardF << 5;
+		}
+		
+		this.motionFwV = this.motionFwVPrev;
+		if( this.fullPelForward ) {
+			this.motionFwV <<= 1;
+		}
+	}
+	else if( this.pictureCodingType == PICTURE_TYPE_P ) {
+		// No motion information in P-picture, reset vectors
+		this.motionFwH = this.motionFwHPrev = 0;
+		this.motionFwV = this.motionFwVPrev = 0;
+	}
+};
+
+jsmpeg.prototype.copyMacroblock = function(motionH, motionV, sY, sCr, sCb ) {
+	var 
+		width, scan, 
+		H, V, oddH, oddV,
+		src, dest, last;
+
+	// We use 32bit writes here
+	var dY = this.currentY32;
+	var dCb = this.currentCb32;
+	var dCr = this.currentCr32;
+
+	// Luminance
+	width = this.codedWidth;
+	scan = width - 16;
+	
+	H = motionH >> 1;
+	V = motionV >> 1;
+	oddH = (motionH & 1) == 1;
+	oddV = (motionV & 1) == 1;
+	
+	src = ((this.mbRow << 4) + V) * width + (this.mbCol << 4) + H;
+	dest = (this.mbRow * width + this.mbCol) << 2;
+	last = dest + (width << 2);
+
+	var y1, y2, y;
+	if( oddH ) {
+		if( oddV ) {
+			while( dest < last ) {
+				y1 = sY[src] + sY[src+width]; src++;
+				for( var x = 0; x < 4; x++ ) {
+					y2 = sY[src] + sY[src+width]; src++;
+					y = (((y1 + y2 + 2) >> 2) & 0xff);
+
+					y1 = sY[src] + sY[src+width]; src++;
+					y |= (((y1 + y2 + 2) << 6) & 0xff00);
+					
+					y2 = sY[src] + sY[src+width]; src++;
+					y |= (((y1 + y2 + 2) << 14) & 0xff0000);
+
+					y1 = sY[src] + sY[src+width]; src++;
+					y |= (((y1 + y2 + 2) << 22) & 0xff000000);
+
+					dY[dest++] = y;
+				}
+				dest += scan >> 2; src += scan-1;
+			}
+		}
+		else {
+			while( dest < last ) {
+				y1 = sY[src++];
+				for( var x = 0; x < 4; x++ ) {
+					y2 = sY[src++];
+					y = (((y1 + y2 + 1) >> 1) & 0xff);
+					
+					y1 = sY[src++];
+					y |= (((y1 + y2 + 1) << 7) & 0xff00);
+					
+					y2 = sY[src++];
+					y |= (((y1 + y2 + 1) << 15) & 0xff0000);
+					
+					y1 = sY[src++];
+					y |= (((y1 + y2 + 1) << 23) & 0xff000000);
+
+					dY[dest++] = y;
+				}
+				dest += scan >> 2; src += scan-1;
+			}
+		}
+	}
+	else {
+		if( oddV ) {
+			while( dest < last ) {
+				for( var x = 0; x < 4; x++ ) {
+					y = (((sY[src] + sY[src+width] + 1) >> 1) & 0xff); src++;
+					y |= (((sY[src] + sY[src+width] + 1) << 7) & 0xff00); src++;
+					y |= (((sY[src] + sY[src+width] + 1) << 15) & 0xff0000); src++;
+					y |= (((sY[src] + sY[src+width] + 1) << 23) & 0xff000000); src++;
+					
+					dY[dest++] = y;
+				}
+				dest += scan >> 2; src += scan;
+			}
+		}
+		else {
+			while( dest < last ) {
+				for( var x = 0; x < 4; x++ ) {
+					y = sY[src]; src++;
+					y |= sY[src] << 8; src++;
+					y |= sY[src] << 16; src++;
+					y |= sY[src] << 24; src++;
+
+					dY[dest++] = y;
+				}
+				dest += scan >> 2; src += scan;
+			}
+		}
+	}
+
+	// Chrominance
+	
+	width = this.halfWidth;
+	scan = width - 8;
+	
+	H = (motionH/2) >> 1;
+	V = (motionV/2) >> 1;
+	oddH = ((motionH/2) & 1) == 1;
+	oddV = ((motionV/2) & 1) == 1;
+	
+	src = ((this.mbRow << 3) + V) * width + (this.mbCol << 3) + H;
+	dest = (this.mbRow * width + this.mbCol) << 1;
+	last = dest + (width << 1);
+	
+	var cr1, cr2, cr;
+	var cb1, cb2, cb;
+	if( oddH ) {
+		if( oddV ) {
+			while( dest < last ) {
+				cr1 = sCr[src] + sCr[src+width];
+				cb1 = sCb[src] + sCb[src+width];
+				src++;
+				for( var x = 0; x < 2; x++ ) {
+					cr2 = sCr[src] + sCr[src+width];
+					cb2 = sCb[src] + sCb[src+width]; src++;
+					cr = (((cr1 + cr2 + 2) >> 2) & 0xff);
+					cb = (((cb1 + cb2 + 2) >> 2) & 0xff);
+
+					cr1 = sCr[src] + sCr[src+width];
+					cb1 = sCb[src] + sCb[src+width]; src++;
+					cr |= (((cr1 + cr2 + 2) << 6) & 0xff00);
+					cb |= (((cb1 + cb2 + 2) << 6) & 0xff00);
+
+					cr2 = sCr[src] + sCr[src+width];
+					cb2 = sCb[src] + sCb[src+width]; src++;
+					cr |= (((cr1 + cr2 + 2) << 14) & 0xff0000);
+					cb |= (((cb1 + cb2 + 2) << 14) & 0xff0000);
+
+					cr1 = sCr[src] + sCr[src+width];
+					cb1 = sCb[src] + sCb[src+width]; src++;
+					cr |= (((cr1 + cr2 + 2) << 22) & 0xff000000);
+					cb |= (((cb1 + cb2 + 2) << 22) & 0xff000000);
+
+					dCr[dest] = cr;
+					dCb[dest] = cb;
+					dest++;
+				}
+				dest += scan >> 2; src += scan-1;
+			}
+		}
+		else {
+			while( dest < last ) {
+				cr1 = sCr[src];
+				cb1 = sCb[src];
+				src++;
+				for( var x = 0; x < 2; x++ ) {
+					cr2 = sCr[src];
+					cb2 = sCb[src++];
+					cr = (((cr1 + cr2 + 1) >> 1) & 0xff);
+					cb = (((cb1 + cb2 + 1) >> 1) & 0xff);
+
+					cr1 = sCr[src];
+					cb1 = sCb[src++];
+					cr |= (((cr1 + cr2 + 1) << 7) & 0xff00);
+					cb |= (((cb1 + cb2 + 1) << 7) & 0xff00);
+
+					cr2 = sCr[src];
+					cb2 = sCb[src++];
+					cr |= (((cr1 + cr2 + 1) << 15) & 0xff0000);
+					cb |= (((cb1 + cb2 + 1) << 15) & 0xff0000);
+
+					cr1 = sCr[src];
+					cb1 = sCb[src++];
+					cr |= (((cr1 + cr2 + 1) << 23) & 0xff000000);
+					cb |= (((cb1 + cb2 + 1) << 23) & 0xff000000);
+
+					dCr[dest] = cr;
+					dCb[dest] = cb;
+					dest++;
+				}
+				dest += scan >> 2; src += scan-1;
+			}
+		}
+	}
+	else {
+		if( oddV ) {
+			while( dest < last ) {
+				for( var x = 0; x < 2; x++ ) {
+					cr = (((sCr[src] + sCr[src+width] + 1) >> 1) & 0xff);
+					cb = (((sCb[src] + sCb[src+width] + 1) >> 1) & 0xff); src++;
+
+					cr |= (((sCr[src] + sCr[src+width] + 1) << 7) & 0xff00);
+					cb |= (((sCb[src] + sCb[src+width] + 1) << 7) & 0xff00); src++;
+
+					cr |= (((sCr[src] + sCr[src+width] + 1) << 15) & 0xff0000);
+					cb |= (((sCb[src] + sCb[src+width] + 1) << 15) & 0xff0000); src++;
+
+					cr |= (((sCr[src] + sCr[src+width] + 1) << 23) & 0xff000000);
+					cb |= (((sCb[src] + sCb[src+width] + 1) << 23) & 0xff000000); src++;
+					
+					dCr[dest] = cr;
+					dCb[dest] = cb;
+					dest++;
+				}
+				dest += scan >> 2; src += scan;
+			}
+		}
+		else {
+			while( dest < last ) {
+				for( var x = 0; x < 2; x++ ) {
+					cr = sCr[src];
+					cb = sCb[src]; src++;
+
+					cr |= sCr[src] << 8;
+					cb |= sCb[src] << 8; src++;
+
+					cr |= sCr[src] << 16;
+					cb |= sCb[src] << 16; src++;
+
+					cr |= sCr[src] << 24;
+					cb |= sCb[src] << 24; src++;
+
+					dCr[dest] = cr;
+					dCb[dest] = cb;
+					dest++;
+				}
+				dest += scan >> 2; src += scan;
+			}
+		}
+	}
+};
+
+
+// ----------------------------------------------------------------------------
+// Block layer
+
+jsmpeg.prototype.dcPredictorY;
+jsmpeg.prototype.dcPredictorCr;
+jsmpeg.prototype.dcPredictorCb;
+
+jsmpeg.prototype.blockData = null;
+jsmpeg.prototype.decodeBlock = function(block) {
+	
+	var
+		n = 0,
+		quantMatrix;
+		
+	// Decode DC coefficient of intra-coded blocks
+	if( this.macroblockIntra ) {
+		var 
+			predictor,
+			dctSize;
+		
+		// DC prediction
+		
+		if( block < 4 ) {
+			predictor = this.dcPredictorY;
+			dctSize = this.readCode(DCT_DC_SIZE_LUMINANCE);
+		}
+		else {
+			predictor = (block == 4 ? this.dcPredictorCr : this.dcPredictorCb);
+			dctSize = this.readCode(DCT_DC_SIZE_CHROMINANCE);
+		}
+		
+		// Read DC coeff
+		if( dctSize > 0 ) {
+			var differential = this.buffer.getBits(dctSize);
+			if( (differential & (1 << (dctSize - 1))) != 0 ) {
+				this.blockData[0] = predictor + differential;
+			}
+			else {
+				this.blockData[0] = predictor + ((-1 << dctSize)|(differential+1));
+			}
+		}
+		else {
+			this.blockData[0] = predictor;
+		}
+		
+		// Save predictor value
+		if( block < 4 ) {
+			this.dcPredictorY = this.blockData[0];
+		}
+		else if( block == 4 ) {
+			this.dcPredictorCr = this.blockData[0];
+		}
+		else {
+			this.dcPredictorCb = this.blockData[0];
+		}
+		
+		// Dequantize + premultiply
+		this.blockData[0] <<= (3 + 5);
+		
+		quantMatrix = this.intraQuantMatrix;
+		n = 1;
+	}
+	else {
+		quantMatrix = this.nonIntraQuantMatrix;
+	}
+	
+	// Decode AC coefficients (+DC for non-intra)
+	var level = 0;
+	while( true ) {
+		var 
+			run = 0,
+			coeff = this.readCode(DCT_COEFF);
+		
+		if( (coeff == 0x0001) && (n > 0) && (this.buffer.getBits(1) == 0) ) {
+			// end_of_block
+			break;
+		}
+		if( coeff == 0xffff ) {
+			// escape
+			run = this.buffer.getBits(6);
+			level = this.buffer.getBits(8);
+			if( level == 0 ) {
+				level = this.buffer.getBits(8);
+			}
+			else if( level == 128 ) {
+				level = this.buffer.getBits(8) - 256;
+			}
+			else if( level > 128 ) {
+				level = level - 256;
+			}
+		}
+		else {
+			run = coeff >> 8;
+			level = coeff & 0xff;
+			if( this.buffer.getBits(1) ) {
+				level = -level;
+			}
+		}
+		
+		n += run;
+		var dezigZagged = ZIG_ZAG[n];
+		n++;
+		
+		// Dequantize, oddify, clip
+		level <<= 1;
+		if( !this.macroblockIntra ) {
+			level += (level < 0 ? -1 : 1);
+		}
+		level = (level * this.quantizerScale * quantMatrix[dezigZagged]) >> 4;
+		if( (level & 1) == 0 ) {
+			level -= level > 0 ? 1 : -1;
+		}
+		if( level > 2047 ) {
+			level = 2047;
+		}
+		else if( level < -2048 ) {
+			level = -2048;
+		}
+
+		// Save premultiplied coefficient
+		this.blockData[dezigZagged] = level * PREMULTIPLIER_MATRIX[dezigZagged];
+	};
+	
+	// Move block to its place
+	var
+		destArray,
+		destIndex,
+		scan;
+	
+	if( block < 4 ) {
+		destArray = this.currentY;
+		scan = this.codedWidth - 8;
+		destIndex = (this.mbRow * this.codedWidth + this.mbCol) << 4;
+		if( (block & 1) != 0 ) {
+			destIndex += 8;
+		}
+		if( (block & 2) != 0 ) {
+			destIndex += this.codedWidth << 3;
+		}
+	}
+	else {
+		destArray = (block == 4) ? this.currentCb : this.currentCr;
+		scan = (this.codedWidth >> 1) - 8;
+		destIndex = ((this.mbRow * this.codedWidth) << 2) + (this.mbCol << 3);
+	}
+
+	if( this.macroblockIntra ) {
+		// Overwrite (no prediction)
+		if (n == 1) {
+			this.copyValueToDestination((this.blockData[0] + 128) >> 8, destArray, destIndex, scan);
+			this.blockData[0] = 0;
+		} else {
+			this.IDCT();
+			this.copyBlockToDestination(this.blockData, destArray, destIndex, scan);
+			this.blockData.set(this.zeroBlockData);	
+		}
+	}
+	else {
+		// Add data to the predicted macroblock
+		if (n == 1) {
+			this.addValueToDestination((this.blockData[0] + 128) >> 8, destArray, destIndex, scan);
+			this.blockData[0] = 0;
+		} else {
+			this.IDCT();
+			this.addBlockToDestination(this.blockData, destArray, destIndex, scan);	
+			this.blockData.set(this.zeroBlockData);	
+		}
+	}
+	
+	n = 0;
+};
+
+jsmpeg.prototype.copyBlockToDestination = function(blockData, destArray, destIndex, scan) {
+	for( var n = 0; n < 64; n += 8, destIndex += scan+8 ) {
+		destArray[destIndex+0] = blockData[n+0];
+		destArray[destIndex+1] = blockData[n+1];
+		destArray[destIndex+2] = blockData[n+2];
+		destArray[destIndex+3] = blockData[n+3];
+		destArray[destIndex+4] = blockData[n+4];
+		destArray[destIndex+5] = blockData[n+5];
+		destArray[destIndex+6] = blockData[n+6];
+		destArray[destIndex+7] = blockData[n+7];
+	}
+};
+
+jsmpeg.prototype.addBlockToDestination = function(blockData, destArray, destIndex, scan) {
+	for( var n = 0; n < 64; n += 8, destIndex += scan+8 ) {
+		destArray[destIndex+0] += blockData[n+0];
+		destArray[destIndex+1] += blockData[n+1];
+		destArray[destIndex+2] += blockData[n+2];
+		destArray[destIndex+3] += blockData[n+3];
+		destArray[destIndex+4] += blockData[n+4];
+		destArray[destIndex+5] += blockData[n+5];
+		destArray[destIndex+6] += blockData[n+6];
+		destArray[destIndex+7] += blockData[n+7];
+	}
+};
+
+jsmpeg.prototype.copyValueToDestination = function(value, destArray, destIndex, scan) {
+	for( var n = 0; n < 64; n += 8, destIndex += scan+8 ) {
+		destArray[destIndex+0] = value;
+		destArray[destIndex+1] = value;
+		destArray[destIndex+2] = value;
+		destArray[destIndex+3] = value;
+		destArray[destIndex+4] = value;
+		destArray[destIndex+5] = value;
+		destArray[destIndex+6] = value;
+		destArray[destIndex+7] = value;
+	}
+};
+
+jsmpeg.prototype.addValueToDestination = function(value, destArray, destIndex, scan) {
+	for( var n = 0; n < 64; n += 8, destIndex += scan+8 ) {
+		destArray[destIndex+0] += value;
+		destArray[destIndex+1] += value;
+		destArray[destIndex+2] += value;
+		destArray[destIndex+3] += value;
+		destArray[destIndex+4] += value;
+		destArray[destIndex+5] += value;
+		destArray[destIndex+6] += value;
+		destArray[destIndex+7] += value;
+	}
+};
+
+// Clamping version for shitty browsers (IE) that don't support Uint8ClampedArray
+jsmpeg.prototype.copyBlockToDestinationClamp = function(blockData, destArray, destIndex, scan) {
+	var n = 0;
+	for( var i = 0; i < 8; i++ ) {
+		for( var j = 0; j < 8; j++ ) {
+			var p = blockData[n++];
+			destArray[destIndex++] = p > 255 ? 255 : (p < 0 ? 0 : p);
+		}
+		destIndex += scan;
+	}
+};
+
+jsmpeg.prototype.addBlockToDestinationClamp = function(blockData, destArray, destIndex, scan) {
+	var n = 0;
+	for( var i = 0; i < 8; i++ ) {
+		for( var j = 0; j < 8; j++ ) {
+			var p = blockData[n++] + destArray[destIndex];
+			destArray[destIndex++] = p > 255 ? 255 : (p < 0 ? 0 : p);
+		}
+		destIndex += scan;
+	}
+};
+
+jsmpeg.prototype.IDCT = function() {
+	// See http://vsr.informatik.tu-chemnitz.de/~jan/MPEG/HTML/IDCT.html
+	// for more info.
+	
+	var 
+		b1, b3, b4, b6, b7, tmp1, tmp2, m0,
+		x0, x1, x2, x3, x4, y3, y4, y5, y6, y7,
+		i,
+		blockData = this.blockData;
+	
+	// Transform columns
+	for( i = 0; i < 8; ++i ) {
+		b1 =  blockData[4*8+i];
+		b3 =  blockData[2*8+i] + blockData[6*8+i];
+		b4 =  blockData[5*8+i] - blockData[3*8+i];
+		tmp1 = blockData[1*8+i] + blockData[7*8+i];
+		tmp2 = blockData[3*8+i] + blockData[5*8+i];
+		b6 = blockData[1*8+i] - blockData[7*8+i];
+		b7 = tmp1 + tmp2;
+		m0 =  blockData[0*8+i];
+		x4 =  ((b6*473 - b4*196 + 128) >> 8) - b7;
+		x0 =  x4 - (((tmp1 - tmp2)*362 + 128) >> 8);
+		x1 =  m0 - b1;
+		x2 =  (((blockData[2*8+i] - blockData[6*8+i])*362 + 128) >> 8) - b3;
+		x3 =  m0 + b1;
+		y3 =  x1 + x2;
+		y4 =  x3 + b3;
+		y5 =  x1 - x2;
+		y6 =  x3 - b3;
+		y7 = -x0 - ((b4*473 + b6*196 + 128) >> 8);
+		blockData[0*8+i] =  b7 + y4;
+		blockData[1*8+i] =  x4 + y3;
+		blockData[2*8+i] =  y5 - x0;
+		blockData[3*8+i] =  y6 - y7;
+		blockData[4*8+i] =  y6 + y7;
+		blockData[5*8+i] =  x0 + y5;
+		blockData[6*8+i] =  y3 - x4;
+		blockData[7*8+i] =  y4 - b7;
+	}
+	
+	// Transform rows
+	for( i = 0; i < 64; i += 8 ) {
+		b1 =  blockData[4+i];
+		b3 =  blockData[2+i] + blockData[6+i];
+		b4 =  blockData[5+i] - blockData[3+i];
+		tmp1 = blockData[1+i] + blockData[7+i];
+		tmp2 = blockData[3+i] + blockData[5+i];
+		b6 = blockData[1+i] - blockData[7+i];
+		b7 = tmp1 + tmp2;
+		m0 =  blockData[0+i];
+		x4 =  ((b6*473 - b4*196 + 128) >> 8) - b7;
+		x0 =  x4 - (((tmp1 - tmp2)*362 + 128) >> 8);
+		x1 =  m0 - b1;
+		x2 =  (((blockData[2+i] - blockData[6+i])*362 + 128) >> 8) - b3;
+		x3 =  m0 + b1;
+		y3 =  x1 + x2;
+		y4 =  x3 + b3;
+		y5 =  x1 - x2;
+		y6 =  x3 - b3;
+		y7 = -x0 - ((b4*473 + b6*196 + 128) >> 8);
+		blockData[0+i] =  (b7 + y4 + 128) >> 8;
+		blockData[1+i] =  (x4 + y3 + 128) >> 8;
+		blockData[2+i] =  (y5 - x0 + 128) >> 8;
+		blockData[3+i] =  (y6 - y7 + 128) >> 8;
+		blockData[4+i] =  (y6 + y7 + 128) >> 8;
+		blockData[5+i] =  (x0 + y5 + 128) >> 8;
+		blockData[6+i] =  (y3 - x4 + 128) >> 8;
+		blockData[7+i] =  (y4 - b7 + 128) >> 8;
+	}
+};
+
+
+// ----------------------------------------------------------------------------
+// VLC Tables and Constants
+
+var
+	SOCKET_MAGIC_BYTES = 'jsmp',
+	DECODE_SKIP_OUTPUT = 1,
+	PICTURE_RATE = [
+		0.000, 23.976, 24.000, 25.000, 29.970, 30.000, 50.000, 59.940,
+		60.000,  0.000,  0.000,  0.000,  0.000,  0.000,  0.000,  0.000
+	],
+	ZIG_ZAG = new Uint8Array([
+		 0,  1,  8, 16,  9,  2,  3, 10,
+		17, 24, 32, 25, 18, 11,  4,  5,
+		12, 19, 26, 33, 40, 48, 41, 34,
+		27, 20, 13,  6,  7, 14, 21, 28,
+		35, 42, 49, 56, 57, 50, 43, 36,
+		29, 22, 15, 23, 30, 37, 44, 51,
+		58, 59, 52, 45, 38, 31, 39, 46,
+		53, 60, 61, 54, 47, 55, 62, 63
+	]),
+	DEFAULT_INTRA_QUANT_MATRIX = new Uint8Array([
+		 8, 16, 19, 22, 26, 27, 29, 34,
+		16, 16, 22, 24, 27, 29, 34, 37,
+		19, 22, 26, 27, 29, 34, 34, 38,
+		22, 22, 26, 27, 29, 34, 37, 40,
+		22, 26, 27, 29, 32, 35, 40, 48,
+		26, 27, 29, 32, 35, 40, 48, 58,
+		26, 27, 29, 34, 38, 46, 56, 69,
+		27, 29, 35, 38, 46, 56, 69, 83
+	]),
+	DEFAULT_NON_INTRA_QUANT_MATRIX = new Uint8Array([
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16,
+		16, 16, 16, 16, 16, 16, 16, 16
+	]),
+	
+	PREMULTIPLIER_MATRIX = new Uint8Array([
+		32, 44, 42, 38, 32, 25, 17,  9,
+		44, 62, 58, 52, 44, 35, 24, 12,
+		42, 58, 55, 49, 42, 33, 23, 12,
+		38, 52, 49, 44, 38, 30, 20, 10,
+		32, 44, 42, 38, 32, 25, 17,  9,
+		25, 35, 33, 30, 25, 20, 14,  7,
+		17, 24, 23, 20, 17, 14,  9,  5,
+		 9, 12, 12, 10,  9,  7,  5,  2
+	]),
+	
+	// MPEG-1 VLC
+	
+	//  macroblock_stuffing decodes as 34.
+	//  macroblock_escape decodes as 35.
+	
+	MACROBLOCK_ADDRESS_INCREMENT = new Int16Array([
+		 1*3,  2*3,  0, //   0
+		 3*3,  4*3,  0, //   1  0
+		   0,    0,  1, //   2  1.
+		 5*3,  6*3,  0, //   3  00
+		 7*3,  8*3,  0, //   4  01
+		 9*3, 10*3,  0, //   5  000
+		11*3, 12*3,  0, //   6  001
+		   0,    0,  3, //   7  010.
+		   0,    0,  2, //   8  011.
+		13*3, 14*3,  0, //   9  0000
+		15*3, 16*3,  0, //  10  0001
+		   0,    0,  5, //  11  0010.
+		   0,    0,  4, //  12  0011.
+		17*3, 18*3,  0, //  13  0000 0
+		19*3, 20*3,  0, //  14  0000 1
+		   0,    0,  7, //  15  0001 0.
+		   0,    0,  6, //  16  0001 1.
+		21*3, 22*3,  0, //  17  0000 00
+		23*3, 24*3,  0, //  18  0000 01
+		25*3, 26*3,  0, //  19  0000 10
+		27*3, 28*3,  0, //  20  0000 11
+		  -1, 29*3,  0, //  21  0000 000
+		  -1, 30*3,  0, //  22  0000 001
+		31*3, 32*3,  0, //  23  0000 010
+		33*3, 34*3,  0, //  24  0000 011
+		35*3, 36*3,  0, //  25  0000 100
+		37*3, 38*3,  0, //  26  0000 101
+		   0,    0,  9, //  27  0000 110.
+		   0,    0,  8, //  28  0000 111.
+		39*3, 40*3,  0, //  29  0000 0001
+		41*3, 42*3,  0, //  30  0000 0011
+		43*3, 44*3,  0, //  31  0000 0100
+		45*3, 46*3,  0, //  32  0000 0101
+		   0,    0, 15, //  33  0000 0110.
+		   0,    0, 14, //  34  0000 0111.
+		   0,    0, 13, //  35  0000 1000.
+		   0,    0, 12, //  36  0000 1001.
+		   0,    0, 11, //  37  0000 1010.
+		   0,    0, 10, //  38  0000 1011.
+		47*3,   -1,  0, //  39  0000 0001 0
+		  -1, 48*3,  0, //  40  0000 0001 1
+		49*3, 50*3,  0, //  41  0000 0011 0
+		51*3, 52*3,  0, //  42  0000 0011 1
+		53*3, 54*3,  0, //  43  0000 0100 0
+		55*3, 56*3,  0, //  44  0000 0100 1
+		57*3, 58*3,  0, //  45  0000 0101 0
+		59*3, 60*3,  0, //  46  0000 0101 1
+		61*3,   -1,  0, //  47  0000 0001 00
+		  -1, 62*3,  0, //  48  0000 0001 11
+		63*3, 64*3,  0, //  49  0000 0011 00
+		65*3, 66*3,  0, //  50  0000 0011 01
+		67*3, 68*3,  0, //  51  0000 0011 10
+		69*3, 70*3,  0, //  52  0000 0011 11
+		71*3, 72*3,  0, //  53  0000 0100 00
+		73*3, 74*3,  0, //  54  0000 0100 01
+		   0,    0, 21, //  55  0000 0100 10.
+		   0,    0, 20, //  56  0000 0100 11.
+		   0,    0, 19, //  57  0000 0101 00.
+		   0,    0, 18, //  58  0000 0101 01.
+		   0,    0, 17, //  59  0000 0101 10.
+		   0,    0, 16, //  60  0000 0101 11.
+		   0,    0, 35, //  61  0000 0001 000. -- macroblock_escape
+		   0,    0, 34, //  62  0000 0001 111. -- macroblock_stuffing
+		   0,    0, 33, //  63  0000 0011 000.
+		   0,    0, 32, //  64  0000 0011 001.
+		   0,    0, 31, //  65  0000 0011 010.
+		   0,    0, 30, //  66  0000 0011 011.
+		   0,    0, 29, //  67  0000 0011 100.
+		   0,    0, 28, //  68  0000 0011 101.
+		   0,    0, 27, //  69  0000 0011 110.
+		   0,    0, 26, //  70  0000 0011 111.
+		   0,    0, 25, //  71  0000 0100 000.
+		   0,    0, 24, //  72  0000 0100 001.
+		   0,    0, 23, //  73  0000 0100 010.
+		   0,    0, 22  //  74  0000 0100 011.
+	]),
+	
+	//  macroblock_type bitmap:
+	//    0x10  macroblock_quant
+	//    0x08  macroblock_motion_forward
+	//    0x04  macroblock_motion_backward
+	//    0x02  macrobkock_pattern
+	//    0x01  macroblock_intra
+	//
+	
+	MACROBLOCK_TYPE_I = new Int8Array([
+		 1*3,  2*3,     0, //   0
+		  -1,  3*3,     0, //   1  0
+		   0,    0,  0x01, //   2  1.
+		   0,    0,  0x11  //   3  01.
+	]),
+	
+	MACROBLOCK_TYPE_P = new Int8Array([
+		 1*3,  2*3,     0, //  0
+		 3*3,  4*3,     0, //  1  0
+		   0,    0,  0x0a, //  2  1.
+		 5*3,  6*3,     0, //  3  00
+		   0,    0,  0x02, //  4  01.
+		 7*3,  8*3,     0, //  5  000
+		   0,    0,  0x08, //  6  001.
+		 9*3, 10*3,     0, //  7  0000
+		11*3, 12*3,     0, //  8  0001
+		  -1, 13*3,     0, //  9  00000
+		   0,    0,  0x12, // 10  00001.
+		   0,    0,  0x1a, // 11  00010.
+		   0,    0,  0x01, // 12  00011.
+		   0,    0,  0x11  // 13  000001.
+	]),
+	
+	MACROBLOCK_TYPE_B = new Int8Array([
+		 1*3,  2*3,     0,  //  0
+		 3*3,  5*3,     0,  //  1  0
+		 4*3,  6*3,     0,  //  2  1
+		 8*3,  7*3,     0,  //  3  00
+		   0,    0,  0x0c,  //  4  10.
+		 9*3, 10*3,     0,  //  5  01
+		   0,    0,  0x0e,  //  6  11.
+		13*3, 14*3,     0,  //  7  001
+		12*3, 11*3,     0,  //  8  000
+		   0,    0,  0x04,  //  9  010.
+		   0,    0,  0x06,  // 10  011.
+		18*3, 16*3,     0,  // 11  0001
+		15*3, 17*3,     0,  // 12  0000
+		   0,    0,  0x08,  // 13  0010.
+		   0,    0,  0x0a,  // 14  0011.
+		  -1, 19*3,     0,  // 15  00000
+		   0,    0,  0x01,  // 16  00011.
+		20*3, 21*3,     0,  // 17  00001
+		   0,    0,  0x1e,  // 18  00010.
+		   0,    0,  0x11,  // 19  000001.
+		   0,    0,  0x16,  // 20  000010.
+		   0,    0,  0x1a   // 21  000011.
+	]),
+	
+	CODE_BLOCK_PATTERN = new Int16Array([
+		  2*3,   1*3,   0,  //   0
+		  3*3,   6*3,   0,  //   1  1
+		  4*3,   5*3,   0,  //   2  0
+		  8*3,  11*3,   0,  //   3  10
+		 12*3,  13*3,   0,  //   4  00
+		  9*3,   7*3,   0,  //   5  01
+		 10*3,  14*3,   0,  //   6  11
+		 20*3,  19*3,   0,  //   7  011
+		 18*3,  16*3,   0,  //   8  100
+		 23*3,  17*3,   0,  //   9  010
+		 27*3,  25*3,   0,  //  10  110
+		 21*3,  28*3,   0,  //  11  101
+		 15*3,  22*3,   0,  //  12  000
+		 24*3,  26*3,   0,  //  13  001
+		    0,     0,  60,  //  14  111.
+		 35*3,  40*3,   0,  //  15  0000
+		 44*3,  48*3,   0,  //  16  1001
+		 38*3,  36*3,   0,  //  17  0101
+		 42*3,  47*3,   0,  //  18  1000
+		 29*3,  31*3,   0,  //  19  0111
+		 39*3,  32*3,   0,  //  20  0110
+		    0,     0,  32,  //  21  1010.
+		 45*3,  46*3,   0,  //  22  0001
+		 33*3,  41*3,   0,  //  23  0100
+		 43*3,  34*3,   0,  //  24  0010
+		    0,     0,   4,  //  25  1101.
+		 30*3,  37*3,   0,  //  26  0011
+		    0,     0,   8,  //  27  1100.
+		    0,     0,  16,  //  28  1011.
+		    0,     0,  44,  //  29  0111 0.
+		 50*3,  56*3,   0,  //  30  0011 0
+		    0,     0,  28,  //  31  0111 1.
+		    0,     0,  52,  //  32  0110 1.
+		    0,     0,  62,  //  33  0100 0.
+		 61*3,  59*3,   0,  //  34  0010 1
+		 52*3,  60*3,   0,  //  35  0000 0
+		    0,     0,   1,  //  36  0101 1.
+		 55*3,  54*3,   0,  //  37  0011 1
+		    0,     0,  61,  //  38  0101 0.
+		    0,     0,  56,  //  39  0110 0.
+		 57*3,  58*3,   0,  //  40  0000 1
+		    0,     0,   2,  //  41  0100 1.
+		    0,     0,  40,  //  42  1000 0.
+		 51*3,  62*3,   0,  //  43  0010 0
+		    0,     0,  48,  //  44  1001 0.
+		 64*3,  63*3,   0,  //  45  0001 0
+		 49*3,  53*3,   0,  //  46  0001 1
+		    0,     0,  20,  //  47  1000 1.
+		    0,     0,  12,  //  48  1001 1.
+		 80*3,  83*3,   0,  //  49  0001 10
+		    0,     0,  63,  //  50  0011 00.
+		 77*3,  75*3,   0,  //  51  0010 00
+		 65*3,  73*3,   0,  //  52  0000 00
+		 84*3,  66*3,   0,  //  53  0001 11
+		    0,     0,  24,  //  54  0011 11.
+		    0,     0,  36,  //  55  0011 10.
+		    0,     0,   3,  //  56  0011 01.
+		 69*3,  87*3,   0,  //  57  0000 10
+		 81*3,  79*3,   0,  //  58  0000 11
+		 68*3,  71*3,   0,  //  59  0010 11
+		 70*3,  78*3,   0,  //  60  0000 01
+		 67*3,  76*3,   0,  //  61  0010 10
+		 72*3,  74*3,   0,  //  62  0010 01
+		 86*3,  85*3,   0,  //  63  0001 01
+		 88*3,  82*3,   0,  //  64  0001 00
+		   -1,  94*3,   0,  //  65  0000 000
+		 95*3,  97*3,   0,  //  66  0001 111
+		    0,     0,  33,  //  67  0010 100.
+		    0,     0,   9,  //  68  0010 110.
+		106*3, 110*3,   0,  //  69  0000 100
+		102*3, 116*3,   0,  //  70  0000 010
+		    0,     0,   5,  //  71  0010 111.
+		    0,     0,  10,  //  72  0010 010.
+		 93*3,  89*3,   0,  //  73  0000 001
+		    0,     0,   6,  //  74  0010 011.
+		    0,     0,  18,  //  75  0010 001.
+		    0,     0,  17,  //  76  0010 101.
+		    0,     0,  34,  //  77  0010 000.
+		113*3, 119*3,   0,  //  78  0000 011
+		103*3, 104*3,   0,  //  79  0000 111
+		 90*3,  92*3,   0,  //  80  0001 100
+		109*3, 107*3,   0,  //  81  0000 110
+		117*3, 118*3,   0,  //  82  0001 001
+		101*3,  99*3,   0,  //  83  0001 101
+		 98*3,  96*3,   0,  //  84  0001 110
+		100*3,  91*3,   0,  //  85  0001 011
+		114*3, 115*3,   0,  //  86  0001 010
+		105*3, 108*3,   0,  //  87  0000 101
+		112*3, 111*3,   0,  //  88  0001 000
+		121*3, 125*3,   0,  //  89  0000 0011
+		    0,     0,  41,  //  90  0001 1000.
+		    0,     0,  14,  //  91  0001 0111.
+		    0,     0,  21,  //  92  0001 1001.
+		124*3, 122*3,   0,  //  93  0000 0010
+		120*3, 123*3,   0,  //  94  0000 0001
+		    0,     0,  11,  //  95  0001 1110.
+		    0,     0,  19,  //  96  0001 1101.
+		    0,     0,   7,  //  97  0001 1111.
+		    0,     0,  35,  //  98  0001 1100.
+		    0,     0,  13,  //  99  0001 1011.
+		    0,     0,  50,  // 100  0001 0110.
+		    0,     0,  49,  // 101  0001 1010.
+		    0,     0,  58,  // 102  0000 0100.
+		    0,     0,  37,  // 103  0000 1110.
+		    0,     0,  25,  // 104  0000 1111.
+		    0,     0,  45,  // 105  0000 1010.
+		    0,     0,  57,  // 106  0000 1000.
+		    0,     0,  26,  // 107  0000 1101.
+		    0,     0,  29,  // 108  0000 1011.
+		    0,     0,  38,  // 109  0000 1100.
+		    0,     0,  53,  // 110  0000 1001.
+		    0,     0,  23,  // 111  0001 0001.
+		    0,     0,  43,  // 112  0001 0000.
+		    0,     0,  46,  // 113  0000 0110.
+		    0,     0,  42,  // 114  0001 0100.
+		    0,     0,  22,  // 115  0001 0101.
+		    0,     0,  54,  // 116  0000 0101.
+		    0,     0,  51,  // 117  0001 0010.
+		    0,     0,  15,  // 118  0001 0011.
+		    0,     0,  30,  // 119  0000 0111.
+		    0,     0,  39,  // 120  0000 0001 0.
+		    0,     0,  47,  // 121  0000 0011 0.
+		    0,     0,  55,  // 122  0000 0010 1.
+		    0,     0,  27,  // 123  0000 0001 1.
+		    0,     0,  59,  // 124  0000 0010 0.
+		    0,     0,  31   // 125  0000 0011 1.
+	]),
+	
+	MOTION = new Int16Array([
+		  1*3,   2*3,   0,  //   0
+		  4*3,   3*3,   0,  //   1  0
+		    0,     0,   0,  //   2  1.
+		  6*3,   5*3,   0,  //   3  01
+		  8*3,   7*3,   0,  //   4  00
+		    0,     0,  -1,  //   5  011.
+		    0,     0,   1,  //   6  010.
+		  9*3,  10*3,   0,  //   7  001
+		 12*3,  11*3,   0,  //   8  000
+		    0,     0,   2,  //   9  0010.
+		    0,     0,  -2,  //  10  0011.
+		 14*3,  15*3,   0,  //  11  0001
+		 16*3,  13*3,   0,  //  12  0000
+		 20*3,  18*3,   0,  //  13  0000 1
+		    0,     0,   3,  //  14  0001 0.
+		    0,     0,  -3,  //  15  0001 1.
+		 17*3,  19*3,   0,  //  16  0000 0
+		   -1,  23*3,   0,  //  17  0000 00
+		 27*3,  25*3,   0,  //  18  0000 11
+		 26*3,  21*3,   0,  //  19  0000 01
+		 24*3,  22*3,   0,  //  20  0000 10
+		 32*3,  28*3,   0,  //  21  0000 011
+		 29*3,  31*3,   0,  //  22  0000 101
+		   -1,  33*3,   0,  //  23  0000 001
+		 36*3,  35*3,   0,  //  24  0000 100
+		    0,     0,  -4,  //  25  0000 111.
+		 30*3,  34*3,   0,  //  26  0000 010
+		    0,     0,   4,  //  27  0000 110.
+		    0,     0,  -7,  //  28  0000 0111.
+		    0,     0,   5,  //  29  0000 1010.
+		 37*3,  41*3,   0,  //  30  0000 0100
+		    0,     0,  -5,  //  31  0000 1011.
+		    0,     0,   7,  //  32  0000 0110.
+		 38*3,  40*3,   0,  //  33  0000 0011
+		 42*3,  39*3,   0,  //  34  0000 0101
+		    0,     0,  -6,  //  35  0000 1001.
+		    0,     0,   6,  //  36  0000 1000.
+		 51*3,  54*3,   0,  //  37  0000 0100 0
+		 50*3,  49*3,   0,  //  38  0000 0011 0
+		 45*3,  46*3,   0,  //  39  0000 0101 1
+		 52*3,  47*3,   0,  //  40  0000 0011 1
+		 43*3,  53*3,   0,  //  41  0000 0100 1
+		 44*3,  48*3,   0,  //  42  0000 0101 0
+		    0,     0,  10,  //  43  0000 0100 10.
+		    0,     0,   9,  //  44  0000 0101 00.
+		    0,     0,   8,  //  45  0000 0101 10.
+		    0,     0,  -8,  //  46  0000 0101 11.
+		 57*3,  66*3,   0,  //  47  0000 0011 11
+		    0,     0,  -9,  //  48  0000 0101 01.
+		 60*3,  64*3,   0,  //  49  0000 0011 01
+		 56*3,  61*3,   0,  //  50  0000 0011 00
+		 55*3,  62*3,   0,  //  51  0000 0100 00
+		 58*3,  63*3,   0,  //  52  0000 0011 10
+		    0,     0, -10,  //  53  0000 0100 11.
+		 59*3,  65*3,   0,  //  54  0000 0100 01
+		    0,     0,  12,  //  55  0000 0100 000.
+		    0,     0,  16,  //  56  0000 0011 000.
+		    0,     0,  13,  //  57  0000 0011 110.
+		    0,     0,  14,  //  58  0000 0011 100.
+		    0,     0,  11,  //  59  0000 0100 010.
+		    0,     0,  15,  //  60  0000 0011 010.
+		    0,     0, -16,  //  61  0000 0011 001.
+		    0,     0, -12,  //  62  0000 0100 001.
+		    0,     0, -14,  //  63  0000 0011 101.
+		    0,     0, -15,  //  64  0000 0011 011.
+		    0,     0, -11,  //  65  0000 0100 011.
+		    0,     0, -13   //  66  0000 0011 111.
+	]),
+	
+	DCT_DC_SIZE_LUMINANCE = new Int8Array([
+		  2*3,   1*3, 0,  //   0
+		  6*3,   5*3, 0,  //   1  1
+		  3*3,   4*3, 0,  //   2  0
+		    0,     0, 1,  //   3  00.
+		    0,     0, 2,  //   4  01.
+		  9*3,   8*3, 0,  //   5  11
+		  7*3,  10*3, 0,  //   6  10
+		    0,     0, 0,  //   7  100.
+		 12*3,  11*3, 0,  //   8  111
+		    0,     0, 4,  //   9  110.
+		    0,     0, 3,  //  10  101.
+		 13*3,  14*3, 0,  //  11  1111
+		    0,     0, 5,  //  12  1110.
+		    0,     0, 6,  //  13  1111 0.
+		 16*3,  15*3, 0,  //  14  1111 1
+		 17*3,    -1, 0,  //  15  1111 11
+		    0,     0, 7,  //  16  1111 10.
+		    0,     0, 8   //  17  1111 110.
+	]),
+	
+	DCT_DC_SIZE_CHROMINANCE = new Int8Array([
+		  2*3,   1*3, 0,  //   0
+		  4*3,   3*3, 0,  //   1  1
+		  6*3,   5*3, 0,  //   2  0
+		  8*3,   7*3, 0,  //   3  11
+		    0,     0, 2,  //   4  10.
+		    0,     0, 1,  //   5  01.
+		    0,     0, 0,  //   6  00.
+		 10*3,   9*3, 0,  //   7  111
+		    0,     0, 3,  //   8  110.
+		 12*3,  11*3, 0,  //   9  1111
+		    0,     0, 4,  //  10  1110.
+		 14*3,  13*3, 0,  //  11  1111 1
+		    0,     0, 5,  //  12  1111 0.
+		 16*3,  15*3, 0,  //  13  1111 11
+		    0,     0, 6,  //  14  1111 10.
+		 17*3,    -1, 0,  //  15  1111 111
+		    0,     0, 7,  //  16  1111 110.
+		    0,     0, 8   //  17  1111 1110.
+	]),
+	
+	//  dct_coeff bitmap:
+	//    0xff00  run
+	//    0x00ff  level
+	
+	//  Decoded values are unsigned. Sign bit follows in the stream.
+	
+	//  Interpretation of the value 0x0001
+	//    for dc_coeff_first:  run=0, level=1
+	//    for dc_coeff_next:   If the next bit is 1: run=0, level=1
+	//                         If the next bit is 0: end_of_block
+	
+	//  escape decodes as 0xffff.
+	
+	DCT_COEFF = new Int32Array([
+		  1*3,   2*3,      0,  //   0
+		  4*3,   3*3,      0,  //   1  0
+		    0,     0, 0x0001,  //   2  1.
+		  7*3,   8*3,      0,  //   3  01
+		  6*3,   5*3,      0,  //   4  00
+		 13*3,   9*3,      0,  //   5  001
+		 11*3,  10*3,      0,  //   6  000
+		 14*3,  12*3,      0,  //   7  010
+		    0,     0, 0x0101,  //   8  011.
+		 20*3,  22*3,      0,  //   9  0011
+		 18*3,  21*3,      0,  //  10  0001
+		 16*3,  19*3,      0,  //  11  0000
+		    0,     0, 0x0201,  //  12  0101.
+		 17*3,  15*3,      0,  //  13  0010
+		    0,     0, 0x0002,  //  14  0100.
+		    0,     0, 0x0003,  //  15  0010 1.
+		 27*3,  25*3,      0,  //  16  0000 0
+		 29*3,  31*3,      0,  //  17  0010 0
+		 24*3,  26*3,      0,  //  18  0001 0
+		 32*3,  30*3,      0,  //  19  0000 1
+		    0,     0, 0x0401,  //  20  0011 0.
+		 23*3,  28*3,      0,  //  21  0001 1
+		    0,     0, 0x0301,  //  22  0011 1.
+		    0,     0, 0x0102,  //  23  0001 10.
+		    0,     0, 0x0701,  //  24  0001 00.
+		    0,     0, 0xffff,  //  25  0000 01. -- escape
+		    0,     0, 0x0601,  //  26  0001 01.
+		 37*3,  36*3,      0,  //  27  0000 00
+		    0,     0, 0x0501,  //  28  0001 11.
+		 35*3,  34*3,      0,  //  29  0010 00
+		 39*3,  38*3,      0,  //  30  0000 11
+		 33*3,  42*3,      0,  //  31  0010 01
+		 40*3,  41*3,      0,  //  32  0000 10
+		 52*3,  50*3,      0,  //  33  0010 010
+		 54*3,  53*3,      0,  //  34  0010 001
+		 48*3,  49*3,      0,  //  35  0010 000
+		 43*3,  45*3,      0,  //  36  0000 001
+		 46*3,  44*3,      0,  //  37  0000 000
+		    0,     0, 0x0801,  //  38  0000 111.
+		    0,     0, 0x0004,  //  39  0000 110.
+		    0,     0, 0x0202,  //  40  0000 100.
+		    0,     0, 0x0901,  //  41  0000 101.
+		 51*3,  47*3,      0,  //  42  0010 011
+		 55*3,  57*3,      0,  //  43  0000 0010
+		 60*3,  56*3,      0,  //  44  0000 0001
+		 59*3,  58*3,      0,  //  45  0000 0011
+		 61*3,  62*3,      0,  //  46  0000 0000
+		    0,     0, 0x0a01,  //  47  0010 0111.
+		    0,     0, 0x0d01,  //  48  0010 0000.
+		    0,     0, 0x0006,  //  49  0010 0001.
+		    0,     0, 0x0103,  //  50  0010 0101.
+		    0,     0, 0x0005,  //  51  0010 0110.
+		    0,     0, 0x0302,  //  52  0010 0100.
+		    0,     0, 0x0b01,  //  53  0010 0011.
+		    0,     0, 0x0c01,  //  54  0010 0010.
+		 76*3,  75*3,      0,  //  55  0000 0010 0
+		 67*3,  70*3,      0,  //  56  0000 0001 1
+		 73*3,  71*3,      0,  //  57  0000 0010 1
+		 78*3,  74*3,      0,  //  58  0000 0011 1
+		 72*3,  77*3,      0,  //  59  0000 0011 0
+		 69*3,  64*3,      0,  //  60  0000 0001 0
+		 68*3,  63*3,      0,  //  61  0000 0000 0
+		 66*3,  65*3,      0,  //  62  0000 0000 1
+		 81*3,  87*3,      0,  //  63  0000 0000 01
+		 91*3,  80*3,      0,  //  64  0000 0001 01
+		 82*3,  79*3,      0,  //  65  0000 0000 11
+		 83*3,  86*3,      0,  //  66  0000 0000 10
+		 93*3,  92*3,      0,  //  67  0000 0001 10
+		 84*3,  85*3,      0,  //  68  0000 0000 00
+		 90*3,  94*3,      0,  //  69  0000 0001 00
+		 88*3,  89*3,      0,  //  70  0000 0001 11
+		    0,     0, 0x0203,  //  71  0000 0010 11.
+		    0,     0, 0x0104,  //  72  0000 0011 00.
+		    0,     0, 0x0007,  //  73  0000 0010 10.
+		    0,     0, 0x0402,  //  74  0000 0011 11.
+		    0,     0, 0x0502,  //  75  0000 0010 01.
+		    0,     0, 0x1001,  //  76  0000 0010 00.
+		    0,     0, 0x0f01,  //  77  0000 0011 01.
+		    0,     0, 0x0e01,  //  78  0000 0011 10.
+		105*3, 107*3,      0,  //  79  0000 0000 111
+		111*3, 114*3,      0,  //  80  0000 0001 011
+		104*3,  97*3,      0,  //  81  0000 0000 010
+		125*3, 119*3,      0,  //  82  0000 0000 110
+		 96*3,  98*3,      0,  //  83  0000 0000 100
+		   -1, 123*3,      0,  //  84  0000 0000 000
+		 95*3, 101*3,      0,  //  85  0000 0000 001
+		106*3, 121*3,      0,  //  86  0000 0000 101
+		 99*3, 102*3,      0,  //  87  0000 0000 011
+		113*3, 103*3,      0,  //  88  0000 0001 110
+		112*3, 116*3,      0,  //  89  0000 0001 111
+		110*3, 100*3,      0,  //  90  0000 0001 000
+		124*3, 115*3,      0,  //  91  0000 0001 010
+		117*3, 122*3,      0,  //  92  0000 0001 101
+		109*3, 118*3,      0,  //  93  0000 0001 100
+		120*3, 108*3,      0,  //  94  0000 0001 001
+		127*3, 136*3,      0,  //  95  0000 0000 0010
+		139*3, 140*3,      0,  //  96  0000 0000 1000
+		130*3, 126*3,      0,  //  97  0000 0000 0101
+		145*3, 146*3,      0,  //  98  0000 0000 1001
+		128*3, 129*3,      0,  //  99  0000 0000 0110
+		    0,     0, 0x0802,  // 100  0000 0001 0001.
+		132*3, 134*3,      0,  // 101  0000 0000 0011
+		155*3, 154*3,      0,  // 102  0000 0000 0111
+		    0,     0, 0x0008,  // 103  0000 0001 1101.
+		137*3, 133*3,      0,  // 104  0000 0000 0100
+		143*3, 144*3,      0,  // 105  0000 0000 1110
+		151*3, 138*3,      0,  // 106  0000 0000 1010
+		142*3, 141*3,      0,  // 107  0000 0000 1111
+		    0,     0, 0x000a,  // 108  0000 0001 0011.
+		    0,     0, 0x0009,  // 109  0000 0001 1000.
+		    0,     0, 0x000b,  // 110  0000 0001 0000.
+		    0,     0, 0x1501,  // 111  0000 0001 0110.
+		    0,     0, 0x0602,  // 112  0000 0001 1110.
+		    0,     0, 0x0303,  // 113  0000 0001 1100.
+		    0,     0, 0x1401,  // 114  0000 0001 0111.
+		    0,     0, 0x0702,  // 115  0000 0001 0101.
+		    0,     0, 0x1101,  // 116  0000 0001 1111.
+		    0,     0, 0x1201,  // 117  0000 0001 1010.
+		    0,     0, 0x1301,  // 118  0000 0001 1001.
+		148*3, 152*3,      0,  // 119  0000 0000 1101
+		    0,     0, 0x0403,  // 120  0000 0001 0010.
+		153*3, 150*3,      0,  // 121  0000 0000 1011
+		    0,     0, 0x0105,  // 122  0000 0001 1011.
+		131*3, 135*3,      0,  // 123  0000 0000 0001
+		    0,     0, 0x0204,  // 124  0000 0001 0100.
+		149*3, 147*3,      0,  // 125  0000 0000 1100
+		172*3, 173*3,      0,  // 126  0000 0000 0101 1
+		162*3, 158*3,      0,  // 127  0000 0000 0010 0
+		170*3, 161*3,      0,  // 128  0000 0000 0110 0
+		168*3, 166*3,      0,  // 129  0000 0000 0110 1
+		157*3, 179*3,      0,  // 130  0000 0000 0101 0
+		169*3, 167*3,      0,  // 131  0000 0000 0001 0
+		174*3, 171*3,      0,  // 132  0000 0000 0011 0
+		178*3, 177*3,      0,  // 133  0000 0000 0100 1
+		156*3, 159*3,      0,  // 134  0000 0000 0011 1
+		164*3, 165*3,      0,  // 135  0000 0000 0001 1
+		183*3, 182*3,      0,  // 136  0000 0000 0010 1
+		175*3, 176*3,      0,  // 137  0000 0000 0100 0
+		    0,     0, 0x0107,  // 138  0000 0000 1010 1.
+		    0,     0, 0x0a02,  // 139  0000 0000 1000 0.
+		    0,     0, 0x0902,  // 140  0000 0000 1000 1.
+		    0,     0, 0x1601,  // 141  0000 0000 1111 1.
+		    0,     0, 0x1701,  // 142  0000 0000 1111 0.
+		    0,     0, 0x1901,  // 143  0000 0000 1110 0.
+		    0,     0, 0x1801,  // 144  0000 0000 1110 1.
+		    0,     0, 0x0503,  // 145  0000 0000 1001 0.
+		    0,     0, 0x0304,  // 146  0000 0000 1001 1.
+		    0,     0, 0x000d,  // 147  0000 0000 1100 1.
+		    0,     0, 0x000c,  // 148  0000 0000 1101 0.
+		    0,     0, 0x000e,  // 149  0000 0000 1100 0.
+		    0,     0, 0x000f,  // 150  0000 0000 1011 1.
+		    0,     0, 0x0205,  // 151  0000 0000 1010 0.
+		    0,     0, 0x1a01,  // 152  0000 0000 1101 1.
+		    0,     0, 0x0106,  // 153  0000 0000 1011 0.
+		180*3, 181*3,      0,  // 154  0000 0000 0111 1
+		160*3, 163*3,      0,  // 155  0000 0000 0111 0
+		196*3, 199*3,      0,  // 156  0000 0000 0011 10
+		    0,     0, 0x001b,  // 157  0000 0000 0101 00.
+		203*3, 185*3,      0,  // 158  0000 0000 0010 01
+		202*3, 201*3,      0,  // 159  0000 0000 0011 11
+		    0,     0, 0x0013,  // 160  0000 0000 0111 00.
+		    0,     0, 0x0016,  // 161  0000 0000 0110 01.
+		197*3, 207*3,      0,  // 162  0000 0000 0010 00
+		    0,     0, 0x0012,  // 163  0000 0000 0111 01.
+		191*3, 192*3,      0,  // 164  0000 0000 0001 10
+		188*3, 190*3,      0,  // 165  0000 0000 0001 11
+		    0,     0, 0x0014,  // 166  0000 0000 0110 11.
+		184*3, 194*3,      0,  // 167  0000 0000 0001 01
+		    0,     0, 0x0015,  // 168  0000 0000 0110 10.
+		186*3, 193*3,      0,  // 169  0000 0000 0001 00
+		    0,     0, 0x0017,  // 170  0000 0000 0110 00.
+		204*3, 198*3,      0,  // 171  0000 0000 0011 01
+		    0,     0, 0x0019,  // 172  0000 0000 0101 10.
+		    0,     0, 0x0018,  // 173  0000 0000 0101 11.
+		200*3, 205*3,      0,  // 174  0000 0000 0011 00
+		    0,     0, 0x001f,  // 175  0000 0000 0100 00.
+		    0,     0, 0x001e,  // 176  0000 0000 0100 01.
+		    0,     0, 0x001c,  // 177  0000 0000 0100 11.
+		    0,     0, 0x001d,  // 178  0000 0000 0100 10.
+		    0,     0, 0x001a,  // 179  0000 0000 0101 01.
+		    0,     0, 0x0011,  // 180  0000 0000 0111 10.
+		    0,     0, 0x0010,  // 181  0000 0000 0111 11.
+		189*3, 206*3,      0,  // 182  0000 0000 0010 11
+		187*3, 195*3,      0,  // 183  0000 0000 0010 10
+		218*3, 211*3,      0,  // 184  0000 0000 0001 010
+		    0,     0, 0x0025,  // 185  0000 0000 0010 011.
+		215*3, 216*3,      0,  // 186  0000 0000 0001 000
+		    0,     0, 0x0024,  // 187  0000 0000 0010 100.
+		210*3, 212*3,      0,  // 188  0000 0000 0001 110
+		    0,     0, 0x0022,  // 189  0000 0000 0010 110.
+		213*3, 209*3,      0,  // 190  0000 0000 0001 111
+		221*3, 222*3,      0,  // 191  0000 0000 0001 100
+		219*3, 208*3,      0,  // 192  0000 0000 0001 101
+		217*3, 214*3,      0,  // 193  0000 0000 0001 001
+		223*3, 220*3,      0,  // 194  0000 0000 0001 011
+		    0,     0, 0x0023,  // 195  0000 0000 0010 101.
+		    0,     0, 0x010b,  // 196  0000 0000 0011 100.
+		    0,     0, 0x0028,  // 197  0000 0000 0010 000.
+		    0,     0, 0x010c,  // 198  0000 0000 0011 011.
+		    0,     0, 0x010a,  // 199  0000 0000 0011 101.
+		    0,     0, 0x0020,  // 200  0000 0000 0011 000.
+		    0,     0, 0x0108,  // 201  0000 0000 0011 111.
+		    0,     0, 0x0109,  // 202  0000 0000 0011 110.
+		    0,     0, 0x0026,  // 203  0000 0000 0010 010.
+		    0,     0, 0x010d,  // 204  0000 0000 0011 010.
+		    0,     0, 0x010e,  // 205  0000 0000 0011 001.
+		    0,     0, 0x0021,  // 206  0000 0000 0010 111.
+		    0,     0, 0x0027,  // 207  0000 0000 0010 001.
+		    0,     0, 0x1f01,  // 208  0000 0000 0001 1011.
+		    0,     0, 0x1b01,  // 209  0000 0000 0001 1111.
+		    0,     0, 0x1e01,  // 210  0000 0000 0001 1100.
+		    0,     0, 0x1002,  // 211  0000 0000 0001 0101.
+		    0,     0, 0x1d01,  // 212  0000 0000 0001 1101.
+		    0,     0, 0x1c01,  // 213  0000 0000 0001 1110.
+		    0,     0, 0x010f,  // 214  0000 0000 0001 0011.
+		    0,     0, 0x0112,  // 215  0000 0000 0001 0000.
+		    0,     0, 0x0111,  // 216  0000 0000 0001 0001.
+		    0,     0, 0x0110,  // 217  0000 0000 0001 0010.
+		    0,     0, 0x0603,  // 218  0000 0000 0001 0100.
+		    0,     0, 0x0b02,  // 219  0000 0000 0001 1010.
+		    0,     0, 0x0e02,  // 220  0000 0000 0001 0111.
+		    0,     0, 0x0d02,  // 221  0000 0000 0001 1000.
+		    0,     0, 0x0c02,  // 222  0000 0000 0001 1001.
+		    0,     0, 0x0f02   // 223  0000 0000 0001 0110.
+	]),
+	
+	PICTURE_TYPE_I = 1,
+	PICTURE_TYPE_P = 2,
+	PICTURE_TYPE_B = 3,
+	PICTURE_TYPE_D = 4,
+	
+	START_SEQUENCE = 0xB3,
+	START_SLICE_FIRST = 0x01,
+	START_SLICE_LAST = 0xAF,
+	START_PICTURE = 0x00,
+	START_EXTENSION = 0xB5,
+	START_USER_DATA = 0xB2,
+
+	// Shaders for accelerated WebGL YCbCrToRGBA conversion
+	SHADER_FRAGMENT_YCBCRTORGBA = [
+		'precision mediump float;',
+		'uniform sampler2D YTexture;',
+		'uniform sampler2D CBTexture;',
+		'uniform sampler2D CRTexture;',
+		'varying vec2 texCoord;',
+	
+		'void main() {',
+			'float y = texture2D(YTexture, texCoord).r;',
+			'float cr = texture2D(CBTexture, texCoord).r - 0.5;',
+			'float cb = texture2D(CRTexture, texCoord).r - 0.5;',
+			
+			'gl_FragColor = vec4(',
+				'y + 1.4 * cr,',
+				'y + -0.343 * cb - 0.711 * cr,',
+				'y + 1.765 * cb,',
+				'1.0',
+			');',
+		'}'
+	].join('\n'),
+
+	SHADER_FRAGMENT_LOADING = [
+		'precision mediump float;',
+		'uniform float loaded;',
+		'varying vec2 texCoord;',
+
+		'void main() {',
+			'float c = ceil(loaded-(1.0-texCoord.y));',
+			//'float c = ceil(loaded-(1.0-texCoord.y) +sin((texCoord.x+loaded)*16.0)*0.01);', // Fancy wave anim
+			'gl_FragColor = vec4(c,c,c,1);',
+		'}'
+	].join('\n'),
+	
+	SHADER_VERTEX_IDENTITY = [
+		'attribute vec2 vertex;',
+		'varying vec2 texCoord;',
+		
+		'void main() {',
+			'texCoord = vertex;',
+			'gl_Position = vec4((vertex * 2.0 - 1.0) * vec2(1, -1), 0.0, 1.0);',
+		'}'
+	].join('\n');
+	
+var MACROBLOCK_TYPE_TABLES = [
+	null,
+	MACROBLOCK_TYPE_I,
+	MACROBLOCK_TYPE_P,
+	MACROBLOCK_TYPE_B
+];
+
+
+
+// ----------------------------------------------------------------------------
+// Bit Reader 
+
+var BitReader = function(arrayBuffer) {
+	this.bytes = new Uint8Array(arrayBuffer);
+	this.length = this.bytes.length;
+	this.writePos = this.bytes.length;
+	this.index = 0;
+};
+
+BitReader.NOT_FOUND = -1;
+
+BitReader.prototype.findNextMPEGStartCode = function() {	
+	for( var i = (this.index+7 >> 3); i < this.writePos; i++ ) {
+		if(
+			this.bytes[i] == 0x00 &&
+			this.bytes[i+1] == 0x00 &&
+			this.bytes[i+2] == 0x01
+		) {
+			this.index = (i+4) << 3;
+			return this.bytes[i+3];
+		}
+	}
+	this.index = (this.writePos << 3);
+	return BitReader.NOT_FOUND;
+};
+
+BitReader.prototype.nextBytesAreStartCode = function() {
+	var i = (this.index+7 >> 3);
+	return (
+		i >= this.writePos || (
+			this.bytes[i] == 0x00 && 
+			this.bytes[i+1] == 0x00 &&
+			this.bytes[i+2] == 0x01
+		)
+	);
+};
+
+BitReader.prototype.nextBits = function(count) {
+	var 
+		byteOffset = this.index >> 3,
+		room = (8 - this.index % 8);
+
+	if( room >= count ) {
+		return (this.bytes[byteOffset] >> (room - count)) & (0xff >> (8-count));
+	}
+
+	var 
+		leftover = (this.index + count) % 8, // Leftover bits in last byte
+		end = (this.index + count -1) >> 3,
+		value = this.bytes[byteOffset] & (0xff >> (8-room)); // Fill out first byte
+
+	for( byteOffset++; byteOffset < end; byteOffset++ ) {
+		value <<= 8; // Shift and
+		value |= this.bytes[byteOffset]; // Put next byte
+	}
+
+	if (leftover > 0) {
+		value <<= leftover; // Make room for remaining bits
+		value |= (this.bytes[byteOffset] >> (8 - leftover));
+	}
+	else {
+		value <<= 8;
+		value |= this.bytes[byteOffset];
+	}
+	
+	return value;
+};
+
+BitReader.prototype.getBits = function(count) {
+	var value = this.nextBits(count);
+	this.index += count;
+	return value;
+};
+
+BitReader.prototype.advance = function(count) {
+	return (this.index += count);
+};
+
+BitReader.prototype.rewind = function(count) {
+	return (this.index -= count);
+};
+	
+})(window);
+
+
 //! moment.js
 //! version : 2.14.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors

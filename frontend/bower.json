@@ -12,6 +12,7 @@
     "angular-bootstrap": "^1.1.2",
     "sw-angular-utils": "^0.0.5",
     "sw-angular-websocket": "^0.0.1",
-    "moment": "^2.11.2"
+    "moment": "^2.11.2",
+    "jsmpeg": "jsmpg#*"
   }
 }
