@@ -13,7 +13,12 @@ BTN_DIRECTIONS = {
 }
 
 angular.module('RPiCar')
-.controller 'CarCtrl', ($scope, $routeParams, $http, $log, $interval) ->
+.controller 'CarCtrl', ($scope, $routeParams, $http, $log, $interval, $location, car) ->
+    # если нет некущей тачки
+    if not car.getCurrentCar()
+        $location.path('/')
+
+    $scope.car = car.getCurrentCar()
 
     $scope.moveStatus = {
         forward: false
@@ -22,14 +27,6 @@ angular.module('RPiCar')
         right: false
     }
 
-    # TODO
-    carId = $routeParams.id
-    $scope.car = {
-        name: 'Марк 1',
-#        address: '192.168.150.109',
-        address: '10.0.1.4',
-#        address: '127.0.0.1',
-    }
 
     $scope.commandLog = []
     $scope.carCommandHandler = (commandResponse) ->
@@ -111,7 +108,7 @@ angular.module('RPiCar')
 
     sendCommand = (commandName) ->
         console.debug(commandName)
-        url = "http://#{$scope.car.address}:4242/command/"
+        url = "#{$scope.car.url}command/"
         params = {name: commandName}
         $http.post(url, $.param(params))
 

@@ -25,8 +25,8 @@ var paths = {
             'bower_components/angular-cookies/angular-cookies.min.js',
             'bower_components/angular-bootstrap/ui-bootstrap.min.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-            'bower_components/sw-angular-utils/sw-angular-utils.js',
-            'bower_components/sw-angular-websocket/sw-angular-websocket.js'
+            'bower_components/ngstorage/ngStorage.min.js',
+            'bower_components/sw-angular-utils/sw-angular-utils.js'
         ],
         app: './src/**/*.coffee'
     },

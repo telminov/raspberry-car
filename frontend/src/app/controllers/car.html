@@ -11,10 +11,18 @@
     }
 </style>
 
-<h1>
-    {{ car.name }}
-    <small>{{ car.address }}</small>
-</h1>
+<div class="row">
+    <div class="col-md-2">
+        <a class="navbar-brand" href="/">Raspberry Car</a>
+    </div>
+    <div class="col-md-8">
+        <h1>
+            {{ car.name }}
+            <small>{{ car.url }}</small>
+        </h1>
+    </div>
+</div>
+
 
 
 <canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">

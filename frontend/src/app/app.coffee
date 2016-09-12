@@ -3,31 +3,26 @@ angular.module('RPiCar', [
     'ngSanitize'
     'ngRoute'
     'ngAnimate'
+    'ngStorage',
 
     'ui.bootstrap'
 
     'swUtils'
-    'swWebSocket'
 ])
 
 
 .config ($routeProvider) ->
     $routeProvider
         .when('/',
+          templateUrl: 'controllers/main.html'
+          controller: 'MainCtrl'
+          label: ''
+        )
+        .when('/current/',
           templateUrl: 'controllers/car.html'
           controller: 'CarCtrl'
-          label: 'Car'
+          label: 'Current Car'
         )
-#        .when('/',
-#          templateUrl: 'controllers/main.html'
-#          controller: 'MainCtrl'
-#          label: ''
-#        )
-#        .when('/car/:id/',
-#          templateUrl: 'controllers/car.html'
-#          controller: 'CarCtrl'
-#          label: 'Car'
-#        )
 
 
 .run ($location, $rootScope, swTitle) ->

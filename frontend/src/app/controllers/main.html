@@ -1,7 +1,22 @@
-<h1>Cars</h1>
+<h1>Cars search</h1>
+
+<form class="form-inline">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Network (192.168.0.)"
+                   ng-model="network" />
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="scan()">
+        <i class="glyphicon glyphicon-search"></i>
+        Search
+    </button>
+</form>
+
+<br>
 
 <div class="list-group">
-    <a href="/car/{{ car.id }}" class="list-group-item" ng-repeat="car in cars">
+    <a href="" class="list-group-item" ng-repeat="car in cars" ng-click="openCar(car)">
         {{ car.name }}
     </a>
 </div>

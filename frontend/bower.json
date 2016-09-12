@@ -13,6 +13,7 @@
     "sw-angular-utils": "^0.0.5",
     "sw-angular-websocket": "^0.0.1",
     "moment": "^2.11.2",
-    "jsmpeg": "jsmpg#*"
+    "jsmpeg": "jsmpg#*",
+    "ngstorage": "^0.3.11"
   }
 }
