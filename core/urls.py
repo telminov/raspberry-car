@@ -3,5 +3,6 @@ from django.conf.urls import url
 import core.views
 
 urlpatterns = [
-    url(r'command/$', core.views.command),
+    url(r'^$', core.views.index),
+    url(r'^command/$', core.views.command),
 ]

@@ -131,6 +131,8 @@ IN_4 = 17
 EN_B = 4
 PINS = (EN_A, IN_1, IN_2, IN_3, IN_4, EN_B)
 
+CAR_NAME = 'Raspberry Car'
+
 try:
     from project.local_settings import *
 except ImportError:

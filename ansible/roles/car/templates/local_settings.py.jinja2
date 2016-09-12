@@ -1,0 +1,3 @@
+# coding: utf-8
+SECRET_KEY = '{{ lookup('password', '/tmp/passwordfile chars=ascii_letters,digits,hexdigits,punctuation') }}'
+CAR_NAME = '{{ car_name }}'

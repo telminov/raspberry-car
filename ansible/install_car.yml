@@ -1,5 +1,5 @@
 # ansible-playbook install_car.yml -v -u pi
-# ansible-playbook install_car.yml -e "clear_virt_env=1 update_cache=1" -v
+# ansible-playbook install_car.yml -e "clear_virt_env=1 update_cache=1 car_name='Mark I'" -v
 
 ---
 - hosts: cars

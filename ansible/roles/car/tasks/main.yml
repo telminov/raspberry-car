@@ -19,6 +19,16 @@
 - name: set directory owner
   file: path={{ app_path }} recurse=yes owner={{ app_user }}
 
+
+- name: check existsing settings file
+  stat: path={{ app_path }}/project/local_settings.py
+  register: local_settings
+
+- name: create settings
+  template: src=local_settings.py.jinja2 dest={{ app_path }}/project/local_settings.py mode=0600 owner={{ app_user }}
+  when: not local_settings.stat.exists
+
+
 - name: make migrations
   shell: "{{ virt_env_path }}/bin/python ./manage.py makemigrations --noinput"
   args:

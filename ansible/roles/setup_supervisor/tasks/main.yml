@@ -22,7 +22,7 @@
   file: path=/etc/supervisor/conf.d state=directory
 
 - name: Copy supervisor conf
-  template: src=templates/supervisor.conf.tpl dest=/etc/supervisor/conf.d/raspberry-car.conf
+  template: src=supervisor.conf.jinja2 dest=/etc/supervisor/conf.d/raspberry-car.conf
 
 - name: Start supervisord
   shell: supervisord -c /etc/supervisor/supervisor.conf

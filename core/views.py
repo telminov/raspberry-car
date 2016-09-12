@@ -1,8 +1,15 @@
+from django.conf import settings
 from django.utils.timezone import now
 from rest_framework import views
 from rest_framework import response
 from core import models
 from core import serializers
+
+
+class Index(views.APIView):
+    def get(self, request, *args, **kwargs):
+        return response.Response({'name': settings.CAR_NAME})
+index = Index.as_view()
 
 
 class Command(views.APIView):
