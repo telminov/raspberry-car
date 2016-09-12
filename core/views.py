@@ -21,11 +21,13 @@ class Command(views.APIView):
         serializer.is_valid(raise_exception=True)
 
         command_name = serializer.validated_data['name']
-        qs = models.Command.objects.filter(name=command_name)
-        if qs.exists():
-            qs.update(dm=now())
-        else:
-            models.Command.objects.create(name=command_name, dm=now())
+        value = serializer.validated_data['value']
+
+        instance, _ = models.Command.objects.get_or_create(name=command_name)
+        models.Command.objects.filter(id=instance.id).update(
+            value=value,
+            dm=now(),
+        )
 
         return response.Response({'result': 'ok'})
 

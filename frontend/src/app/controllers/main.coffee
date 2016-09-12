@@ -7,7 +7,7 @@ angular.module('RPiCar')
         $scope.cars.length = 0
         $localStorage.network = $scope.network
 
-        for i in [1..10]
+        for i in [1..254]
             address = "#{ $scope.network }#{ i }"
 
             url = "http://#{address}:4242/"

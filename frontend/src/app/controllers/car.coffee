@@ -13,12 +13,16 @@ BTN_DIRECTIONS = {
 }
 
 angular.module('RPiCar')
-.controller 'CarCtrl', ($scope, $routeParams, $http, $log, $interval, $location, car) ->
+.controller 'CarCtrl', ($scope, $routeParams, $http, $log, $interval, $localStorage, $location, car) ->
     # если нет некущей тачки
     if not car.getCurrentCar()
         $location.path('/')
 
     $scope.car = car.getCurrentCar()
+    $scope.speed = $localStorage.speed or 100
+    $scope.setSpeed = (value) ->
+        $localStorage.speed = value
+        $scope.speed = value
 
     $scope.moveStatus = {
         forward: false
@@ -108,7 +112,12 @@ angular.module('RPiCar')
 
     sendCommand = (commandName) ->
         console.debug(commandName)
+
+        value = ''
+        if commandName == 'forward' or commandName == 'reverse'
+            value = $scope.speed
+
         url = "#{$scope.car.url}command/"
-        params = {name: commandName}
+        params = {name: commandName, value: value}
         $http.post(url, $.param(params))
 

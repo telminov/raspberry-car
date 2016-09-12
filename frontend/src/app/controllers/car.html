@@ -95,11 +95,10 @@
     </div>
 </div>
 
-
 <br>
-<ul class="list-group">
-    <li class="list-group-item" ng-repeat="item in commandLog">
-        <span class="badge">{{ item.dt }}</span>
-        {{ item.response }}
-    </li>
-</ul>
+
+<div class="btn-group">
+    <label class="btn btn-default" ng-class="{'btn-primary': speed==60}" ng-click="setSpeed(60)">Speed 1</label>
+    <label class="btn btn-default" ng-class="{'btn-primary': speed==80}" ng-click="setSpeed(80)">Speed 2</label>
+    <label class="btn btn-default" ng-class="{'btn-primary': speed==100}" ng-click="setSpeed(100)">Speed 3</label>
+</div>

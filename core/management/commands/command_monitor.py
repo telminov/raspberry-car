@@ -18,10 +18,11 @@ class Command(BaseCommand):
 
         if qs:
             latest = qs[0]
+            value = int(latest.value or 100)
             if latest.name == consts.FORWARD:
-                core.car.forward()
+                core.car.forward(value)
             elif latest.name == consts.REVERSE:
-                core.car.reverse()
+                core.car.reverse(value)
             elif latest.name == consts.STOP:
                 core.car.stop()
         else:
