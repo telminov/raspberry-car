@@ -1,4 +1,4 @@
-[program:car]
+[program:car_webserver]
 directory = {{ app_path }}
 user = {{ app_user }}
 command = {{ virt_env_path }}/bin/python manage.py runserver 0.0.0.0:4242

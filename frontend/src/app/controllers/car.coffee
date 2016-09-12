@@ -54,6 +54,14 @@ angular.module('RPiCar')
 
 
     $scope.keyDownHandler = (event) ->
+        # переключение скоростей
+        if event.keyCode == 49
+            $scope.setSpeed(60)
+        else if event.keyCode == 50
+            $scope.setSpeed(80)
+        else if event.keyCode == 51
+            $scope.setSpeed(100)
+
         direction = _getDirection(event)
         if direction
             $scope.move(direction, true)
