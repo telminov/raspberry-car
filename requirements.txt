@@ -3,3 +3,4 @@ djangorestframework==3.4.6
 RPi.GPIO==0.6.2
 picamera==1.12
 ws4py
+gunicorn
