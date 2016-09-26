@@ -35,5 +35,5 @@
   shell: supervisorctl -c /etc/supervisor/supervisor.conf update
 
 
-- name: Update supervisor config
+- name: Restart supervisor config
   shell: supervisorctl -c /etc/supervisor/supervisor.conf restart all

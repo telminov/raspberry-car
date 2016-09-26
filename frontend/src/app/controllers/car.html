@@ -18,21 +18,31 @@
     <div class="col-md-8">
         <h1>
             {{ car.name }}
-            <small>{{ car.url }}</small>
+            <small>{{ car.address }}</small>
         </h1>
     </div>
 </div>
 
 
 
-<canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
-    <p>
-        Please use a browser that supports the Canvas Element, like
-        <a href="http://www.google.com/chrome">Chrome</a>,
-        <a href="http://www.mozilla.com/firefox/">Firefox</a>,
-        <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
-    </p>
-</canvas>
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <canvas id="videoCanvas" width="${WIDTH}" height="${HEIGHT}">
+            <p>
+                Please use a browser that supports the Canvas Element, like
+                <a href="http://www.google.com/chrome">Chrome</a>,
+                <a href="http://www.mozilla.com/firefox/">Firefox</a>,
+                <a href="http://www.apple.com/safari/">Safari</a> or Internet Explorer 10
+            </p>
+        </canvas>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-default" title="Rotate video"
+                ng-click="rotateVideo(90)">
+            <i class="glyphicon glyphicon-refresh"></i>
+        </button>
+    </div>
+</div>
 <script type="text/javascript">
     // Show loading notice
     var canvas = document.getElementById('videoCanvas');
@@ -41,8 +51,10 @@
     ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
 
     // Setup the WebSocket connection and start the player
-    var client = new WebSocket('ws://10.0.1.4:8084/');
-    var player = new jsmpeg(client, {canvas:canvas});
+    function setupWebSocket(address) {
+        var client = new WebSocket('ws://' + address + ':8084/');
+        var player = new jsmpeg(client, {canvas:canvas});
+    }
 </script>
 
 

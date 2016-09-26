@@ -31,6 +31,7 @@ angular.module('RPiCar')
         right: false
     }
 
+    setupWebSocket($scope.car.address);
 
     $scope.commandLog = []
     $scope.carCommandHandler = (commandResponse) ->
@@ -71,6 +72,16 @@ angular.module('RPiCar')
         if direction
             $scope.move(direction, false)
 
+    $scope.rotateVideo = (addDegrees) ->
+        rotate = $localStorage.rotate or 0
+
+        rotate += addDegrees or 0
+        if rotate >= 360
+            rotate = 0
+
+        $localStorage.rotate = rotate
+        $('#videoCanvas').css('transform', "rotate(#{rotate}deg)")
+    $scope.rotateVideo()
 
     _getDirection = (event) ->
         if event.keyCode == SPACE_KEY_CODE and event.target.type == 'button'
@@ -128,4 +139,3 @@ angular.module('RPiCar')
         url = "#{$scope.car.url}command/"
         params = {name: commandName, value: value}
         $http.post(url, $.param(params))
-

@@ -8,7 +8,8 @@ from core import serializers
 
 class Index(views.APIView):
     def get(self, request, *args, **kwargs):
-        return response.Response({'name': settings.CAR_NAME})
+        address = request.META['HTTP_HOST'].split(':')[0]
+        return response.Response({'name': settings.CAR_NAME, 'address': address})
 index = Index.as_view()
 
 

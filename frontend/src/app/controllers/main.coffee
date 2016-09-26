@@ -14,6 +14,7 @@ angular.module('RPiCar')
             $http.get(url).then(
                 (result) ->
                     $scope.cars.push({
+                        address: result.data.address
                         url: result.config.url
                         name: result.data.name
                     })

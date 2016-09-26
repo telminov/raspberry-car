@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import picamera
 from django.conf import settings
 
 GPIO.setmode(GPIO.BCM)
@@ -18,6 +19,20 @@ def forward(rate=100):
 
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, True)
+
+    GPIO.output(settings.EN_A, True)
+    GPIO.output(settings.EN_B, True)
+
+
+def reverse(rate=100):
+    GPIO.output(settings.EN_A, False)
+    GPIO.output(settings.EN_B, False)
+
+    GPIO.output(settings.IN_1, True)
+    GPIO.output(settings.IN_2, False)
+
+    GPIO.output(settings.IN_3, True)
+    GPIO.output(settings.IN_4, False)
 
     GPIO.output(settings.EN_A, True)
     GPIO.output(settings.EN_B, True)
@@ -76,3 +91,8 @@ def free():
     GPIO.output(settings.IN_2, False)
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, False)
+
+def photo():
+    with picamera.PiCamera() as camera:
+        camera.capture('tmp.jpg')
+

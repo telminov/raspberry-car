@@ -6,7 +6,7 @@
   when: clear_virt_env
 
 - name: create car app direcotry
-  file: path={{ app_path }} state=directory mode=755 owner=car
+  file: path={{ app_path }} state=directory mode=755 owner={{ app_user }}
 
 - name: checkout code
   git: repo={{ git_path }} dest={{ app_path }} force=yes
@@ -29,7 +29,7 @@
   when: not local_settings.stat.exists
 
 
-- name: make migrations
-  shell: "{{ virt_env_path }}/bin/python ./manage.py makemigrations --noinput"
+- name: migrate
+  shell: "{{ virt_env_path }}/bin/python ./manage.py migrate --noinput"
   args:
     chdir: "{{ app_path }}"
