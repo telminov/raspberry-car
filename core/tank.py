@@ -11,8 +11,8 @@ pwm_b = GPIO.PWM(settings.EN_B, 500)
 
 
 def forward(rate=100):
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
+    pwm_a.start(0)
+    pwm_b.start(0)
 
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, True)
@@ -20,13 +20,13 @@ def forward(rate=100):
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, True)
 
-    GPIO.output(settings.EN_A, True)
-    GPIO.output(settings.EN_B, True)
+    pwm_a.start(rate)
+    pwm_b.start(rate)
 
 
 def reverse(rate=100):
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
+    pwm_a.start(0)
+    pwm_b.start(0)
 
     GPIO.output(settings.IN_1, True)
     GPIO.output(settings.IN_2, False)
@@ -34,13 +34,13 @@ def reverse(rate=100):
     GPIO.output(settings.IN_3, True)
     GPIO.output(settings.IN_4, False)
 
-    GPIO.output(settings.EN_A, True)
-    GPIO.output(settings.EN_B, True)
+    pwm_a.start(rate)
+    pwm_b.start(rate)
 
 
 def stop(rate=100):
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
+    pwm_a.start(0)
+    pwm_b.start(0)
 
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, False)
@@ -48,27 +48,13 @@ def stop(rate=100):
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, False)
 
-    GPIO.output(settings.EN_A, True)
-    GPIO.output(settings.EN_B, True)
+    pwm_a.start(rate)
+    pwm_b.start(rate)
 
 
 def left(rate=100):
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
-
-    GPIO.output(settings.IN_1, True)
-    GPIO.output(settings.IN_2, False)
-
-    GPIO.output(settings.IN_3, False)
-    GPIO.output(settings.IN_4, True)
-
-    GPIO.output(settings.EN_A, True)
-    GPIO.output(settings.EN_B, True)
-
-
-def right(rate=100):
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
+    pwm_a.start(0)
+    pwm_b.start(0)
 
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, True)
@@ -76,21 +62,36 @@ def right(rate=100):
     GPIO.output(settings.IN_3, True)
     GPIO.output(settings.IN_4, False)
 
-    GPIO.output(settings.EN_A, True)
-    GPIO.output(settings.EN_B, True)
+    pwm_a.start(rate)
+    pwm_b.start(rate)
+
+
+def right(rate=100):
+    pwm_a.start(0)
+    pwm_b.start(0)
+
+    GPIO.output(settings.IN_1, True)
+    GPIO.output(settings.IN_2, False)
+
+    GPIO.output(settings.IN_3, False)
+    GPIO.output(settings.IN_4, True)
+
+    pwm_a.start(rate)
+    pwm_b.start(rate)
 
 
 def center():
-    forward()
+    free()
 
 
 def free():
-    GPIO.output(settings.EN_A, False)
-    GPIO.output(settings.EN_B, False)
+    pwm_a.start(0)
+    pwm_b.start(0)
     GPIO.output(settings.IN_1, False)
     GPIO.output(settings.IN_2, False)
     GPIO.output(settings.IN_3, False)
     GPIO.output(settings.IN_4, False)
+
 
 def photo():
     with picamera.PiCamera() as camera:

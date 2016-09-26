@@ -48,7 +48,8 @@ class Command(BaseCommand):
             elif latest.name == consts.CENTER:
                 center()
         else:
-            center()
+            if settings.CAR_TYPE == 'car':
+                center()
 
     def handle(self, *args, **options):
         try:
