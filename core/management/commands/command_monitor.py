@@ -3,8 +3,14 @@ import datetime
 from django.core.management.base import BaseCommand
 from core import models, consts
 from django.utils import timezone
-import core.car
 import RPi.GPIO as GPIO
+
+from django.conf import settings
+
+if settings.CAR_TYPE == 'tank':
+    from core.tank import left, forward, center, reverse, stop, free, right
+else:
+    from core.car import left, forward, center, reverse, stop, free, right
 
 
 class Command(BaseCommand):
@@ -20,13 +26,13 @@ class Command(BaseCommand):
             latest = qs[0]
             value = int(latest.value or 100)
             if latest.name == consts.FORWARD:
-                core.car.forward(value)
+                forward(value)
             elif latest.name == consts.REVERSE:
-                core.car.reverse(value)
+                reverse(value)
             elif latest.name == consts.STOP:
-                core.car.stop()
+                stop()
         else:
-            core.car.stop()
+            stop()
 
     def action(self):
         now = timezone.now()
@@ -36,13 +42,13 @@ class Command(BaseCommand):
         if qs:
             latest = qs[0]
             if latest.name == consts.LEFT:
-                core.car.left()
+                left()
             elif latest.name == consts.RIGHT:
-                core.car.right()
+                right()
             elif latest.name == consts.CENTER:
-                core.car.center()
+                center()
         else:
-            core.car.center()
+            center()
 
     def handle(self, *args, **options):
         try:

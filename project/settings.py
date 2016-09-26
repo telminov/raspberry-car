@@ -133,6 +133,8 @@ PINS = (EN_A, IN_1, IN_2, IN_3, IN_4, EN_B)
 
 CAR_NAME = 'Raspberry Car'
 
+CAR_TYPE = 'car'    # or 'tank'
+
 try:
     from project.local_settings import *
 except ImportError:
