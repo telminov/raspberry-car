@@ -123,13 +123,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # RPi pins
-EN_A = 23
-IN_1 = 22
-IN_2 = 27
-IN_3 = 18
-IN_4 = 17
-EN_B = 4
-PINS = (EN_A, IN_1, IN_2, IN_3, IN_4, EN_B)
+PIN_H1 = 4
+PIN_E1 = 5
+PIN_E2 = 6
+PIN_H2 = 7
+ARDUINO_PATH = '/dev/ttyACM0'
 
 CAR_NAME = 'Raspberry Car'
 
